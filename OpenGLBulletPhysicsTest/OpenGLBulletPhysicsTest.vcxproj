@@ -133,8 +133,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Camera.cpp" />
     <ClCompile Include="src\Core\Cube.cpp" />
     <ClCompile Include="src\Core\GL.cpp" />
+    <ClCompile Include="src\Core\Input.cpp" />
     <ClCompile Include="src\Core\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -145,6 +147,8 @@
     <ClInclude Include="src\Core\Common.h" />
     <ClInclude Include="src\Core\Cube.h" />
     <ClInclude Include="src\Core\GL.h" />
+    <ClInclude Include="src\Core\Input.h" />
+    <ClInclude Include="src\Core\Renderer\Camera.h" />
     <ClInclude Include="src\Core\Renderer\Renderer.h" />
     <ClInclude Include="src\Core\Renderer\Shader.h" />
     <ClInclude Include="src\Engine.h" />

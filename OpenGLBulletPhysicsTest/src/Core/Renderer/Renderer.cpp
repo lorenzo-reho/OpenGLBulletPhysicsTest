@@ -10,9 +10,8 @@ void Renderer::Init() {
 	
 }
 
-void Renderer::Render(Shader &shader) {
-	// imposto model matrix
-	// imposto la view matrix
+void Renderer::Render(Camera &camera, Shader &shader) {
+
 	shader.Use();
 
 	projection = glm::perspective(glm::radians(60.0f), (float)GL::GetWindowWidth()/ (float)GL::GetWindowHeight(), 0.1f, 100.0f);
@@ -22,10 +21,10 @@ void Renderer::Render(Shader &shader) {
 	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 	shader.SetMat4("projection", projection);
-	shader.SetMat4("view", view);
+	shader.SetMat4("view", camera.GetView());
 	shader.SetMat4("model", model);
 
-	// Cube cube
+
 	glBindVertexArray(_cube.GetVAO());
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 

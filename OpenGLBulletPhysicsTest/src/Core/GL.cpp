@@ -18,6 +18,7 @@ void GL::ProcessInput() {
 		glfwSetWindowShouldClose(_window, 1);
 	}
 
+
 }
 
 bool GL::IsWindowOpen() {
