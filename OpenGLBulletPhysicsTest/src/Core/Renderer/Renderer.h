@@ -7,5 +7,5 @@
 
 namespace Renderer {
 	void Init();
-	void Render(glm::mat4 transform, Camera &camera, Shader& shader);
+	void Render(Camera &camera, Shader& shader, Cube &cube);
 }

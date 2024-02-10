@@ -1,16 +1,14 @@
 #include "Renderer.h"
 
-Cube _cube;
 glm::mat4 projection;
 glm::mat4 view;
 glm::mat4 model;
 
 void Renderer::Init() {
-	_cube.CreateCube();
 	
 }
 
-void Renderer::Render(glm::mat4 transform, Camera &camera, Shader &shader) {
+void Renderer::Render(Camera &camera, Shader &shader, Cube &cube) {
 
 	shader.Use();
 
@@ -22,10 +20,10 @@ void Renderer::Render(glm::mat4 transform, Camera &camera, Shader &shader) {
 
 	shader.SetMat4("projection", projection);
 	shader.SetMat4("view", camera.GetView());
-	shader.SetMat4("model", transform);
+	shader.SetMat4("model", cube.GetTransformMat4());
 
 
-	glBindVertexArray(_cube.GetVAO());
+	glBindVertexArray(cube.GetVAO());
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
