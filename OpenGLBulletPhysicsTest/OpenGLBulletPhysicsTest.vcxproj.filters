@@ -62,7 +62,7 @@
     <ClInclude Include="src\Core\Renderer\Shader.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Renderer\Camera.h">
+    <ClInclude Include="src\Core\Camera.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Input.h">

@@ -148,7 +148,7 @@
     <ClInclude Include="src\Core\Cube.h" />
     <ClInclude Include="src\Core\GL.h" />
     <ClInclude Include="src\Core\Input.h" />
-    <ClInclude Include="src\Core\Renderer\Camera.h" />
+    <ClInclude Include="src\Core\Camera.h" />
     <ClInclude Include="src\Core\Renderer\Renderer.h" />
     <ClInclude Include="src\Core\Renderer\Shader.h" />
     <ClInclude Include="src\Engine.h" />
