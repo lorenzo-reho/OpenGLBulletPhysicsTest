@@ -10,7 +10,7 @@ void Renderer::Init() {
 	
 }
 
-void Renderer::Render(Camera &camera, Shader &shader) {
+void Renderer::Render(glm::mat4 transform, Camera &camera, Shader &shader) {
 
 	shader.Use();
 
@@ -22,7 +22,7 @@ void Renderer::Render(Camera &camera, Shader &shader) {
 
 	shader.SetMat4("projection", projection);
 	shader.SetMat4("view", camera.GetView());
-	shader.SetMat4("model", model);
+	shader.SetMat4("model", transform);
 
 
 	glBindVertexArray(_cube.GetVAO());
