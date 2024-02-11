@@ -35,7 +35,7 @@ void Engine::Run() {
 	Physics::InitializePhysics();
 	Renderer::Init();
 
-	Cube cube(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(10.0f, 1.0f, 10.0f));
+	Cube cube(glm::vec3(0.0f, -10.0f, 0.0f), glm::vec3(30.0f, 1.0f, 30.0f));
 	Cube cube1(glm::vec3(0.0f, 30.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 	Cube cube2(glm::vec3(-0.6f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 
@@ -45,7 +45,7 @@ void Engine::Run() {
 	cube2.CreateCube();
 
 
-	btBoxShape* pBoxShape = new btBoxShape(btVector3(5, 0.5f, 5.0f));
+	btBoxShape* pBoxShape = new btBoxShape(btVector3(15, 0.5f, 15.0f));
 	btBoxShape* pBoxShape1 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
 	btBoxShape* pBoxShape2 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
 
@@ -60,6 +60,7 @@ void Engine::Run() {
 	cube2.RegisterRigidBody();
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_MULTISAMPLE);
 
 	while (GL::IsWindowOpen()) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

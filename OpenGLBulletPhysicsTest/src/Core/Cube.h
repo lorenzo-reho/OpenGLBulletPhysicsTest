@@ -10,7 +10,7 @@ public:
 	void CreateCube();
 	unsigned int GetVAO();
 	glm::mat4 GetTransformMat4();
-	void CreateRigidBody(btBoxShape* pShape, float weight);
+	void CreateRigidBody(btCollisionShape* pShape, float weight);
 	void RegisterRigidBody();
 	
 private:

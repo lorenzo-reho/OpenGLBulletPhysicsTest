@@ -77,7 +77,7 @@ unsigned int Cube::GetVAO() {
     return _VAO;
 }
 
-void Cube::CreateRigidBody(btBoxShape* pShape, float weight) {
+void Cube::CreateRigidBody(btCollisionShape* pShape, float weight) {
     
     btVector3 localInertia(0, 0, 0);
 
