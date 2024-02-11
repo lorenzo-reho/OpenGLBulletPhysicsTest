@@ -45,16 +45,13 @@ float vertices[] = {
 };
 
 Cube::Cube() {
+    
     transform = glm::mat4(1.0f);
     btBoxShape* pBoxShape = new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
     bTransform.setIdentity();
     bTransform.setOrigin(btVector3(0.0f, 0.0f, 0.0f));
     m_pMotionState = new MotionState(bTransform);
-    btRigidBody::btRigidBodyConstructionInfo rbInfo(1.0f, m_pMotionState, pBoxShape);
-    btRigidBody* pRigidBody = new btRigidBody(rbInfo);
-    
-    
-    Physics::GetDynamicsWorld()->addRigidBody(pRigidBody);
+
 }
 
 void Cube::CreateCube() {
@@ -79,6 +76,14 @@ unsigned int Cube::GetVAO() {
     return _VAO;
 }
 
+void Cube::CreateRigidBody(btBoxShape* pShape) {
+    rbInfo = new btRigidBody::btRigidBodyConstructionInfo(1.0f, m_pMotionState, pShape);
+    pRigidBody = new btRigidBody(*rbInfo);
+}
+
+void Cube::RegisterRigidBody() {
+    Physics::GetDynamicsWorld()->addRigidBody(pRigidBody);
+}
 
 glm::mat4 Cube::GetTransformMat4() {
     if (m_pMotionState) {

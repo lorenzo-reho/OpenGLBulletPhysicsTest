@@ -8,6 +8,9 @@ public:
 	void CreateCube();
 	unsigned int GetVAO();
 	glm::mat4 GetTransformMat4();
+	void CreateRigidBody(btBoxShape* pShape);
+	void RegisterRigidBody();
+
 
 private:
 	unsigned int _VBO, _EBO, _VAO;
@@ -17,5 +20,6 @@ private:
 	btTransform bTransform;
 	MotionState* m_pMotionState;
 	btRigidBody* pRigidBody;
+	btRigidBody::btRigidBodyConstructionInfo* rbInfo;
 
 };

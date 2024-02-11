@@ -38,6 +38,12 @@ void Engine::Run() {
 	Cube cube;
 	cube.CreateCube();
 
+
+	btBoxShape* pBoxShape = new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
+	cube.CreateRigidBody(pBoxShape);
+	cube.RegisterRigidBody();
+
+
 	while (GL::IsWindowOpen()) {
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(RED, GREEN, BLUE, 1.0f);
