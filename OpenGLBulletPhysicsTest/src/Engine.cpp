@@ -35,7 +35,7 @@ void Engine::Run() {
 	Physics::InitializePhysics();
 	Renderer::Init();
 
-	Cube cube;
+	Cube cube(btVector3(0.0f, 0.0f, 0.0f));
 	cube.CreateCube();
 
 
@@ -43,7 +43,7 @@ void Engine::Run() {
 	cube.CreateRigidBody(pBoxShape);
 	cube.RegisterRigidBody();
 
-
+	
 	while (GL::IsWindowOpen()) {
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(RED, GREEN, BLUE, 1.0f);

@@ -3,7 +3,7 @@
 
 class Cube {
 public:
-	Cube();
+	Cube(btVector3 position);
 
 	void CreateCube();
 	unsigned int GetVAO();
@@ -14,7 +14,7 @@ public:
 
 private:
 	unsigned int _VBO, _EBO, _VAO;
-	glm::mat4 transform;
+	// glm::mat4 transform;
 
 	btBoxShape* pBoxShape;
 	btTransform bTransform;

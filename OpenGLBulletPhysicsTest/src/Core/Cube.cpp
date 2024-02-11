@@ -44,14 +44,12 @@ float vertices[] = {
     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
 
-Cube::Cube() {
+Cube::Cube(btVector3 position){
     
-    transform = glm::mat4(1.0f);
-    btBoxShape* pBoxShape = new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
     bTransform.setIdentity();
-    bTransform.setOrigin(btVector3(0.0f, 0.0f, 0.0f));
-    m_pMotionState = new MotionState(bTransform);
+    bTransform.setOrigin(position);
 
+    m_pMotionState = new MotionState(bTransform);
 }
 
 void Cube::CreateCube() {
