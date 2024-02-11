@@ -1,7 +1,5 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <BulletDynamics/Dynamics/btDynamicsWorld.h>
-#include <btBulletDynamicsCommon.h>
 #include <iostream>
 #include "Engine.h"
 

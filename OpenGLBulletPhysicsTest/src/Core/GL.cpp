@@ -67,6 +67,8 @@ int GL::Init(int width, int height) {
 
 	glfwMakeContextCurrent(_window);
 	glfwSetFramebufferSizeCallback(_window, resize_callback);
+	glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		return 3;

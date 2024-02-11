@@ -1,4 +1,6 @@
 #include "Engine.h"
+#include "Core/Physics.h"
+
 
 
 const float RED = 20 / 255.0f;
@@ -8,6 +10,7 @@ const float BLUE = 20 / 255.0f;
 float deltaTime;
 float currentTime;
 float lastTime;
+
 
 void Engine::Run() {
 	int error = GL::Init(800, 700);
@@ -26,11 +29,21 @@ void Engine::Run() {
 	}
 
 	Shader base("res/shaders/base.vert", "res/shaders/base.frag");
-	Camera camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0, 0.0f, -1.0f), 5.0f);
+	Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0, 0.0f, -1.0f), 5.0f);
 
+
+	Physics::InitializePhysics();
 	Renderer::Init();
-	// Cube cube;
 
+	Cube cube(btVector3(0.0f, 0.0f, 0.0f));
+	cube.CreateCube();
+
+
+	btBoxShape* pBoxShape = new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
+	cube.CreateRigidBody(pBoxShape);
+	cube.RegisterRigidBody();
+
+	
 	while (GL::IsWindowOpen()) {
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(RED, GREEN, BLUE, 1.0f);
@@ -40,12 +53,10 @@ void Engine::Run() {
 		lastTime = currentTime;
 
 		Input::Update();
+		Physics::StepSimulation(deltaTime);
 
-		// Richiamo l'Update di tutti gli oggetti di scena
 		camera.Update(deltaTime);
-
-		// Renderizzo gli oggetti di scena
-		Renderer::Render(camera, base);
+		Renderer::Render(camera, base, cube);
 
 		GL::ProcessInput();
 		GL::SwapBuffersAndPoll();
