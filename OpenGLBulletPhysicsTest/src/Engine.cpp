@@ -35,17 +35,34 @@ void Engine::Run() {
 	Physics::InitializePhysics();
 	Renderer::Init();
 
-	Cube cube(btVector3(0.0f, 0.0f, 0.0f));
+	Cube cube(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(10.0f, 1.0f, 10.0f));
+	Cube cube1(glm::vec3(0.0f, 30.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	Cube cube2(glm::vec3(-0.6f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+
+
 	cube.CreateCube();
+	cube1.CreateCube();
+	cube2.CreateCube();
 
 
-	btBoxShape* pBoxShape = new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
-	cube.CreateRigidBody(pBoxShape);
+	btBoxShape* pBoxShape = new btBoxShape(btVector3(5, 0.5f, 5.0f));
+	btBoxShape* pBoxShape1 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
+	btBoxShape* pBoxShape2 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
+
+
+	cube.CreateRigidBody(pBoxShape, 0.0f);
 	cube.RegisterRigidBody();
 
-	
+	cube1.CreateRigidBody(pBoxShape1, 1.0f);
+	cube1.RegisterRigidBody();
+
+	cube2.CreateRigidBody(pBoxShape2, 1.0f);
+	cube2.RegisterRigidBody();
+
+	glEnable(GL_DEPTH_TEST);
+
 	while (GL::IsWindowOpen()) {
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(RED, GREEN, BLUE, 1.0f);
 
 		currentTime = (float)glfwGetTime();
@@ -56,7 +73,7 @@ void Engine::Run() {
 		Physics::StepSimulation(deltaTime);
 
 		camera.Update(deltaTime);
-		Renderer::Render(camera, base, cube);
+		Renderer::Render(camera, base, cube, cube1, cube2);
 
 		GL::ProcessInput();
 		GL::SwapBuffersAndPoll();

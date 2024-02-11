@@ -78,10 +78,17 @@ public:
 		yaw += xOffset * sensitivity;
 		pitch += yOffset * sensitivity;
 
-		cameraFront.z = (float)sin(glm::radians(yaw)) * (float)cos(glm::radians(pitch));
-		cameraFront.x = (float)cos(glm::radians(yaw)) * (float)cos(glm::radians(pitch));;
-		cameraFront.y = (float)sin(glm::radians(pitch));
+		if (pitch > 89.0) {
+			pitch = 89.0;
+		}
+		if (pitch < -89.0) {
+			pitch = -89.0;
+		}
 
+
+		cameraFront.z = (float)sin(glm::radians(yaw)) * (float)cos(glm::radians(pitch));
+		cameraFront.x = (float)cos(glm::radians(yaw)) * (float)cos(glm::radians(pitch));
+		cameraFront.y = (float)sin(glm::radians(pitch));
 
 		cameraFront = glm::normalize(cameraFront);
 
