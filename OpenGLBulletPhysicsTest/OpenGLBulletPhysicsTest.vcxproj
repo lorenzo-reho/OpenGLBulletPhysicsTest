@@ -109,6 +109,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,6 +136,7 @@
   <ItemGroup>
     <ClCompile Include="src\Core\Camera.cpp" />
     <ClCompile Include="src\Core\Cube.cpp" />
+    <ClCompile Include="src\Core\FileSystem.cpp" />
     <ClCompile Include="src\Core\GL.cpp" />
     <ClCompile Include="src\Core\Input.cpp" />
     <ClCompile Include="src\Core\Physics.cpp" />
@@ -155,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="src\Core\Common.h" />
     <ClInclude Include="src\Core\Cube.h" />
+    <ClInclude Include="src\Core\FileSystem.h" />
     <ClInclude Include="src\Core\GL.h" />
     <ClInclude Include="src\Core\Input.h" />
     <ClInclude Include="src\Core\Camera.h" />
@@ -177,6 +180,8 @@
     <Image Include="res\textures\wall.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\models\round lamp.mtl" />
+    <None Include="res\models\target.mtl" />
     <None Include="res\shaders\base.frag" />
     <None Include="res\shaders\base.vert" />
   </ItemGroup>

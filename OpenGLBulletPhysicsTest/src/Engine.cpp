@@ -63,6 +63,9 @@ void Engine::Run() {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
 
+	FileSystem::ExtractModels("res\\models");
+
+
 	while (GL::IsWindowOpen()) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(RED, GREEN, BLUE, 1.0f);
@@ -84,12 +87,27 @@ void Engine::Run() {
 
 		GL::ProcessInput();
 		
-
 		// Renderizza menu
 		
 		{
 			ImGui::Begin("Models");
-			ImGui::Text("Models list");
+			
+			static int selected = 0;
+			{
+				for (int i = 0; i < FileSystem::_modelsPath.size(); i++)
+				{
+					char label[128];
+					sprintf(label, "%s", FileSystem::_modelsPath[i].c_str());
+					if (ImGui::Selectable(label, selected == i))
+						selected = i;
+				}
+			}
+
+			if (ImGui::Button("Generate")) {
+				if(!FileSystem::_modelsPath.empty())
+					std::cout << "Sto generando --> " << FileSystem::_modelsPath[selected] << std::endl;
+			}
+
 			ImGui::End();
 		}
 

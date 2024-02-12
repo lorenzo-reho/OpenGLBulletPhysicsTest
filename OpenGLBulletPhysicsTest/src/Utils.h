@@ -5,4 +5,6 @@ namespace Utils {
 		double x;
 		double y;
 	};
+
+
 }
