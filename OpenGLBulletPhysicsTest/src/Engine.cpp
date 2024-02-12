@@ -32,6 +32,7 @@ void Engine::Run() {
 	Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0, 0.0f, -1.0f), 5.0f);
 
 
+
 	Physics::InitializePhysics();
 	Renderer::Init();
 
@@ -66,6 +67,11 @@ void Engine::Run() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(RED, GREEN, BLUE, 1.0f);
 
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		// ImGui::ShowDemoWindow();
+
 		currentTime = (float)glfwGetTime();
 		deltaTime = currentTime - lastTime;
 		lastTime = currentTime;
@@ -77,8 +83,26 @@ void Engine::Run() {
 		Renderer::Render(camera, base, cube, cube1, cube2);
 
 		GL::ProcessInput();
+		
+
+		// Renderizza menu
+		
+		{
+			ImGui::Begin("Models");
+			ImGui::Text("Models list");
+			ImGui::End();
+		}
+
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 		GL::SwapBuffersAndPoll();
+
 	}
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 
 
 }

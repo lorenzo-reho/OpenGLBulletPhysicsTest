@@ -20,7 +20,7 @@ void Renderer::Render(Camera &camera, Shader &shader, Cube &cube, Cube &cube1, C
 	shader.SetMat4("projection", projection);
 	shader.SetMat4("view", camera.GetView());
 	shader.SetMat4("model", cube.GetTransformMat4());
-	shader.SetVec3("color", glm::vec3(1.0, 1, 1));
+	shader.SetVec3("color", glm::vec3(0.0, 108/255.0f, 103 / 255.0f));
 
 
 	glBindVertexArray(cube.GetVAO());

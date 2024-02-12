@@ -85,6 +85,7 @@ void Cube::CreateRigidBody(btCollisionShape* pShape, float weight) {
         pShape->calculateLocalInertia(weight, localInertia);
     }
 
+
     rbInfo = new btRigidBody::btRigidBodyConstructionInfo(weight, m_pMotionState, pShape, localInertia);
     pRigidBody = new btRigidBody(*rbInfo);
 }
