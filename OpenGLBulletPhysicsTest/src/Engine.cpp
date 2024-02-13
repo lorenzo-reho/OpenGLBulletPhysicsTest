@@ -31,8 +31,6 @@ void Engine::Run() {
 	Shader base("res/shaders/base.vert", "res/shaders/base.frag");
 	Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0, 0.0f, -1.0f), 5.0f);
 
-
-
 	Physics::InitializePhysics();
 	Renderer::Init();
 
@@ -70,10 +68,9 @@ void Engine::Run() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(RED, GREEN, BLUE, 1.0f);
 
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
+		EditingMenu::GenerateFrame();
 		// ImGui::ShowDemoWindow();
+
 
 		currentTime = (float)glfwGetTime();
 		deltaTime = currentTime - lastTime;
@@ -86,41 +83,21 @@ void Engine::Run() {
 		Renderer::Render(camera, base, cube, cube1, cube2);
 
 		GL::ProcessInput();
-		
-		// Renderizza menu
-		
-		{
-			ImGui::Begin("Models");
-			
-			static int selected = 0;
-			{
-				for (int i = 0; i < FileSystem::_modelsPath.size(); i++)
-				{
-					char label[128];
-					sprintf(label, "%s", FileSystem::_modelsPath[i].c_str());
-					if (ImGui::Selectable(label, selected == i))
-						selected = i;
-				}
-			}
 
-			if (ImGui::Button("Generate")) {
-				if(!FileSystem::_modelsPath.empty())
-					std::cout << "Sto generando --> " << FileSystem::_modelsPath[selected] << std::endl;
-			}
 
-			ImGui::End();
+		
+		if(EditingMenu::_debug){
+			EditingMenu::ShowModelGeneratorWidget();
+			EditingMenu::ShowSceneWidget();
+			EditingMenu::ShowTransformWidget();
 		}
-
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		EditingMenu::Render();
 
 		GL::SwapBuffersAndPoll();
 
 	}
 
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
+	EditingMenu::Shutdown();
 
 
 }

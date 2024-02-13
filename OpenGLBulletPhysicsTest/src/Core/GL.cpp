@@ -18,6 +18,14 @@ void GL::ProcessInput() {
 		glfwSetWindowShouldClose(_window, 1);
 	}
 
+	if (glfwGetKey(_window, GLFW_KEY_X) == GLFW_PRESS) {
+		EditingMenu::_debug = true;
+	}
+
+	if (glfwGetKey(_window, GLFW_KEY_Z) == GLFW_PRESS) {
+		EditingMenu::_debug = false;
+	}
+
 
 }
 
@@ -70,16 +78,7 @@ int GL::Init(int width, int height) {
     // glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwWindowHint(GLFW_SAMPLES, 10);
 
-	// Setup Dear ImGui context
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-	
-	// Setup Platform/Renderer backends
-	ImGui_ImplGlfw_InitForOpenGL(_window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
-	ImGui_ImplOpenGL3_Init();
+	EditingMenu::Init(_window);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		return 3;

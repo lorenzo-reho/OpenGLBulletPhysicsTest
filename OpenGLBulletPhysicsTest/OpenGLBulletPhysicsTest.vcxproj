@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClCompile Include="src\Core\Camera.cpp" />
     <ClCompile Include="src\Core\Cube.cpp" />
+    <ClCompile Include="src\Core\EditingMenu.cpp" />
     <ClCompile Include="src\Core\FileSystem.cpp" />
     <ClCompile Include="src\Core\GL.cpp" />
     <ClCompile Include="src\Core\Input.cpp" />
@@ -157,12 +158,15 @@
   <ItemGroup>
     <ClInclude Include="src\Core\Common.h" />
     <ClInclude Include="src\Core\Cube.h" />
+    <ClInclude Include="src\Core\EditingMenu.h" />
     <ClInclude Include="src\Core\FileSystem.h" />
     <ClInclude Include="src\Core\GL.h" />
     <ClInclude Include="src\Core\Input.h" />
     <ClInclude Include="src\Core\Camera.h" />
     <ClInclude Include="src\Core\MotionState.h" />
     <ClInclude Include="src\Core\Physics.h" />
+    <ClInclude Include="src\Core\Renderer\Mesh.h" />
+    <ClInclude Include="src\Core\Renderer\Model.h" />
     <ClInclude Include="src\Core\Renderer\Renderer.h" />
     <ClInclude Include="src\Core\Renderer\Shader.h" />
     <ClInclude Include="src\Engine.h" />
