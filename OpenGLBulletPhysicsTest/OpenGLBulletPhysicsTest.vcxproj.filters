@@ -146,6 +146,9 @@
     <ClInclude Include="src\Core\EditingMenu.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Scene.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\wall.jpg">

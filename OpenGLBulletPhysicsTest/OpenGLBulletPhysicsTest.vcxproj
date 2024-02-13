@@ -169,6 +169,7 @@
     <ClInclude Include="src\Core\Renderer\Model.h" />
     <ClInclude Include="src\Core\Renderer\Renderer.h" />
     <ClInclude Include="src\Core\Renderer\Shader.h" />
+    <ClInclude Include="src\Core\Scene.h" />
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\Utils.h" />
     <ClInclude Include="vendor\imgui-docking\backends\imgui_impl_glfw.h" />

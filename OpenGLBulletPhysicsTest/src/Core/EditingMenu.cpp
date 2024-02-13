@@ -1,5 +1,7 @@
 #include "EditingMenu.h"
 
+
+// https://github.com/ocornut/imgui/issues/4430
 void EditingMenu::Init(GLFWwindow *window) {
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -13,8 +15,11 @@ void EditingMenu::Init(GLFWwindow *window) {
 	// io.IniSavingRate = -1.0f;
 	// io.IniFilename = NULL;
 	// Setup Platform/Renderer backends
-	ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init();
+	FileSystem::ExtractModels("res/models");
+
+
 }
 
 void EditingMenu::GenerateFrame() {
@@ -43,15 +48,13 @@ void EditingMenu::ShowModelGeneratorWidget() {
 		return;
 	}
 
-	static int selected = 0;
+	for (int i = 0; i < FileSystem::_modelsPath.size(); i++)
 	{
-		for (int i = 0; i < 10; i++)
-		{
-			char label[128];
-			sprintf_s(label, "Model element %d", i);
-			if (ImGui::Selectable(label, selected == i))
-				selected = i;
-		}
+
+		char label[128];
+		sprintf_s(label, "%s", FileSystem::_modelsPath[i].c_str());
+		if (ImGui::Selectable(label, _selectedModel == i))
+			_selectedModel = i;
 	}
 
 	ImGui::Button("Generate");
@@ -67,15 +70,12 @@ void EditingMenu::ShowSceneWidget() {
 		return;
 	}
 
-	static int selected = 0;
+	for (int i = 0; i < 10; i++)
 	{
-		for (int i = 0; i < 10; i++)
-		{
-			char label[128];
-			sprintf_s(label, "Scene element %d", i);
-			if (ImGui::Selectable(label, selected == i))
-				selected = i;
-		}
+		char label[128];
+		sprintf_s(label, "Scene element %d", i);
+		if (ImGui::Selectable(label, _selectedSceneObject == i))
+			_selectedSceneObject = i;
 	}
 
 	ImGui::End();
@@ -84,13 +84,16 @@ void EditingMenu::ShowSceneWidget() {
 void EditingMenu::ShowTransformWidget() {
 
 	ImGui::Begin("Transform");
+	float sliderMin = -100;
+	float sliderMax = +100;
+
 
 	if (ImGui::TreeNode("Translate")) {
 		static float xt, yt, zt;
 
-		ImGui::SliderFloat("X", &xt, 0.0f, 1.0f, "%.3f", ImGuiSliderFlags_None);
-		ImGui::SliderFloat("Y", &yt, 0.0f, 1.0f, "%.3f", ImGuiSliderFlags_None);
-		ImGui::SliderFloat("Z", &zt, 0.0f, 1.0f, "%.3f", ImGuiSliderFlags_None);
+		ImGui::SliderFloat("X", &xt, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
+		ImGui::SliderFloat("Y", &yt, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
+		ImGui::SliderFloat("Z", &zt, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
 
 		ImGui::TreePop();
 	}
@@ -98,9 +101,9 @@ void EditingMenu::ShowTransformWidget() {
 	
 		static float xr, yr, zr;
 
-		ImGui::SliderFloat("X", &xr, 0.0f, 1.0f, "%.3f", ImGuiSliderFlags_None);
-		ImGui::SliderFloat("Y", &yr, 0.0f, 1.0f, "%.3f", ImGuiSliderFlags_None);
-		ImGui::SliderFloat("Z", &zr, 0.0f, 1.0f, "%.3f", ImGuiSliderFlags_None);
+		ImGui::SliderFloat("X", &xr, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
+		ImGui::SliderFloat("Y", &yr, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
+		ImGui::SliderFloat("Z", &zr, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
 
 		ImGui::TreePop();
 	}

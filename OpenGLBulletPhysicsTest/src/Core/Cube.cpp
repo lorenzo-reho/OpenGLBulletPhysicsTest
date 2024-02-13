@@ -45,9 +45,11 @@ float vertices[] = {
     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
 
-Cube::Cube(glm::vec3 position, glm::vec3 scale){
+Cube::Cube(glm::vec3 position, glm::vec3 scale, glm::vec3 color){
     this->position = position;
     this->scale = scale;
+    this->color = color;
+
     
     bTransform.setIdentity();
     bTransform.setOrigin(btVector3(position.x, position.y, position.z));
@@ -75,6 +77,10 @@ void Cube::CreateCube() {
 
 unsigned int Cube::GetVAO() {
     return _VAO;
+}
+
+glm::vec3 Cube::GetColor() {
+    return color;
 }
 
 void Cube::CreateRigidBody(btCollisionShape* pShape, float weight) {
