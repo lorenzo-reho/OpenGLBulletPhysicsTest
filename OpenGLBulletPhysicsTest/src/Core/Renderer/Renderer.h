@@ -3,9 +3,11 @@
 #include "../Cube.h"
 #include "../GL.h"
 #include "../Camera.h"
+#include "../Scene.h"
+
 #include "Shader.h"
 
 namespace Renderer {
 	void Init();
-	void Render(Camera& camera, Shader& shader, Cube& cube, Cube& cube1, Cube& cube2);
+	void Render(Camera& camera, Shader& shader);
 }

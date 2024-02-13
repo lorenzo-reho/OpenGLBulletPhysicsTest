@@ -6,6 +6,10 @@
 
 namespace Input {
 	void Update();
-	bool IsPressed(int key);
+	bool IsKeyPressed(int key);
+	bool IsMousePressed(int code);
+	bool IsMouseReleased(int code);
+
 	Utils::MousePosition GetCursorPos();
+
 }

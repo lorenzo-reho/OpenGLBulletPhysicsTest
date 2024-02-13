@@ -18,6 +18,14 @@ void GL::ProcessInput() {
 		glfwSetWindowShouldClose(_window, 1);
 	}
 
+	if (glfwGetKey(_window, GLFW_KEY_X) == GLFW_PRESS) {
+		EditingMenu::_debug = true;
+	}
+
+	if (glfwGetKey(_window, GLFW_KEY_Z) == GLFW_PRESS) {
+		EditingMenu::_debug = false;
+	}
+
 
 }
 
@@ -67,8 +75,10 @@ int GL::Init(int width, int height) {
 
 	glfwMakeContextCurrent(_window);
 	glfwSetFramebufferSizeCallback(_window, resize_callback);
-	glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    // glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwWindowHint(GLFW_SAMPLES, 10);
+
+	EditingMenu::Init(_window);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		return 3;

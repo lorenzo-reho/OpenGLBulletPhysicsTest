@@ -2,6 +2,10 @@
 
 namespace Input {
 	bool _keys[400];
+	bool _mouseButton[12];
+	bool _mouseButtonReleased[12];
+
+
 }
 
 void Input::Update() {
@@ -10,6 +14,13 @@ void Input::Update() {
 
 	for (int i = 32; i < 349; i++) {
 		_keys[i] = glfwGetKey(window, i) == GLFW_PRESS;
+		
+	}
+	
+	for (int i = 0; i < 12; i++) {
+		_mouseButton[i] = glfwGetMouseButton(window, i) == GLFW_PRESS;
+		_mouseButtonReleased[i] = glfwGetMouseButton(window, i) == GLFW_RELEASE;
+
 	}
 
 }
@@ -27,6 +38,14 @@ Utils::MousePosition Input::GetCursorPos() {
 }
 
 
-bool Input::IsPressed(int key) {
-	return _keys[key];
+bool Input::IsKeyPressed(int key) {
+	return _keys[key] ;
+}
+
+bool Input::IsMousePressed(int code) {
+	return _mouseButton[code];
+}
+
+bool Input::IsMouseReleased(int code) {
+	return _mouseButtonReleased[code];
 }

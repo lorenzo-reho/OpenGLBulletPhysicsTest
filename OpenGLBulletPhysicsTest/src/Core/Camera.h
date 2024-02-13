@@ -25,7 +25,7 @@ private:
 	double lastX = 0.0f;
 	double lastY = 0.0f;
 
-	bool firstMouse = true;
+	bool firstClick = true;
 
 public:
 	Camera(glm::vec3 cameraPos, glm::vec3 cameraFront, float speed) {
@@ -57,14 +57,6 @@ public:
 	}
 
 	void Rotate(float deltaTime, Utils::MousePosition mousePosition) {
-		if (firstMouse) {
-
-			lastX = mousePosition.x;
-			lastY = mousePosition.y;
-
-			firstMouse = false;
-		}
-
 		double xOffset = mousePosition.x - lastX;
 		double yOffset = lastY - mousePosition.y;
 
@@ -75,8 +67,8 @@ public:
 
 		double sensitivity = 0.1f;
 
-		yaw += xOffset * sensitivity;
-		pitch += yOffset * sensitivity;
+		yaw += -xOffset * sensitivity;
+		pitch += -yOffset * sensitivity;
 
 		if (pitch > 89.0) {
 			pitch = 89.0;
@@ -95,14 +87,26 @@ public:
 	}
 
 	void Update(float deltaTime) {
-		if (Input::IsPressed(GLFW_KEY_W)) Move(FORWARD, deltaTime);
-		if (Input::IsPressed(GLFW_KEY_A)) Move(LEFT, deltaTime);
-		if (Input::IsPressed(GLFW_KEY_S)) Move(BACK, deltaTime);
-		if (Input::IsPressed(GLFW_KEY_D)) Move(RIGHT, deltaTime);
-		if (Input::IsPressed(GLFW_KEY_SPACE)) Move(UP, deltaTime);
-		if (Input::IsPressed(GLFW_KEY_LEFT_SHIFT)) Move(DOWN, deltaTime);
+		if (Input::IsKeyPressed(GLFW_KEY_W)) Move(FORWARD, deltaTime);
+		if (Input::IsKeyPressed(GLFW_KEY_A)) Move(LEFT, deltaTime);
+		if (Input::IsKeyPressed(GLFW_KEY_S)) Move(BACK, deltaTime);
+		if (Input::IsKeyPressed(GLFW_KEY_D)) Move(RIGHT, deltaTime);
+		if (Input::IsKeyPressed(GLFW_KEY_SPACE)) Move(UP, deltaTime);
+		if (Input::IsKeyPressed(GLFW_KEY_LEFT_SHIFT)) Move(DOWN, deltaTime);
 
-		Rotate(deltaTime, Input::GetCursorPos());
+		if (Input::IsMouseReleased(GLFW_MOUSE_BUTTON_3)) {
+			firstClick = true;
+		}
+
+		if (Input::IsMousePressed(GLFW_MOUSE_BUTTON_3)) {
+			if (firstClick) {
+				lastX = Input::GetCursorPos().x;
+				lastY = Input::GetCursorPos().y;
+				firstClick = false;
+			}
+			Rotate(deltaTime, Input::GetCursorPos());
+		}
+
 
 	}
 

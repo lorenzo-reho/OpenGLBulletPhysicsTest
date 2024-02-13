@@ -31,13 +31,12 @@ void Engine::Run() {
 	Shader base("res/shaders/base.vert", "res/shaders/base.frag");
 	Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0, 0.0f, -1.0f), 5.0f);
 
-
 	Physics::InitializePhysics();
 	Renderer::Init();
 
-	Cube cube(glm::vec3(0.0f, -10.0f, 0.0f), glm::vec3(30.0f, 1.0f, 30.0f));
-	Cube cube1(glm::vec3(0.0f, 30.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-	Cube cube2(glm::vec3(-0.6f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	Cube cube(glm::vec3(0.0f, -10.0f, 0.0f), glm::vec3(30.0f, 1.0f, 30.0f), glm::vec3(0.0, 108 / 255.0f, 103 / 255.0f));
+	Cube cube1(glm::vec3(0.0f, 30.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 1.0, 0));
+	Cube cube2(glm::vec3(-0.6f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 0.0, 1.0));
 
 
 	cube.CreateCube();
@@ -59,12 +58,21 @@ void Engine::Run() {
 	cube2.CreateRigidBody(pBoxShape2, 1.0f);
 	cube2.RegisterRigidBody();
 
+	Scene::_cubes.push_back(cube);
+	Scene::_cubes.push_back(cube1);
+	Scene::_cubes.push_back(cube2);
+
+
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
 
 	while (GL::IsWindowOpen()) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(RED, GREEN, BLUE, 1.0f);
+
+		EditingMenu::GenerateFrame();
+		// ImGui::ShowDemoWindow();
+
 
 		currentTime = (float)glfwGetTime();
 		deltaTime = currentTime - lastTime;
@@ -74,11 +82,23 @@ void Engine::Run() {
 		Physics::StepSimulation(deltaTime);
 
 		camera.Update(deltaTime);
-		Renderer::Render(camera, base, cube, cube1, cube2);
+		Renderer::Render(camera, base);
 
 		GL::ProcessInput();
+
+		if(EditingMenu::_debug){
+			EditingMenu::ShowModelGeneratorWidget();
+			EditingMenu::ShowSceneWidget();
+			EditingMenu::ShowTransformWidget();
+		}
+
+		EditingMenu::Render();
+
 		GL::SwapBuffersAndPoll();
+
 	}
+
+	EditingMenu::Shutdown();
 
 
 }
