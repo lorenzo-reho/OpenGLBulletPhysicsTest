@@ -34,7 +34,7 @@ void Engine::Run() {
 	Physics::InitializePhysics();
 	Renderer::Init();
 
-	Cube cube(glm::vec3(0.0f, -10.0f, 0.0f), glm::vec3(30.0f, 1.0f, 30.0f), glm::vec3(0.0, 108 / 255.0f, 103 / 255.0f));
+	Cube cube(glm::vec3(0.0f, -10.0f, 0.0f), glm::vec3(30.0f, 1.0f, 30.0f), glm::vec3(138 / 255.0f, 138 / 255.0f, 138 / 255.0f));
 	Cube cube1(glm::vec3(0.0f, 30.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 1.0, 0));
 	Cube cube2(glm::vec3(-0.6f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 0.0, 1.0));
 
