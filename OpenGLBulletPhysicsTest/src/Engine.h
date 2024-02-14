@@ -5,6 +5,8 @@
 #include "Core/Input.h"
 #include "Core/FileSystem.h"
 #include "Core/EditingMenu.h"
+#include "Core/Sky.h"
+
 
 #include "imgui.h"
 #include "imgui_internal.h"

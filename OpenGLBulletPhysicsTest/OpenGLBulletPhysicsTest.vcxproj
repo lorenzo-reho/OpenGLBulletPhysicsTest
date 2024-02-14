@@ -142,6 +142,7 @@
     <ClCompile Include="src\Core\Input.cpp" />
     <ClCompile Include="src\Core\Physics.cpp" />
     <ClCompile Include="src\Core\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Core\Sky.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Utils.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="src\Core\Renderer\Renderer.h" />
     <ClInclude Include="src\Core\Renderer\Shader.h" />
     <ClInclude Include="src\Core\Scene.h" />
+    <ClInclude Include="src\Core\Sky.h" />
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\Utils.h" />
     <ClInclude Include="vendor\imgui-docking\backends\imgui_impl_glfw.h" />
@@ -182,6 +184,12 @@
     <ClInclude Include="vendor\imgui-docking\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\textures\back.jpg" />
+    <Image Include="res\textures\bottom.jpg" />
+    <Image Include="res\textures\front.jpg" />
+    <Image Include="res\textures\left.jpg" />
+    <Image Include="res\textures\right.jpg" />
+    <Image Include="res\textures\top.jpg" />
     <Image Include="res\textures\wall.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +197,8 @@
     <None Include="res\models\target.mtl" />
     <None Include="res\shaders\base.frag" />
     <None Include="res\shaders\base.vert" />
+    <None Include="res\shaders\cubemap.frag" />
+    <None Include="res\shaders\cubemap.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
