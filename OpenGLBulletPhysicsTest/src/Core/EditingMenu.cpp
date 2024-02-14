@@ -2,6 +2,7 @@
 
 
 // https://github.com/ocornut/imgui/issues/4430
+// https://github.com/ocornut/imgui/issues/2109
 void EditingMenu::Init(GLFWwindow *window) {
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();

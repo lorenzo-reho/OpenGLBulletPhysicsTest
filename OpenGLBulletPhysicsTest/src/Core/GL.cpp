@@ -76,7 +76,7 @@ int GL::Init(int width, int height) {
 	glfwMakeContextCurrent(_window);
 	glfwSetFramebufferSizeCallback(_window, resize_callback);
     // glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwWindowHint(GLFW_SAMPLES, 10);
+	// glfwWindowHint(GLFW_SAMPLES, 10);
 
 	EditingMenu::Init(_window);
 

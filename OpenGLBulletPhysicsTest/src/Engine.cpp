@@ -64,11 +64,11 @@ void Engine::Run() {
 
 
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_MULTISAMPLE);
+	// glEnable(GL_MULTISAMPLE);
 
 	while (GL::IsWindowOpen()) {
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(RED, GREEN, BLUE, 1.0f);
 
 		EditingMenu::GenerateFrame();
 		// ImGui::ShowDemoWindow();
