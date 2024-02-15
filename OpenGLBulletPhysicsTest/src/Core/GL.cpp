@@ -34,9 +34,10 @@ bool GL::IsWindowOpen() {
 }
 
 void GL::resize_callback(GLFWwindow* window, int width, int height) {
+
+	if (width == 0 || height == 0) return;
 	_currentWidth = width;
 	_currentHeight = height;
-
 	glViewport(0, 0, width, height);
 }
 
@@ -77,7 +78,6 @@ int GL::Init(int width, int height) {
 	glfwSetFramebufferSizeCallback(_window, resize_callback);
     // glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwWindowHint(GLFW_SAMPLES, 10);
-
 	EditingMenu::Init(_window);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -86,3 +86,7 @@ int GL::Init(int width, int height) {
 	return 0;
 }
 
+
+void GL::Shutdown() {
+	glfwTerminate();
+}

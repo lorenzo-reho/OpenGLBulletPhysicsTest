@@ -75,6 +75,9 @@
     <ClCompile Include="src\Core\EditingMenu.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Sky.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine.h">
@@ -149,9 +152,30 @@
     <ClInclude Include="src\Core\Scene.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Sky.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\wall.jpg">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\textures\back.jpg">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\textures\bottom.jpg">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\textures\front.jpg">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\textures\left.jpg">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\textures\right.jpg">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\textures\top.jpg">
       <Filter>File di risorse</Filter>
     </Image>
   </ItemGroup>
@@ -160,5 +184,8 @@
     <None Include="res\shaders\base.vert" />
     <None Include="res\models\round lamp.mtl" />
     <None Include="res\models\target.mtl" />
+    <None Include="res\shaders\cubemap.frag" />
+    <None Include="res\shaders\cubemap.vert" />
+    <None Include="vendor\assimp\assimp-vc143-mt.dll" />
   </ItemGroup>
 </Project>

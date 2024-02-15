@@ -10,6 +10,8 @@
 
 namespace GL {
 	int Init(int width, int height);
+	void Shutdown();
+
 	GLFWwindow* GetWindowPtr();
 	void ProcessInput();
 	unsigned int GetWindowWidth();

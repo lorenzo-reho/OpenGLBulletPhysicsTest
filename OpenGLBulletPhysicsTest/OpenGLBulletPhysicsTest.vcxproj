@@ -114,7 +114,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGLWindow_Debug.lib;LinearMath_Debug.lib;HACD_Debug.lib;gwen_Debug.lib;gtest_Debug.lib;GIMPACTUtils_Debug.lib;ConvexDecomposition_Debug.lib;clsocket_Debug.lib;BussIK_Debug.lib;BulletXmlWorldImporter_Debug.lib;BulletWorldImporter_Debug.lib;BulletSoftBody_Debug.lib;BulletRobotics_Debug.lib;BulletInverseDynamicsUtils_Debug.lib;BulletInverseDynamics_Debug.lib;BulletFileLoader_Debug.lib;BulletExampleBrowserLib_Debug.lib;BulletDynamics_Debug.lib;BulletCollision_Debug.lib;Bullet3OpenCL_clew_Debug.lib;Bullet3Geometry_Debug.lib;Bullet3Dynamics_Debug.lib;Bullet3Common_Debug.lib;Bullet3Collision_Debug.lib;Bullet2FileLoader_Debug.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGLWindow_Debug.lib;LinearMath_Debug.lib;HACD_Debug.lib;gwen_Debug.lib;gtest_Debug.lib;GIMPACTUtils_Debug.lib;ConvexDecomposition_Debug.lib;clsocket_Debug.lib;BussIK_Debug.lib;BulletXmlWorldImporter_Debug.lib;BulletWorldImporter_Debug.lib;BulletSoftBody_Debug.lib;BulletRobotics_Debug.lib;BulletInverseDynamicsUtils_Debug.lib;BulletInverseDynamics_Debug.lib;BulletFileLoader_Debug.lib;BulletExampleBrowserLib_Debug.lib;BulletDynamics_Debug.lib;BulletCollision_Debug.lib;Bullet3OpenCL_clew_Debug.lib;Bullet3Geometry_Debug.lib;Bullet3Dynamics_Debug.lib;Bullet3Common_Debug.lib;Bullet3Collision_Debug.lib;Bullet2FileLoader_Debug.lib;glfw3.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -199,6 +199,7 @@
     <None Include="res\shaders\base.vert" />
     <None Include="res\shaders\cubemap.frag" />
     <None Include="res\shaders\cubemap.vert" />
+    <None Include="vendor\assimp\assimp-vc143-mt.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

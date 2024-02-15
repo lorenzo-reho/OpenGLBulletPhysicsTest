@@ -79,15 +79,13 @@ void Engine::Run() {
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
-
 	
 	while (GL::IsWindowOpen()) {
-		glClearColor(RED, GREEN, BLUE, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(RED, GREEN, BLUE, 1.0f);
 
 		EditingMenu::GenerateFrame();
 		// ImGui::ShowDemoWindow();
-
 
 		currentTime = (float)glfwGetTime();
 		deltaTime = currentTime - lastTime;
@@ -114,6 +112,6 @@ void Engine::Run() {
 	}
 
 	EditingMenu::Shutdown();
-
+	GL::Shutdown();
 
 }
