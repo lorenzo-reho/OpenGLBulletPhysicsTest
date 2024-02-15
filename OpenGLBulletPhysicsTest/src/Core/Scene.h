@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 #include "Sky.h"
+#include "Cube.h"
+
 
 namespace Scene {
 	

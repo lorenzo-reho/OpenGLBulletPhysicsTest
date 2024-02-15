@@ -5,13 +5,15 @@ namespace Renderer {
 	glm::mat4 projection;
 	glm::mat4 view;
 	glm::mat4 model;
+
+
 }
 
 void Renderer::Init() {
 	
 }
 
-void Renderer::Render(Camera &camera, Shader &shader, Shader &cubemapShader) {
+void Renderer::Render(Camera &camera, Shader &shader, Shader &cubemapShader, Shader &geometryShader, Model &modello) {
 
 	glDepthMask(GL_FALSE);
 
@@ -33,6 +35,16 @@ void Renderer::Render(Camera &camera, Shader &shader, Shader &cubemapShader) {
 
 
 	glDepthMask(GL_TRUE);
+
+	geometryShader.Use();
+
+	geometryShader.SetMat4("projection", projection);
+	geometryShader.SetMat4("view", camera.GetView());
+	geometryShader.SetMat4("model", glm::mat4(1.0f));
+	
+
+	modello.Draw(geometryShader);
+	
 
 	shader.Use();
 

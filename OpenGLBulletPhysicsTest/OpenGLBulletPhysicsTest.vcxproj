@@ -186,6 +186,9 @@
   <ItemGroup>
     <Image Include="res\textures\back.jpg" />
     <Image Include="res\textures\bottom.jpg" />
+    <Image Include="res\textures\floor-diffuse-texture.png" />
+    <Image Include="res\textures\floor_seamless_BaseColor.png" />
+    <Image Include="res\textures\floor_seamless_Metallic.png" />
     <Image Include="res\textures\front.jpg" />
     <Image Include="res\textures\left.jpg" />
     <Image Include="res\textures\right.jpg" />
@@ -193,13 +196,16 @@
     <Image Include="res\textures\wall.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\models\Floor.mtl" />
     <None Include="res\models\round lamp.mtl" />
     <None Include="res\models\target.mtl" />
     <None Include="res\shaders\base.frag" />
     <None Include="res\shaders\base.vert" />
     <None Include="res\shaders\cubemap.frag" />
     <None Include="res\shaders\cubemap.vert" />
-    <None Include="vendor\assimp\assimp-vc143-mt.dll" />
+    <None Include="assimp-vc143-mt.dll" />
+    <None Include="res\shaders\geometry.frag" />
+    <None Include="res\shaders\geometry.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

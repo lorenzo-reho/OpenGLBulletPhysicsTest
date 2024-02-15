@@ -28,6 +28,8 @@ void Engine::Run() {
 
 	Shader base("res/shaders/base.vert", "res/shaders/base.frag");
 	Shader cubemapShader("res/shaders/cubemap.vert", "res/shaders/cubemap.frag");
+	Shader geometryShader("res/shaders/geometry.vert", "res/shaders/geometry.frag");
+
 
 	Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0, 0.0f, -1.0f), 5.0f);
 
@@ -77,6 +79,9 @@ void Engine::Run() {
 
 	Scene::_sky = &sky;
 
+
+	Model modello("res/models/Floor.obj");
+
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
 	
@@ -95,7 +100,7 @@ void Engine::Run() {
 		Physics::StepSimulation(deltaTime);
 
 		camera.Update(deltaTime);
-		Renderer::Render(camera, base, cubemapShader);
+		Renderer::Render(camera, base, cubemapShader, geometryShader, modello);
 
 		GL::ProcessInput();
 

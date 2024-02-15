@@ -178,6 +178,15 @@
     <Image Include="res\textures\top.jpg">
       <Filter>File di risorse</Filter>
     </Image>
+    <Image Include="res\textures\floor_seamless_Metallic.png">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\textures\floor_seamless_BaseColor.png">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="res\textures\floor-diffuse-texture.png">
+      <Filter>File di risorse</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\base.frag" />
@@ -186,6 +195,9 @@
     <None Include="res\models\target.mtl" />
     <None Include="res\shaders\cubemap.frag" />
     <None Include="res\shaders\cubemap.vert" />
-    <None Include="vendor\assimp\assimp-vc143-mt.dll" />
+    <None Include="assimp-vc143-mt.dll" />
+    <None Include="res\shaders\geometry.frag" />
+    <None Include="res\shaders\geometry.vert" />
+    <None Include="res\models\Floor.mtl" />
   </ItemGroup>
 </Project>
