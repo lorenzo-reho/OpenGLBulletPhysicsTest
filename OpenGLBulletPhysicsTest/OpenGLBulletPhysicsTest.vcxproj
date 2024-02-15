@@ -138,6 +138,7 @@
     <ClCompile Include="src\Core\Cube.cpp" />
     <ClCompile Include="src\Core\EditingMenu.cpp" />
     <ClCompile Include="src\Core\FileSystem.cpp" />
+    <ClCompile Include="src\Core\GameObject.cpp" />
     <ClCompile Include="src\Core\GL.cpp" />
     <ClCompile Include="src\Core\Input.cpp" />
     <ClCompile Include="src\Core\Physics.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="src\Core\Cube.h" />
     <ClInclude Include="src\Core\EditingMenu.h" />
     <ClInclude Include="src\Core\FileSystem.h" />
+    <ClInclude Include="src\Core\GameObject.h" />
     <ClInclude Include="src\Core\GL.h" />
     <ClInclude Include="src\Core\Input.h" />
     <ClInclude Include="src\Core\Camera.h" />

@@ -12,5 +12,5 @@
 
 namespace Renderer {
 	void Init();
-	void Render(Camera& camera, Shader& shader, Shader& cubemapShader, Shader& geometryShader, Model &modello);
+	void Render(Camera& camera, Shader& shader, Shader& cubemapShader, Shader& geometryShader);
 }

@@ -13,11 +13,11 @@ void Renderer::Init() {
 	
 }
 
-void Renderer::Render(Camera &camera, Shader &shader, Shader &cubemapShader, Shader &geometryShader, Model &modello) {
+void Renderer::Render(Camera &camera, Shader &shader, Shader &cubemapShader, Shader &geometryShader) {
 
 	glDepthMask(GL_FALSE);
 
-	projection = glm::perspective(glm::radians(60.0f), (float)GL::GetWindowWidth() / (float)GL::GetWindowHeight(), 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(45.0f), (float)GL::GetWindowWidth() / (float)GL::GetWindowHeight(), 0.1f, 100.0f);
 
 	cubemapShader.Use();
 
@@ -33,19 +33,22 @@ void Renderer::Render(Camera &camera, Shader &shader, Shader &cubemapShader, Sha
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
 
-
 	glDepthMask(GL_TRUE);
 
 	geometryShader.Use();
 
-	geometryShader.SetMat4("projection", projection);
-	geometryShader.SetMat4("view", camera.GetView());
-	geometryShader.SetMat4("model", glm::mat4(1.0f));
+	for (int i = 0; i < Scene::_gameObjects.size(); i++) {
+		geometryShader.SetMat4("projection", projection);
+		geometryShader.SetMat4("view", camera.GetView());
+		geometryShader.SetMat4("model", Scene::_gameObjects[i]->GetTransformMat4());
+		geometryShader.SetVec3("light.ambient", glm::vec3(0.2f));
+		geometryShader.SetVec3("light.diffuse", glm::vec3(0.7f));
+		geometryShader.SetVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		geometryShader.SetVec3("cameraPos", camera.GetCameraPos());
+		geometryShader.SetVec3("light.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
+		Scene::_gameObjects[i]->Render(geometryShader);
+	}
 	
-
-	modello.Draw(geometryShader);
-	
-
 	shader.Use();
 
 	for (int i = 0; i < Scene::_cubes.size(); i++) {

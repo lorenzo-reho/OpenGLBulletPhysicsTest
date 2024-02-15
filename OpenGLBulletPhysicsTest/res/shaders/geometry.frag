@@ -37,8 +37,8 @@ void main(){
 
 	float angle = max(dot(norm, lightDir), 0.0);
 
-	vec3 diffuse = light.diffuse * angle;
-	vec3 ambient = light.ambient;
+	vec3 diffuse = light.diffuse * angle * texture(material.diffuse1, TextCoords).rgb;
+	vec3 ambient = light.ambient * texture(material.diffuse1, TextCoords).rgb;
 
 	vec3 eyeDirection = normalize(cameraPos - FragPos);
 	vec3 ref = reflect(-lightDir, norm);
@@ -47,6 +47,6 @@ void main(){
 	float specularStrength = 0.5;
 	vec3 specular =  specularStrength * light.specular * theta;
 
-	//FragColor = vec4((ambient + diffuse)*color, 1.0);
-	FragColor = texture(material.diffuse1, TextCoords);
+	FragColor = vec4((ambient + diffuse), 1.0);
+	// FragColor = texture(material.diffuse1, TextCoords);
 }

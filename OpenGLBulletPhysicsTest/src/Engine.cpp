@@ -46,7 +46,7 @@ void Engine::Run() {
 	cube2.CreateCube();
 
 
-	btBoxShape* pBoxShape = new btBoxShape(btVector3(15, 0.5f, 15.0f));
+	btBoxShape* pBoxShape = new btBoxShape(btVector3(11.5f, 0.01f, 11.5f));
 	btBoxShape* pBoxShape1 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
 	btBoxShape* pBoxShape2 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
 
@@ -60,7 +60,7 @@ void Engine::Run() {
 	cube2.CreateRigidBody(pBoxShape2, 1.0f);
 	cube2.RegisterRigidBody();
 
-	Scene::_cubes.push_back(&cube);
+	// Scene::_cubes.push_back(&cube);
 	Scene::_cubes.push_back(&cube1);
 	Scene::_cubes.push_back(&cube2);
 
@@ -79,8 +79,13 @@ void Engine::Run() {
 
 	Scene::_sky = &sky;
 
+	Model *modello = new Model("res/models/Floor.obj");
 
-	Model modello("res/models/Floor.obj");
+	GameObject gameObject(glm::vec3(0.0f, -10.0f, 0.0f), modello);
+	gameObject.CreateRigidBody(pBoxShape, 0.0);
+	gameObject.RegisterRigidBody();
+
+	Scene::_gameObjects.push_back(&gameObject);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
@@ -100,7 +105,7 @@ void Engine::Run() {
 		Physics::StepSimulation(deltaTime);
 
 		camera.Update(deltaTime);
-		Renderer::Render(camera, base, cubemapShader, geometryShader, modello);
+		Renderer::Render(camera, base, cubemapShader, geometryShader);
 
 		GL::ProcessInput();
 

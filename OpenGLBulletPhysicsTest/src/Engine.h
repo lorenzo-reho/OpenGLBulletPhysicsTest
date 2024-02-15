@@ -6,6 +6,7 @@
 #include "Core/FileSystem.h"
 #include "Core/EditingMenu.h"
 #include "Core/Sky.h"
+#include "Core/GameObject.h"
 
 
 #include "imgui.h"
