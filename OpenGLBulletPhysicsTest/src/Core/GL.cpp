@@ -4,7 +4,6 @@ namespace GL {
 	GLFWwindow* _window;
 	unsigned int _currentWidth;
 	unsigned int _currentHeight;
-
 }
 
 GLFWwindow* GL::GetWindowPtr() {
@@ -18,15 +17,6 @@ void GL::ProcessInput() {
 		glfwSetWindowShouldClose(_window, 1);
 	}
 
-	if (glfwGetKey(_window, GLFW_KEY_X) == GLFW_PRESS) {
-		EditingMenu::_debug = true;
-	}
-
-	if (glfwGetKey(_window, GLFW_KEY_Z) == GLFW_PRESS) {
-		EditingMenu::_debug = false;
-	}
-
-
 }
 
 bool GL::IsWindowOpen() {
@@ -39,6 +29,19 @@ void GL::resize_callback(GLFWwindow* window, int width, int height) {
 	_currentWidth = width;
 	_currentHeight = height;
 	glViewport(0, 0, width, height);
+}
+
+void GL::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_Z && action == GLFW_PRESS)
+	{
+		_editingMenu = !_editingMenu;
+	}
+	if (key == GLFW_KEY_X && action == GLFW_PRESS)
+	{
+		_isCollisionDebug = !_isCollisionDebug;
+	}
+
 }
 
 void GL::SwapBuffersAndPoll() {
@@ -76,9 +79,10 @@ int GL::Init(int width, int height) {
 
 	glfwMakeContextCurrent(_window);
 	glfwSetFramebufferSizeCallback(_window, resize_callback);
+	glfwSetKeyCallback(_window, key_callback);
     // glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwWindowHint(GLFW_SAMPLES, 10);
-	EditingMenu::Init(_window);
+	// EditingMenu::Init(_window);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		return 3;

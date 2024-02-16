@@ -9,6 +9,8 @@ Cube::Cube(glm::vec3 position, glm::vec3 scale, glm::vec3 color){
     this->position = position;
     this->scale = scale;
     this->color = color;
+    
+    CreateCube();
 
     bTransform.setIdentity();
     bTransform.setOrigin(btVector3(position.x, position.y, position.z));

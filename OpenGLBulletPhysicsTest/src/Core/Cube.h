@@ -11,7 +11,6 @@ public:
 
 	glm::mat4 btScalar2mat4(btScalar* matrix);
 
-	void CreateCube();
 	void Render();
 	unsigned int GetVAO();
 	glm::vec3 GetColor();
@@ -34,6 +33,8 @@ private:
 	MotionState* m_pMotionState;
 	btRigidBody* pRigidBody;
 	btRigidBody::btRigidBodyConstructionInfo* rbInfo;
+	
+	void CreateCube();
 
 };
 #endif

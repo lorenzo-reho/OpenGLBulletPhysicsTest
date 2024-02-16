@@ -45,7 +45,7 @@ void Renderer::Render(Camera &camera) {
 		ShaderManager::_geometry->SetVec3("light.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
 		Scene::_gameObjects[i]->Render(ShaderManager::_geometry);
 
-		if (_isCollisionDebug) {
+		if (GL::_isCollisionDebug) {
 			ShaderManager::_collisionDebug->Use();
 			ShaderManager::_collisionDebug->SetVec3("color", glm::vec3(0.0, 1.0, 0.0));
 			ShaderManager::_collisionDebug->SetMat4("projection", projection);

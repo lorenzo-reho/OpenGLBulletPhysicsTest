@@ -1,5 +1,4 @@
 #include "Engine.h"
-#include "Core/Physics.h"
 
 const float RED = 185 / 255.0f;
 const float GREEN = 226 / 255.0f;
@@ -45,12 +44,6 @@ void Engine::Run() {
 	Cube cube1(glm::vec3(8.6f, 30.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 1.0, 0));
 	Cube cube2(glm::vec3(8.0f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 0.0, 1.0));
 
-
-	cube.CreateCube();
-	cube1.CreateCube();
-	cube2.CreateCube();
-
-
 	btBoxShape* pBoxShape = new btBoxShape(btVector3(11.5f, 0.01f, 11.5f));
 	btBoxShape* pBoxShape1 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
 	btBoxShape* pBoxShape2 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
@@ -95,6 +88,8 @@ void Engine::Run() {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
 	
+	EditingMenu::Init(GL::GetWindowPtr());
+
 	while (GL::IsWindowOpen()) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(RED, GREEN, BLUE, 1.0f);
@@ -110,25 +105,17 @@ void Engine::Run() {
 		Physics::StepSimulation(deltaTime);
 		camera.Update(deltaTime);
 
-		// TODO aggiungere una voce dell'EditingMenu
-		if (Input::IsKeyPressed(GLFW_KEY_E))
-			Renderer::_isCollisionDebug = true;
-		if (Input::IsKeyPressed(GLFW_KEY_R))
-			Renderer::_isCollisionDebug = false;
-
-
 		Renderer::Render(camera);
 
 		GL::ProcessInput();
 
-		if(EditingMenu::_debug){
+		if(GL::_editingMenu){
 			EditingMenu::ShowModelGeneratorWidget();
 			EditingMenu::ShowSceneWidget();
 			EditingMenu::ShowTransformWidget();
 		}
 
 		EditingMenu::Render();
-
 		GL::SwapBuffersAndPoll();
 
 	}
