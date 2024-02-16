@@ -7,8 +7,6 @@
 #include "Cube.h"
 #include "GameObject.h"
 
-
-
 namespace Scene {
 	
 	inline std::vector<Cube*> _cubes;

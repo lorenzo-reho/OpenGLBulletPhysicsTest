@@ -3,9 +3,8 @@
 
 #include "Common.h"
 #include <iostream>
-// #include "Renderer/Renderer.h"
-// #include "EditingMenu.h"
-
+//#include "Renderer/Renderer.h"
+//#include "EditingMenu.h"
 
 namespace GL {
 	int Init(int width, int height);

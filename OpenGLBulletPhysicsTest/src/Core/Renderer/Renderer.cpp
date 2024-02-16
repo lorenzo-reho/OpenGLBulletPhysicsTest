@@ -11,7 +11,6 @@ void Renderer::Init() {
 
 void Renderer::Render(Camera &camera) {
 
-
 	// Render CubeMap
 	glDepthMask(GL_FALSE);
 
