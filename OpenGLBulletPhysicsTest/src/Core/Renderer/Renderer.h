@@ -8,9 +8,11 @@
 #include "Model.h"
 
 
-#include "Shader.h"
+#include "../ShaderManager.h"
 
 namespace Renderer {
 	void Init();
-	void Render(Camera& camera, Shader& shader, Shader& cubemapShader, Shader& geometryShader);
+	void Render(Camera& camera);
+
+	inline bool _isCollisionDebug = true;
 }

@@ -1,6 +1,10 @@
 #include "Cube.h"
 #include <iostream>
 
+Cube::Cube() {
+    CreateCube();
+}
+
 Cube::Cube(glm::vec3 position, glm::vec3 scale, glm::vec3 color){
     this->position = position;
     this->scale = scale;
@@ -79,6 +83,16 @@ void Cube::CreateCube() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+void Cube::Render() {
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glLineWidth(2.0f);
+    glBindVertexArray(_VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
 unsigned int Cube::GetVAO() {
     return _VAO;
 }
@@ -131,4 +145,11 @@ glm::mat4 Cube::GetTransformMat4() {
     }
 
     return glm::mat4(1.0);
+}
+
+void Cube::SetScale(glm::vec3 scale) {
+    this->scale = scale;
+}
+glm::vec3 Cube::GetScale() {
+    return scale;
 }

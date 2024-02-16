@@ -173,6 +173,7 @@
     <ClInclude Include="src\Core\Renderer\Renderer.h" />
     <ClInclude Include="src\Core\Renderer\Shader.h" />
     <ClInclude Include="src\Core\Scene.h" />
+    <ClInclude Include="src\Core\ShaderManager.h" />
     <ClInclude Include="src\Core\Sky.h" />
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\Utils.h" />
@@ -203,6 +204,8 @@
     <None Include="res\models\target.mtl" />
     <None Include="res\shaders\base.frag" />
     <None Include="res\shaders\base.vert" />
+    <None Include="res\shaders\collisionDebug.frag" />
+    <None Include="res\shaders\collisionDebug.vert" />
     <None Include="res\shaders\cubemap.frag" />
     <None Include="res\shaders\cubemap.vert" />
     <None Include="assimp-vc143-mt.dll" />

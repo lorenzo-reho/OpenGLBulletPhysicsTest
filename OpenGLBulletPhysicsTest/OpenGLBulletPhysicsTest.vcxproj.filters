@@ -161,6 +161,9 @@
     <ClInclude Include="src\Core\GameObject.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\ShaderManager.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\wall.jpg">
@@ -205,5 +208,7 @@
     <None Include="res\shaders\geometry.frag" />
     <None Include="res\shaders\geometry.vert" />
     <None Include="res\models\Floor.mtl" />
+    <None Include="res\shaders\collisionDebug.vert" />
+    <None Include="res\shaders\collisionDebug.frag" />
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
 #include "Common.h"
 #include "Physics.h"
 #include "Renderer/Model.h"
+#include "Cube.h"
 
 class GameObject {
 
@@ -12,15 +13,16 @@ public:
 	GameObject(glm::vec3 position, Model *model);
 	
 	void Update(); 
-	void Render(Shader &shader);
+	void Render(Shader *shader);
+	void RenderCollisionCube();
 
-	glm::mat4 btScalar2mat4(btScalar* matrix);
-	glm::mat4 GetTransformMat4();
+	glm::mat4 GetTransformMat4(bool applyCollisionScale);
 	void CreateRigidBody(btCollisionShape* pShape, float weight);
 	void RegisterRigidBody();
 
-
 private:
+	
+	Cube *collisionCube;
 	Model* model;
 	glm::vec3 position;
 	btBoxShape* pBoxShape;
@@ -28,6 +30,9 @@ private:
 	MotionState* m_pMotionState;
 	btRigidBody* pRigidBody;
 	btRigidBody::btRigidBodyConstructionInfo* rbInfo;
+
+
+	glm::mat4 btScalar2mat4(btScalar* matrix);
 };
 
 #endif

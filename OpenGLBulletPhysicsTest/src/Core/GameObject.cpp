@@ -5,27 +5,37 @@ GameObject::GameObject(glm::vec3 position, Model *model) {
     this->model = model;
     bTransform.setIdentity();
     bTransform.setOrigin(btVector3(position.x, position.y, position.z));
-
     m_pMotionState = new MotionState(bTransform);
+
+    collisionCube = new Cube();
+
 }
 
 void GameObject::Update() {
 
 }
 
-void GameObject::Render(Shader &shader) {
+void GameObject::Render(Shader *shader) {
 	model->Draw(shader);
 }
 
+void GameObject::RenderCollisionCube() {
+    collisionCube->Render();
+}
 
 void GameObject::CreateRigidBody(btCollisionShape* pShape, float weight) {
 
     btVector3 localInertia(0, 0, 0);
 
-    if (weight != 0.0f) {
+    if (weight != 0.0f)
         pShape->calculateLocalInertia(weight, localInertia);
-    }
 
+    btBoxShape* boxShape = (btBoxShape*) pShape;
+      
+    btVector3 bScale = boxShape->getHalfExtentsWithMargin();
+    glm::vec3 scale = glm::vec3(bScale.getX()*2, bScale.getY() * 2, bScale.getZ() * 2);
+
+    collisionCube->SetScale(scale);
 
     rbInfo = new btRigidBody::btRigidBodyConstructionInfo(weight, m_pMotionState, pShape, localInertia);
     pRigidBody = new btRigidBody(*rbInfo);
@@ -43,8 +53,8 @@ glm::mat4 GameObject::btScalar2mat4(btScalar* matrix) {
         matrix[12], matrix[13], matrix[14], matrix[15]);
 }
 
-glm::mat4 GameObject::GetTransformMat4() {
 
+glm::mat4 GameObject::GetTransformMat4(bool applyCollisionScale) {
 
     if (m_pMotionState) {
         btScalar transform[16];
@@ -54,11 +64,10 @@ glm::mat4 GameObject::GetTransformMat4() {
             transform[4], transform[5], transform[6], transform[7],
             transform[8], transform[9], transform[10], transform[11],
             transform[12], transform[13], transform[14], transform[15]);
-
-        // tempTransform = glm::scale(tempTransform, scale);
+        if(applyCollisionScale)
+            tempTransform = glm::scale(tempTransform, collisionCube->GetScale());
 
         return tempTransform;
-
     }
 
     return glm::mat4(1.0);

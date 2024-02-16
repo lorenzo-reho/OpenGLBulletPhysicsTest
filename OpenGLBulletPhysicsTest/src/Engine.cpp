@@ -29,7 +29,12 @@ void Engine::Run() {
 	Shader base("res/shaders/base.vert", "res/shaders/base.frag");
 	Shader cubemapShader("res/shaders/cubemap.vert", "res/shaders/cubemap.frag");
 	Shader geometryShader("res/shaders/geometry.vert", "res/shaders/geometry.frag");
+	Shader collisionDebugShader("res/shaders/collisionDebug.vert", "res/shaders/collisionDebug.frag");
 
+	ShaderManager::_base = &base;
+	ShaderManager::_cubemap = &cubemapShader;
+	ShaderManager::_geometry = &geometryShader;
+	ShaderManager::_collisionDebug = &collisionDebugShader;
 
 	Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0, 0.0f, -1.0f), 5.0f);
 
@@ -37,8 +42,8 @@ void Engine::Run() {
 	Renderer::Init();
 
 	Cube cube(glm::vec3(0.0f, -10.0f, 0.0f), glm::vec3(30.0f, 1.0f, 30.0f), glm::vec3(138 / 255.0f, 138 / 255.0f, 138 / 255.0f));
-	Cube cube1(glm::vec3(0.0f, 30.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 1.0, 0));
-	Cube cube2(glm::vec3(-0.6f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 0.0, 1.0));
+	Cube cube1(glm::vec3(8.6f, 30.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 1.0, 0));
+	Cube cube2(glm::vec3(8.0f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 0.0, 1.0));
 
 
 	cube.CreateCube();
@@ -103,9 +108,16 @@ void Engine::Run() {
 
 		Input::Update();
 		Physics::StepSimulation(deltaTime);
-
 		camera.Update(deltaTime);
-		Renderer::Render(camera, base, cubemapShader, geometryShader);
+
+		// TODO aggiungere una voce dell'EditingMenu
+		if (Input::IsKeyPressed(GLFW_KEY_E))
+			Renderer::_isCollisionDebug = true;
+		if (Input::IsKeyPressed(GLFW_KEY_R))
+			Renderer::_isCollisionDebug = false;
+
+
+		Renderer::Render(camera);
 
 		GL::ProcessInput();
 

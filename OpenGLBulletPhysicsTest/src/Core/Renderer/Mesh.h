@@ -35,17 +35,18 @@ public:
 		SetupMesh();
 	}
 
-	void Draw(Shader &shader) {
+	void Draw(Shader *shader) {
 		
 		// sistemare le texture (diffuse e specular)
 		unordered_map<string, int> mp;
 
+		shader->SetFloat("material.shininess", 64.0);
 		for (int i = 0; i < textures.size(); i++) {
 			string name = textures[i].type;
 			mp[name]++;
 
 			glActiveTexture(GL_TEXTURE0 + i);
-			shader.SetInt(("material."+name+to_string(mp[name])).c_str(), i);
+			shader->SetInt(("material."+name+to_string(mp[name])).c_str(), i);
 			glBindTexture(GL_TEXTURE_2D, textures[i].ID);
 		}
 

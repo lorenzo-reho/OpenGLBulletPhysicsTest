@@ -20,7 +20,6 @@ void Input::Update() {
 	for (int i = 0; i < 12; i++) {
 		_mouseButton[i] = glfwGetMouseButton(window, i) == GLFW_PRESS;
 		_mouseButtonReleased[i] = glfwGetMouseButton(window, i) == GLFW_RELEASE;
-
 	}
 
 }
