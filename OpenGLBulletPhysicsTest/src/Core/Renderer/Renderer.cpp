@@ -11,10 +11,10 @@ void Renderer::Init() {
 
 void Renderer::Render(Camera &camera) {
 
+	projection = glm::perspective(glm::radians(45.0f), (float)GL::GetWindowWidth() / (float)GL::GetWindowHeight(), 0.1f, 100.0f);
+	/*
 	// Render CubeMap
 	glDepthMask(GL_FALSE);
-
-	projection = glm::perspective(glm::radians(45.0f), (float)GL::GetWindowWidth() / (float)GL::GetWindowHeight(), 0.1f, 100.0f);
 
 	ShaderManager::_cubemap->Use();
 	ShaderManager::_cubemap->SetMat4("projection", projection);
@@ -30,7 +30,7 @@ void Renderer::Render(Camera &camera) {
 	glDepthMask(GL_TRUE);
 
 	// Render GameObjects
-
+	*/
 	ShaderManager::_geometry->Use();
 
 	for (int i = 0; i < Scene::_gameObjects.size(); i++) {
@@ -38,10 +38,16 @@ void Renderer::Render(Camera &camera) {
 		ShaderManager::_geometry->SetMat4("view", camera.GetView());
 		ShaderManager::_geometry->SetMat4("model", Scene::_gameObjects[i]->GetTransformMat4(false));
 		ShaderManager::_geometry->SetVec3("light.ambient", glm::vec3(0.2f));
-		ShaderManager::_geometry->SetVec3("light.diffuse", glm::vec3(0.7f));
+		ShaderManager::_geometry->SetVec3("light.diffuse", glm::vec3(1.0f));
 		ShaderManager::_geometry->SetVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
 		ShaderManager::_geometry->SetVec3("cameraPos", camera.GetCameraPos());
 		ShaderManager::_geometry->SetVec3("light.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
+		ShaderManager::_geometry->SetVec3("light.position", glm::vec3(0, -7.0, 0));
+		ShaderManager::_geometry->SetFloat("light.constant", 1.0f);
+		ShaderManager::_geometry->SetFloat("light.linear", 0.09f);
+		ShaderManager::_geometry->SetFloat("light.quadratic", 0.032f);
+
+
 		Scene::_gameObjects[i]->Render(ShaderManager::_geometry);
 
 		if (GL::_isCollisionDebug) {
@@ -68,6 +74,7 @@ void Renderer::Render(Camera &camera) {
 		ShaderManager::_base->SetVec3("light.diffuse", glm::vec3(0.6f));
 		ShaderManager::_base->SetVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
 		ShaderManager::_base->SetVec3("cameraPos", camera.GetCameraPos());
+		ShaderManager::_geometry->SetVec3("light.position", glm::vec3(0, 0, 0));
 
 		ShaderManager::_base->SetVec3("light.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
 

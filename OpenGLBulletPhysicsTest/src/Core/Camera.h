@@ -37,10 +37,12 @@ public:
 
 	void Move(Direction direction, float deltaTime) {
 		if (direction == FORWARD) {
-			cameraPos += cameraFront * speed * deltaTime;
+			glm::vec3 right = glm::normalize(glm::cross(cameraFront, cameraUp));
+			cameraPos -= glm::normalize(glm::cross(right, cameraUp)) * speed * deltaTime;
 		}
 		if (direction == BACK) {
-			cameraPos -= cameraFront * speed * deltaTime;
+			glm::vec3 right = glm::normalize(glm::cross(cameraFront, cameraUp));
+			cameraPos += glm::normalize(glm::cross(right, cameraUp)) * speed * deltaTime;
 		}
 		if (direction == LEFT) {
 			cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * speed * deltaTime;

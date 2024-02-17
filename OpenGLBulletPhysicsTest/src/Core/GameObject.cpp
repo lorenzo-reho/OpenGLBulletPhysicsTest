@@ -6,9 +6,7 @@ GameObject::GameObject(glm::vec3 position, Model *model) {
     bTransform.setIdentity();
     bTransform.setOrigin(btVector3(position.x, position.y, position.z));
     m_pMotionState = new MotionState(bTransform);
-
     collisionCube = new Cube();
-
 }
 
 void GameObject::Update() {
@@ -30,6 +28,8 @@ void GameObject::CreateRigidBody(btCollisionShape* pShape, float weight) {
     if (weight != 0.0f)
         pShape->calculateLocalInertia(weight, localInertia);
 
+
+    //Casting forzato da sistemare
     btBoxShape* boxShape = (btBoxShape*) pShape;
       
     btVector3 bScale = boxShape->getHalfExtentsWithMargin();
@@ -64,6 +64,7 @@ glm::mat4 GameObject::GetTransformMat4(bool applyCollisionScale) {
             transform[4], transform[5], transform[6], transform[7],
             transform[8], transform[9], transform[10], transform[11],
             transform[12], transform[13], transform[14], transform[15]);
+
         if(applyCollisionScale)
             tempTransform = glm::scale(tempTransform, collisionCube->GetScale());
 

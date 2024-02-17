@@ -1,8 +1,12 @@
 #include "Engine.h"
 
-const float RED = 185 / 255.0f;
-const float GREEN = 226 / 255.0f;
-const float BLUE = 245 / 255.0f;
+#include<iostream>
+#include<set>
+
+
+const float RED = 20 / 255.0f;
+const float GREEN = 20 / 255.0f;
+const float BLUE = 20 / 255.0f;
 
 float deltaTime;
 float currentTime;
@@ -11,6 +15,7 @@ float lastTime;
 
 void Engine::Run() {
 	int error = GL::Init(800, 700);
+
 
 	if (error == 1) {
 		std::cerr << "Impossible to initialize GLFW" << std::endl;
@@ -44,7 +49,7 @@ void Engine::Run() {
 	Cube cube1(glm::vec3(8.6f, 30.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 1.0, 0));
 	Cube cube2(glm::vec3(8.0f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 0.0, 1.0));
 
-	btBoxShape* pBoxShape = new btBoxShape(btVector3(11.5f, 0.01f, 11.5f));
+	btBoxShape* pBoxShape = new btBoxShape(btVector3(12.1f, 0.01f, 1.74f));
 	btBoxShape* pBoxShape1 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
 	btBoxShape* pBoxShape2 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
 
@@ -77,7 +82,7 @@ void Engine::Run() {
 
 	Scene::_sky = &sky;
 
-	Model *modello = new Model("res/models/Floor.obj");
+	Model *modello = new Model("res/models/Floor1.obj");
 
 	GameObject gameObject(glm::vec3(0.0f, -10.0f, 0.0f), modello);
 	gameObject.CreateRigidBody(pBoxShape, 0.0);

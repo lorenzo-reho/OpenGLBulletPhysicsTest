@@ -14,11 +14,16 @@ struct Material{
 };
 
 struct Light{
-	// vec3 position;
+	vec3 position;
 	vec3 direction;
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
+
+		
+    float constant;
+    float linear;
+    float quadratic;
 	// vec3 lightColor;
 };
 
@@ -33,7 +38,10 @@ void main(){
 
 	vec3 diffColor = texture(material.diffuse1, TextCoords).rgb;
 
-	vec3 lightDir = normalize(-light.direction);
+
+	vec3 lightDir = normalize(light.position - FragPos);
+
+
 	vec3 norm = normalize(Normal);
 
 	float angle = max(dot(norm, lightDir), 0.0);
@@ -46,8 +54,17 @@ void main(){
 	float theta = pow(max(dot(eyeDirection, ref), 0.0), material.shininess);
 
 	float specularStrength = 0.5;
-	vec3 specular =  specularStrength * light.specular * theta * diffColor;
+	vec3 specular =  specularStrength * light.specular * theta * vec3(1, 1, 1);
 
-	FragColor = vec4((ambient + diffuse + specular), 1.0);
+	float distance    = length(light.position - FragPos);
+	float attenuation = 1.0 / (light.constant + light.linear * distance + 
+    		    light.quadratic * (distance * distance));    
+
+	float intesity = 1;
+	ambient  *= attenuation*intesity; 
+	diffuse  *= attenuation*intesity;
+	specular  *= attenuation*intesity;
+
+	FragColor = vec4((ambient + diffuse), 1.0);
 	// FragColor = texture(material.diffuse1, TextCoords);
 }
