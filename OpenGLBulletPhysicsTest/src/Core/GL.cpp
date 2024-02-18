@@ -36,6 +36,13 @@ void GL::key_callback(GLFWwindow* window, int key, int scancode, int action, int
 	if (key == GLFW_KEY_Z && action == GLFW_PRESS)
 	{
 		_editingMenu = !_editingMenu;
+		if (_editingMenu) {
+			// TODO: questa è la modalità spettatore in cui la rotazione della visuale avviene tramite
+			// la rotellina
+			glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		
+		}
+		else glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 	if (key == GLFW_KEY_X && action == GLFW_PRESS)
 	{
@@ -80,7 +87,7 @@ int GL::Init(int width, int height) {
 	glfwMakeContextCurrent(_window);
 	glfwSetFramebufferSizeCallback(_window, resize_callback);
 	glfwSetKeyCallback(_window, key_callback);
-    // glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwWindowHint(GLFW_SAMPLES, 10);
 	// EditingMenu::Init(_window);
 

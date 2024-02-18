@@ -31,7 +31,7 @@ private:
 	btRigidBody* pRigidBody;
 	btRigidBody::btRigidBodyConstructionInfo* rbInfo;
 
-
+	string name;
 	glm::mat4 btScalar2mat4(btScalar* matrix);
 };
 

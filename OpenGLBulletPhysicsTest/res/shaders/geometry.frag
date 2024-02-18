@@ -57,7 +57,7 @@ void main(){
 	vec3 specular =  specularStrength * light.specular * theta * vec3(1, 1, 1);
 
 	float dist    = length(light.position - FragPos);
-	float attenuation = smoothstep(6.0f, 0, dist);
+	float attenuation = smoothstep(20.0f, 0, dist);
 	// attenuation = clamp(attenuation, 0.0, 0.9);
 
 	float intesity =1;

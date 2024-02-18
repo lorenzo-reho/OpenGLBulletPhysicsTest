@@ -67,10 +67,10 @@ public:
 
 		// std::cout << "X: " << lastX << " " << "Y: " << lastY << std::endl;
 
-		double sensitivity = 0.1f;
+		double sensitivity = 0.1f/3;
 
-		yaw += -xOffset * sensitivity;
-		pitch += -yOffset * sensitivity;
+		yaw += xOffset * sensitivity;
+		pitch += yOffset * sensitivity;
 
 		if (pitch > 89.0) {
 			pitch = 89.0;
@@ -95,7 +95,7 @@ public:
 		if (Input::IsKeyPressed(GLFW_KEY_D)) Move(RIGHT, deltaTime);
 		if (Input::IsKeyPressed(GLFW_KEY_SPACE)) Move(UP, deltaTime);
 		if (Input::IsKeyPressed(GLFW_KEY_LEFT_SHIFT)) Move(DOWN, deltaTime);
-
+		/*
 		if (Input::IsMouseReleased(GLFW_MOUSE_BUTTON_3)) {
 			firstClick = true;
 		}
@@ -107,8 +107,9 @@ public:
 				firstClick = false;
 			}
 			Rotate(deltaTime, Input::GetCursorPos());
-		}
-
+		
+		*/
+		Rotate(deltaTime, Input::GetCursorPos());
 
 	}
 

@@ -48,14 +48,16 @@ void Engine::Run() {
 	Cube cube(glm::vec3(0.0f, -10.0f, 0.0f), glm::vec3(30.0f, 1.0f, 30.0f), glm::vec3(138 / 255.0f, 138 / 255.0f, 138 / 255.0f));
 	Cube cube1(glm::vec3(-0.6f, 30.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 1.0, 0));
 	Cube cube2(glm::vec3(0.0f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 0.0, 1.0));
-	Cube cube3(glm::vec3(0.0f, -8.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0, 1.0, 1.0));
+	Cube lightCube(glm::vec3(0, -3.0, 0), glm::vec3(0.4f, 0.4f, 0.4f), glm::vec3(1.0, 1.0, 1.0));
 
 
-	btBoxShape* pBoxShape = new btBoxShape(btVector3(12.1f, 0.01f, 1.74f));
+	btBoxShape* pBoxShape = new btBoxShape(btVector3(12.1f, 0.01f, 12.1f));
 	btBoxShape* pBoxShape1 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
 	btBoxShape* pBoxShape2 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
+	btBoxShape* pBoxShape3 = new btBoxShape(btVector3(0.9f, 2.45f, 3.2f));
+	btBoxShape* pBoxShape4 = new btBoxShape(btVector3(1.2f, 2.0f, 2.5f));
 
-
+	/*
 	cube.CreateRigidBody(pBoxShape, 0.0f);
 	cube.RegisterRigidBody();
 
@@ -64,20 +66,20 @@ void Engine::Run() {
 
 	cube2.CreateRigidBody(pBoxShape2, 1.0f);
 	cube2.RegisterRigidBody();
-
+	*/
 	// Scene::_cubes.push_back(&cube);
-	Scene::_cubes.push_back(&cube1);
-	Scene::_cubes.push_back(&cube2);
-	Scene::_cubes.push_back(&cube3);
+	// Scene::_cubes.push_back(&cube1);
+	// Scene::_cubes.push_back(&cube2);
+	Scene::_cubes.push_back(&lightCube);
 
 	vector<std::string> faces
 	{
-			"res/textures/right.jpg",
-			"res/textures/left.jpg",
-			"res/textures/top.jpg",
-			"res/textures/bottom.jpg",
-			"res/textures/front.jpg",
-			"res/textures/back.jpg"
+			"res/textures/right.png",
+			"res/textures/left.png",
+			"res/textures/top.png",
+			"res/textures/bottom.png",
+			"res/textures/front.png",
+			"res/textures/back.png"
 	};
 
 	Sky sky(faces);
@@ -85,13 +87,36 @@ void Engine::Run() {
 
 	Scene::_sky = &sky;
 
-	Model *modello = new Model("res/models/Hallway.obj");
+	Model *mLocker= new Model("res/models/locker2.obj");
+	Model *mFloor= new Model("res/models/floor.obj");
+	Model* mBed = new Model("res/models/bed.obj");
 
-	GameObject gameObject(glm::vec3(0.0f, -10.0f, 0.0f), modello);
-	gameObject.CreateRigidBody(pBoxShape, 0.0);
-	gameObject.RegisterRigidBody();
 
-	Scene::_gameObjects.push_back(&gameObject);
+	GameObject floor(glm::vec3(0.0f, -10.0f, 0.0f), mFloor);
+	floor.CreateRigidBody(pBoxShape, 0.0);
+	floor.RegisterRigidBody();
+
+	GameObject locker(glm::vec3(-5.0f, 0.0f, 0.0f), mLocker);
+	locker.CreateRigidBody(pBoxShape3, 1.0);
+	locker.RegisterRigidBody();
+
+	GameObject bed(glm::vec3(3.0f, -5.0f, -7.5f), mBed);
+	bed.CreateRigidBody(pBoxShape4, 1.0);
+	bed.RegisterRigidBody();
+
+	GameObject bed1(glm::vec3(7.0f, -5.0f, -7.5f), mBed);
+	bed1.CreateRigidBody(pBoxShape4, 1.0);
+	bed1.RegisterRigidBody();
+
+	GameObject bed2(glm::vec3(-1.0f, -5.0f, -7.5f), mBed);
+	bed2.CreateRigidBody(pBoxShape4, 1.0);
+	bed2.RegisterRigidBody();
+
+	Scene::_gameObjects.push_back(&floor);
+	Scene::_gameObjects.push_back(&locker);
+	Scene::_gameObjects.push_back(&bed);
+	Scene::_gameObjects.push_back(&bed1);
+	Scene::_gameObjects.push_back(&bed2);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);

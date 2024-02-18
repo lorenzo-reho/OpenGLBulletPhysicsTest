@@ -11,7 +11,7 @@ void Renderer::Init() {
 
 void Renderer::Render(Camera &camera) {
 
-	projection = glm::perspective(glm::radians(45.0f), (float)GL::GetWindowWidth() / (float)GL::GetWindowHeight(), 0.1f, 100.0f);
+	projection = glm::perspective(1.0f, (float)GL::GetWindowWidth() / (float)GL::GetWindowHeight(), 0.1f, 100.0f);
 	/*
 	// Render CubeMap
 	glDepthMask(GL_FALSE);
@@ -31,9 +31,10 @@ void Renderer::Render(Camera &camera) {
 
 	// Render GameObjects
 	*/
-	ShaderManager::_geometry->Use();
-
+	
 	for (int i = 0; i < Scene::_gameObjects.size(); i++) {
+		ShaderManager::_geometry->Use();
+
 		ShaderManager::_geometry->SetMat4("projection", projection);
 		ShaderManager::_geometry->SetMat4("view", camera.GetView());
 		ShaderManager::_geometry->SetMat4("model", Scene::_gameObjects[i]->GetTransformMat4(false));
@@ -42,11 +43,11 @@ void Renderer::Render(Camera &camera) {
 		ShaderManager::_geometry->SetVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
 		ShaderManager::_geometry->SetVec3("cameraPos", camera.GetCameraPos());
 		ShaderManager::_geometry->SetVec3("light.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
-		ShaderManager::_geometry->SetVec3("light.position", glm::vec3(0, -8.0, 0));
+		ShaderManager::_geometry->SetVec3("light.position", glm::vec3(0, -3.0, 0));
 		ShaderManager::_geometry->SetFloat("light.constant", 1.0f);
 		ShaderManager::_geometry->SetFloat("light.linear", 0.09f);
 		ShaderManager::_geometry->SetFloat("light.quadratic", 0.032f);
-		ShaderManager::_geometry->SetVec3("light.lightColor", glm::vec3(255 / 255.0f, 243 / 255.0f, 217/255.0f));
+		ShaderManager::_geometry->SetVec3("light.lightColor", glm::vec3(255 / 255.0f, 255 / 255.0f, 255 /255.0f));
 
 
 		Scene::_gameObjects[i]->Render(ShaderManager::_geometry);
@@ -61,9 +62,6 @@ void Renderer::Render(Camera &camera) {
 		}
 	}
 	
-
-	// Render Temp Physics cube
-	/*
 	ShaderManager::_base->Use();
 
 	for (int i = 0; i < Scene::_cubes.size(); i++) {
@@ -85,6 +83,4 @@ void Renderer::Render(Camera &camera) {
 		glBindVertexArray(0);
 
 	}
-	*/
-
 }
