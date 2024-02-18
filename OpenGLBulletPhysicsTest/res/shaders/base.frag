@@ -38,6 +38,6 @@ void main(){
 	float specularStrength = 0.5;
 	vec3 specular =  specularStrength * light.specular * theta;
 
-	FragColor = vec4((ambient + diffuse + specular)*color, 1.0);
+	FragColor = vec4(color, 1.0);
 	
 }

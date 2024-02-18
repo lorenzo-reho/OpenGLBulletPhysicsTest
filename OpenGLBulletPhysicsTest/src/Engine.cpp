@@ -46,8 +46,10 @@ void Engine::Run() {
 	Renderer::Init();
 
 	Cube cube(glm::vec3(0.0f, -10.0f, 0.0f), glm::vec3(30.0f, 1.0f, 30.0f), glm::vec3(138 / 255.0f, 138 / 255.0f, 138 / 255.0f));
-	Cube cube1(glm::vec3(8.6f, 30.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 1.0, 0));
-	Cube cube2(glm::vec3(8.0f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 0.0, 1.0));
+	Cube cube1(glm::vec3(-0.6f, 30.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 1.0, 0));
+	Cube cube2(glm::vec3(0.0f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 0.0, 1.0));
+	Cube cube3(glm::vec3(0.0f, -8.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0, 1.0, 1.0));
+
 
 	btBoxShape* pBoxShape = new btBoxShape(btVector3(12.1f, 0.01f, 1.74f));
 	btBoxShape* pBoxShape1 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
@@ -66,6 +68,7 @@ void Engine::Run() {
 	// Scene::_cubes.push_back(&cube);
 	Scene::_cubes.push_back(&cube1);
 	Scene::_cubes.push_back(&cube2);
+	Scene::_cubes.push_back(&cube3);
 
 	vector<std::string> faces
 	{
@@ -82,7 +85,7 @@ void Engine::Run() {
 
 	Scene::_sky = &sky;
 
-	Model *modello = new Model("res/models/Floor1.obj");
+	Model *modello = new Model("res/models/Hallway.obj");
 
 	GameObject gameObject(glm::vec3(0.0f, -10.0f, 0.0f), modello);
 	gameObject.CreateRigidBody(pBoxShape, 0.0);

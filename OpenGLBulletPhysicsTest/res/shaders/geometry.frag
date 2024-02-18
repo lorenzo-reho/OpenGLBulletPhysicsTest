@@ -24,7 +24,7 @@ struct Light{
     float constant;
     float linear;
     float quadratic;
-	// vec3 lightColor;
+	vec3 lightColor;
 };
 
 uniform Light light;
@@ -37,7 +37,7 @@ void main(){
 	// coseno dell'angolo tra la direzione della luce e la normale
 
 	vec3 diffColor = texture(material.diffuse1, TextCoords).rgb;
-
+	// vec3 diffColor = vec3(1, 1, 1);
 
 	vec3 lightDir = normalize(light.position - FragPos);
 
@@ -46,25 +46,25 @@ void main(){
 
 	float angle = max(dot(norm, lightDir), 0.0);
 
-	vec3 diffuse = light.diffuse * angle * diffColor;
-	vec3 ambient = light.ambient * diffColor;
+	vec3 diffuse = light.diffuse * angle * diffColor * light.lightColor;
+	vec3 ambient = light.ambient * diffColor  * light.lightColor;
 
 	vec3 eyeDirection = normalize(cameraPos - FragPos);
 	vec3 ref = reflect(-lightDir, norm);
-	float theta = pow(max(dot(eyeDirection, ref), 0.0), material.shininess);
+	float theta = pow(max(dot(eyeDirection, ref), 0.0), 256);
 
-	float specularStrength = 0.5;
+	float specularStrength = 1.0;
 	vec3 specular =  specularStrength * light.specular * theta * vec3(1, 1, 1);
 
-	float distance    = length(light.position - FragPos);
-	float attenuation = 1.0 / (light.constant + light.linear * distance + 
-    		    light.quadratic * (distance * distance));    
+	float dist    = length(light.position - FragPos);
+	float attenuation = smoothstep(6.0f, 0, dist);
+	// attenuation = clamp(attenuation, 0.0, 0.9);
 
-	float intesity = 1;
+	float intesity =1;
 	ambient  *= attenuation*intesity; 
 	diffuse  *= attenuation*intesity;
-	specular  *= attenuation*intesity;
+	specular  *= intesity*attenuation;
 
-	FragColor = vec4((ambient + diffuse), 1.0);
+	FragColor = vec4((ambient+diffuse), 1.0);
 	// FragColor = texture(material.diffuse1, TextCoords);
 }

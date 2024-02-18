@@ -42,10 +42,11 @@ void Renderer::Render(Camera &camera) {
 		ShaderManager::_geometry->SetVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
 		ShaderManager::_geometry->SetVec3("cameraPos", camera.GetCameraPos());
 		ShaderManager::_geometry->SetVec3("light.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
-		ShaderManager::_geometry->SetVec3("light.position", glm::vec3(0, -7.0, 0));
+		ShaderManager::_geometry->SetVec3("light.position", glm::vec3(0, -8.0, 0));
 		ShaderManager::_geometry->SetFloat("light.constant", 1.0f);
 		ShaderManager::_geometry->SetFloat("light.linear", 0.09f);
 		ShaderManager::_geometry->SetFloat("light.quadratic", 0.032f);
+		ShaderManager::_geometry->SetVec3("light.lightColor", glm::vec3(255 / 255.0f, 243 / 255.0f, 217/255.0f));
 
 
 		Scene::_gameObjects[i]->Render(ShaderManager::_geometry);
@@ -62,7 +63,7 @@ void Renderer::Render(Camera &camera) {
 	
 
 	// Render Temp Physics cube
-
+	/*
 	ShaderManager::_base->Use();
 
 	for (int i = 0; i < Scene::_cubes.size(); i++) {
@@ -84,6 +85,6 @@ void Renderer::Render(Camera &camera) {
 		glBindVertexArray(0);
 
 	}
-
+	*/
 
 }
