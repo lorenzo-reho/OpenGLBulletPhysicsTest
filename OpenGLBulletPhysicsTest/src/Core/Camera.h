@@ -3,6 +3,7 @@
 
 #include "Common.h"
 #include "Input.h"
+#include "GL.h"
 
 enum Direction {
 	FORWARD,
@@ -18,6 +19,7 @@ private:
 	glm::vec3 cameraPos;
 	glm::vec3 cameraFront;
 	glm::vec3 cameraUp;
+	bool spectator;
 
 	float speed = 8.0f;
 	double yaw = -90.0f;
@@ -69,8 +71,8 @@ public:
 
 		double sensitivity = 0.1f/3;
 
-		yaw += xOffset * sensitivity;
-		pitch += yOffset * sensitivity;
+		yaw += (GL::_editingMenu?-1:1) * xOffset * sensitivity;
+		pitch += (GL::_editingMenu ? -1 : 1) * yOffset * sensitivity;
 
 		if (pitch > 89.0) {
 			pitch = 89.0;
@@ -95,21 +97,23 @@ public:
 		if (Input::IsKeyPressed(GLFW_KEY_D)) Move(RIGHT, deltaTime);
 		if (Input::IsKeyPressed(GLFW_KEY_SPACE)) Move(UP, deltaTime);
 		if (Input::IsKeyPressed(GLFW_KEY_LEFT_SHIFT)) Move(DOWN, deltaTime);
-		/*
-		if (Input::IsMouseReleased(GLFW_MOUSE_BUTTON_3)) {
-			firstClick = true;
-		}
-
-		if (Input::IsMousePressed(GLFW_MOUSE_BUTTON_3)) {
-			if (firstClick) {
-				lastX = Input::GetCursorPos().x;
-				lastY = Input::GetCursorPos().y;
-				firstClick = false;
+		// Modalità spettatore
+		if (GL::_editingMenu) {
+			if (Input::IsMouseReleased(GLFW_MOUSE_BUTTON_3)) {
+				firstClick = true;
 			}
+
+			if (Input::IsMousePressed(GLFW_MOUSE_BUTTON_3)) {
+				if (firstClick) {
+					lastX = Input::GetCursorPos().x;
+					lastY = Input::GetCursorPos().y;
+					firstClick = false;
+				}
+				Rotate(deltaTime, Input::GetCursorPos());
+
+			}
+		}else
 			Rotate(deltaTime, Input::GetCursorPos());
-		
-		*/
-		Rotate(deltaTime, Input::GetCursorPos());
 
 	}
 

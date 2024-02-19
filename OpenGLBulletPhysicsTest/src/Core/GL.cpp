@@ -38,7 +38,7 @@ void GL::key_callback(GLFWwindow* window, int key, int scancode, int action, int
 		_editingMenu = !_editingMenu;
 		if (_editingMenu) {
 			// TODO: questa è la modalità spettatore in cui la rotazione della visuale avviene tramite
-			// la rotellina
+			// la rotellina, non posso accedere alla Camera
 			glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		
 		}
