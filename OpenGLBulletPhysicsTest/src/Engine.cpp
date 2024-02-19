@@ -70,7 +70,11 @@ void Engine::Run() {
 	// Scene::_cubes.push_back(&cube);
 	// Scene::_cubes.push_back(&cube1);
 	// Scene::_cubes.push_back(&cube2);
-	Scene::_cubes.push_back(&lightCube);
+	
+	PointLight* pointLight = new PointLight(glm::vec3(0, -3.0, 0), glm::vec3(1, 1, 1), 20.0f, 1.2f);
+	Scene::_pointLights.push_back(pointLight);
+
+	// Scene::_cubes.push_back(&lightCube);
 
 	vector<std::string> faces
 	{

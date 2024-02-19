@@ -19,11 +19,8 @@ struct Light{
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
-
-		
-    float constant;
-    float linear;
-    float quadratic;
+	float radius;
+	float intensity;
 	vec3 lightColor;
 };
 
@@ -57,13 +54,12 @@ void main(){
 	vec3 specular =  specularStrength * light.specular * theta * vec3(1, 1, 1);
 
 	float dist    = length(light.position - FragPos);
-	float attenuation = smoothstep(20.0f, 0, dist);
+	float attenuation = smoothstep(light.radius, 0, dist);
 	// attenuation = clamp(attenuation, 0.0, 0.9);
 
-	float intesity =1;
-	ambient  *= attenuation*intesity; 
-	diffuse  *= attenuation*intesity;
-	specular  *= intesity*attenuation;
+	ambient  *= attenuation*light.intensity; 
+	diffuse  *= attenuation*light.intensity;
+	specular  *= light.intensity*attenuation;
 
 	FragColor = vec4((ambient+diffuse), 1.0);
 	// FragColor = texture(material.diffuse1, TextCoords);

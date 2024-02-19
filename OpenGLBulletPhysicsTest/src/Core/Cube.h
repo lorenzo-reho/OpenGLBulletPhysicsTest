@@ -11,7 +11,9 @@ public:
 
 	glm::mat4 btScalar2mat4(btScalar* matrix);
 
+	void RenderWireframe();
 	void Render();
+
 	unsigned int GetVAO();
 	glm::vec3 GetColor();
 

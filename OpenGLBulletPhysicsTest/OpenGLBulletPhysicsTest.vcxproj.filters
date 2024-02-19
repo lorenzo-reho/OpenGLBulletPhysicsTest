@@ -81,6 +81,9 @@
     <ClCompile Include="vendor\glad\src\glad.c">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\PointLight.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine.h">
@@ -162,6 +165,9 @@
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\ShaderManager.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\PointLight.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

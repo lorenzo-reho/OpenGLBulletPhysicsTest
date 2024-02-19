@@ -85,7 +85,7 @@ void Cube::CreateCube() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void Cube::Render() {
+void Cube::RenderWireframe() {
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glLineWidth(2.0f);
@@ -94,6 +94,12 @@ void Cube::Render() {
     glBindVertexArray(0);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
+void Cube::Render() {
+    glBindVertexArray(_VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
 
 unsigned int Cube::GetVAO() {
     return _VAO;

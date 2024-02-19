@@ -19,7 +19,6 @@ private:
 	glm::vec3 cameraPos;
 	glm::vec3 cameraFront;
 	glm::vec3 cameraUp;
-	bool spectator;
 
 	float speed = 8.0f;
 	double yaw = -90.0f;
@@ -28,6 +27,7 @@ private:
 	double lastY = 0.0f;
 
 	bool firstClick = true;
+	bool spectator = false;
 
 public:
 	Camera(glm::vec3 cameraPos, glm::vec3 cameraFront, float speed) {
@@ -71,8 +71,8 @@ public:
 
 		double sensitivity = 0.1f/3;
 
-		yaw += (GL::_editingMenu?-1:1) * xOffset * sensitivity;
-		pitch += (GL::_editingMenu ? -1 : 1) * yOffset * sensitivity;
+		yaw += (spectator?-1:1) * xOffset * sensitivity;
+		pitch += (spectator ? -1 : 1) * yOffset * sensitivity;
 
 		if (pitch > 89.0) {
 			pitch = 89.0;
@@ -91,6 +91,9 @@ public:
 	}
 
 	void Update(float deltaTime) {
+		
+		spectator = GL::_editingMenu;
+
 		if (Input::IsKeyPressed(GLFW_KEY_W)) Move(FORWARD, deltaTime);
 		if (Input::IsKeyPressed(GLFW_KEY_A)) Move(LEFT, deltaTime);
 		if (Input::IsKeyPressed(GLFW_KEY_S)) Move(BACK, deltaTime);
@@ -98,7 +101,7 @@ public:
 		if (Input::IsKeyPressed(GLFW_KEY_SPACE)) Move(UP, deltaTime);
 		if (Input::IsKeyPressed(GLFW_KEY_LEFT_SHIFT)) Move(DOWN, deltaTime);
 		// Modalità spettatore
-		if (GL::_editingMenu) {
+		if (spectator) {
 			if (Input::IsMouseReleased(GLFW_MOUSE_BUTTON_3)) {
 				firstClick = true;
 			}

@@ -38,19 +38,28 @@ void Renderer::Render(Camera &camera) {
 		ShaderManager::_geometry->SetMat4("projection", projection);
 		ShaderManager::_geometry->SetMat4("view", camera.GetView());
 		ShaderManager::_geometry->SetMat4("model", Scene::_gameObjects[i]->GetTransformMat4(false));
+
+
 		ShaderManager::_geometry->SetVec3("light.ambient", glm::vec3(0.2f));
 		ShaderManager::_geometry->SetVec3("light.diffuse", glm::vec3(1.0f));
 		ShaderManager::_geometry->SetVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
 		ShaderManager::_geometry->SetVec3("cameraPos", camera.GetCameraPos());
 		ShaderManager::_geometry->SetVec3("light.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
-		ShaderManager::_geometry->SetVec3("light.position", glm::vec3(0, -3.0, 0));
-		ShaderManager::_geometry->SetFloat("light.constant", 1.0f);
-		ShaderManager::_geometry->SetFloat("light.linear", 0.09f);
-		ShaderManager::_geometry->SetFloat("light.quadratic", 0.032f);
-		ShaderManager::_geometry->SetVec3("light.lightColor", glm::vec3(255 / 255.0f, 255 / 255.0f, 255 /255.0f));
-
+		ShaderManager::_geometry->SetVec3("light.position", Scene::_pointLights[0]->GetPosition());
+		ShaderManager::_geometry->SetVec3("light.lightColor", Scene::_pointLights[0]->GetColor());
+		ShaderManager::_geometry->SetFloat("light.intensity", Scene::_pointLights[0]->GetIntensity());
+		ShaderManager::_geometry->SetFloat("light.radius", Scene::_pointLights[0]->GetRadius());
 
 		Scene::_gameObjects[i]->Render(ShaderManager::_geometry);
+
+		ShaderManager::_base->Use();
+
+		ShaderManager::_base->SetMat4("projection", projection);
+		ShaderManager::_base->SetMat4("view", camera.GetView());
+		ShaderManager::_base->SetVec3("color", Scene::_pointLights[0]->GetColor());
+		ShaderManager::_base->SetMat4("model", Scene::_pointLights[0]->GetTransformMat4());
+
+		Scene::_pointLights[0]->Render();
 
 		if (GL::_isCollisionDebug) {
 			ShaderManager::_collisionDebug->Use();

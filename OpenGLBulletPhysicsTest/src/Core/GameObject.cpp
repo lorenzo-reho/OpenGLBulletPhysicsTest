@@ -18,7 +18,7 @@ void GameObject::Render(Shader *shader) {
 }
 
 void GameObject::RenderCollisionCube() {
-    collisionCube->Render();
+    collisionCube->RenderWireframe();
 }
 
 void GameObject::CreateRigidBody(btCollisionShape* pShape, float weight) {
