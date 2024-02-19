@@ -71,7 +71,8 @@ void Engine::Run() {
 	// Scene::_cubes.push_back(&cube1);
 	// Scene::_cubes.push_back(&cube2);
 	
-	PointLight* pointLight = new PointLight(glm::vec3(0, -3.0, 0), glm::vec3(1, 1, 1), 20.0f, 1.2f);
+	// PointLight* pointLight = new PointLight(glm::vec3(0, -3.0, 0), glm::vec3(1, 1, 1), 20.0f, 1.0f, 0.2f, 1.0f, 1.0f);
+	PointLight* pointLight = new PointLight(glm::vec3(0, -3.0, 0), glm::vec3(1, 1, 1), 20.0f, 1.0f);
 	Scene::_pointLights.push_back(pointLight);
 
 	// Scene::_cubes.push_back(&lightCube);

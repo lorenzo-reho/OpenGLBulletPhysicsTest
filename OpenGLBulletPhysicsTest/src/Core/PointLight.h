@@ -5,10 +5,19 @@
 class PointLight {
 
 public:
-	PointLight(glm::vec3 position, glm::vec3 color,  float radius, float intensity);
+	PointLight(glm::vec3 position, glm::vec3 color, float radius, float intensity);
+	PointLight(glm::vec3 position, glm::vec3 color,  float radius, float intensity, float ambient, float diffuse, float specular);
 	void Render();
 	float GetIntensity();
 	float GetRadius();
+	float GetAmbient();
+	float GetDiffuse();
+	float GetSpecular();
+
+	void SetAmbient(float ambient);
+	void SetDiffuse(float diffuse);
+	void SetSpecular(float specular);
+
 	void SetIntensity(float intensity);
 	void SetRadius(float radius);
 
@@ -25,5 +34,9 @@ private:
 	float intensity;
 	float radius;
 	glm::vec3 color;
+	float ambient;
+	float diffuse;
+	float specular;
+
 
 };

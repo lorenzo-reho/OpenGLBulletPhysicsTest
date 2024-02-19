@@ -32,6 +32,18 @@ void Renderer::Render(Camera &camera) {
 	// Render GameObjects
 	*/
 	
+	// per ogni fonte di luce renderizzo il cubo corrispondente
+	for(int i = 0; i < Scene::_pointLights.size(); i++){
+		ShaderManager::_base->Use();
+
+		ShaderManager::_base->SetMat4("projection", projection);
+		ShaderManager::_base->SetMat4("view", camera.GetView());
+		ShaderManager::_base->SetVec3("color", Scene::_pointLights[i]->GetColor());
+		ShaderManager::_base->SetMat4("model", Scene::_pointLights[i]->GetTransformMat4());
+
+		Scene::_pointLights[i]->Render();
+	}
+
 	for (int i = 0; i < Scene::_gameObjects.size(); i++) {
 		ShaderManager::_geometry->Use();
 
@@ -40,26 +52,19 @@ void Renderer::Render(Camera &camera) {
 		ShaderManager::_geometry->SetMat4("model", Scene::_gameObjects[i]->GetTransformMat4(false));
 
 
-		ShaderManager::_geometry->SetVec3("light.ambient", glm::vec3(0.2f));
-		ShaderManager::_geometry->SetVec3("light.diffuse", glm::vec3(1.0f));
-		ShaderManager::_geometry->SetVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
 		ShaderManager::_geometry->SetVec3("cameraPos", camera.GetCameraPos());
+		ShaderManager::_geometry->SetVec3("light.ambient", glm::vec3(Scene::_pointLights[0]->GetAmbient()));
+		ShaderManager::_geometry->SetVec3("light.diffuse", glm::vec3(Scene::_pointLights[0]->GetDiffuse()));
+		ShaderManager::_geometry->SetVec3("light.specular", glm::vec3(Scene::_pointLights[0]->GetSpecular()));
 		ShaderManager::_geometry->SetVec3("light.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
 		ShaderManager::_geometry->SetVec3("light.position", Scene::_pointLights[0]->GetPosition());
 		ShaderManager::_geometry->SetVec3("light.lightColor", Scene::_pointLights[0]->GetColor());
 		ShaderManager::_geometry->SetFloat("light.intensity", Scene::_pointLights[0]->GetIntensity());
 		ShaderManager::_geometry->SetFloat("light.radius", Scene::_pointLights[0]->GetRadius());
 
+		// se l'oggetto risente di più fonti di luce... bisogna gestirle.
+
 		Scene::_gameObjects[i]->Render(ShaderManager::_geometry);
-
-		ShaderManager::_base->Use();
-
-		ShaderManager::_base->SetMat4("projection", projection);
-		ShaderManager::_base->SetMat4("view", camera.GetView());
-		ShaderManager::_base->SetVec3("color", Scene::_pointLights[0]->GetColor());
-		ShaderManager::_base->SetMat4("model", Scene::_pointLights[0]->GetTransformMat4());
-
-		Scene::_pointLights[0]->Render();
 
 		if (GL::_isCollisionDebug) {
 			ShaderManager::_collisionDebug->Use();
