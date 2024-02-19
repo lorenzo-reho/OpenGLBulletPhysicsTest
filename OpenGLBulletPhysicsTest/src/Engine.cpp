@@ -13,6 +13,8 @@ float currentTime;
 float lastTime;
 
 
+bool physicsRun = true;
+
 void Engine::Run() {
 	int error = GL::Init(800, 700);
 
@@ -94,26 +96,26 @@ void Engine::Run() {
 
 	Model *mLocker= new Model("res/models/locker2.obj");
 	Model *mFloor= new Model("res/models/floor.obj");
-	Model* mBed = new Model("res/models/bed.obj");
+	Model *mBed = new Model("res/models/bed.obj");
 
 
-	GameObject floor(glm::vec3(0.0f, -10.0f, 0.0f), mFloor);
+	GameObject floor(glm::vec3(0.0f, -10.0f, 0.0f), mFloor, "Floor1");
 	floor.CreateRigidBody(pBoxShape, 0.0);
 	floor.RegisterRigidBody();
 
-	GameObject locker(glm::vec3(-5.0f, 0.0f, 0.0f), mLocker);
+	GameObject locker(glm::vec3(-5.0f, 0.0f, 0.0f), mLocker, "Locker1");
 	locker.CreateRigidBody(pBoxShape3, 1.0);
 	locker.RegisterRigidBody();
 
-	GameObject bed(glm::vec3(3.0f, -5.0f, -7.5f), mBed);
+	GameObject bed(glm::vec3(3.0f, -5.0f, -7.5f), mBed, "Bed1");
 	bed.CreateRigidBody(pBoxShape4, 1.0);
 	bed.RegisterRigidBody();
 
-	GameObject bed1(glm::vec3(7.0f, -5.0f, -7.5f), mBed);
+	GameObject bed1(glm::vec3(7.0f, -5.0f, -7.5f), mBed, "Bed2");
 	bed1.CreateRigidBody(pBoxShape4, 1.0);
 	bed1.RegisterRigidBody();
 
-	GameObject bed2(glm::vec3(-1.0f, -5.0f, -7.5f), mBed);
+	GameObject bed2(glm::vec3(-1.0f, -5.0f, -7.5f), mBed, "Bed3");
 	bed2.CreateRigidBody(pBoxShape4, 1.0);
 	bed2.RegisterRigidBody();
 
@@ -135,22 +137,41 @@ void Engine::Run() {
 		EditingMenu::GenerateFrame();
 		// ImGui::ShowDemoWindow();
 
+		Physics::StepSimulation(deltaTime);
+		
+
 		currentTime = (float)glfwGetTime();
 		deltaTime = currentTime - lastTime;
 		lastTime = currentTime;
 
 		Input::Update();
-		Physics::StepSimulation(deltaTime);
 		camera.Update(deltaTime);
+
+		for (GameObject* gameObject : Scene::_gameObjects) {
+			gameObject->Update(GL::_editingMenu);
+		}
 
 		Renderer::Render(camera);
 
 		GL::ProcessInput();
 
-		if(GL::_editingMenu){
+		if (GL::_editingMenu) {
+			if(physicsRun){
+				Scene::ResetAllGameObject();
+			}
+
+			physicsRun = false;
 			EditingMenu::ShowModelGeneratorWidget();
 			EditingMenu::ShowSceneWidget();
 			EditingMenu::ShowTransformWidget();
+		}
+		else {
+
+			if (!physicsRun) {
+				Scene::ResetAllGameObjectRigidBody();
+				physicsRun = true;
+			}
+			
 		}
 
 		EditingMenu::Render();

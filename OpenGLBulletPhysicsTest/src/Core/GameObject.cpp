@@ -1,16 +1,49 @@
 #include "GameObject.h"
 
-GameObject::GameObject(glm::vec3 position, Model *model) {
+/*
+TODO: 
+Modularizzare decomposizione transform in Utils.cpp
+Funzione per passare da bullet a glm e viceversa
+*/
+
+GameObject::GameObject(glm::vec3 position, Model *model, string name) {
 	this->position = position;
     this->model = model;
+    this->name = name;
+    this->transform = glm::mat4(1.0);
+
+
+    // Di base non c'è rotazione
+    initTransform = glm::mat4(1.0);
+    initTransform = glm::translate(initTransform, position);
+    this->transform = initTransform;
+
+
     bTransform.setIdentity();
     bTransform.setOrigin(btVector3(position.x, position.y, position.z));
     m_pMotionState = new MotionState(bTransform);
     collisionCube = new Cube();
+    pBoxShape = NULL;
+    pRigidBody = NULL;
+    rbInfo = NULL;
 }
 
-void GameObject::Update() {
+void GameObject::Update(bool debug) {
 
+    // applico la fisica al transform
+    if (m_pMotionState && !debug) {
+        
+        btScalar transform[16];
+        m_pMotionState->GetWorldTransform(transform);
+
+        // Utils.cpp
+        glm::mat4 tempTransform = glm::mat4(transform[0], transform[1], transform[2], transform[3],
+            transform[4], transform[5], transform[6], transform[7],
+            transform[8], transform[9], transform[10], transform[11],
+            transform[12], transform[13], transform[14], transform[15]);
+
+        this->transform = tempTransform;
+    }
 }
 
 void GameObject::Render(Shader *shader) {
@@ -43,8 +76,10 @@ void GameObject::CreateRigidBody(btCollisionShape* pShape, float weight) {
 
 void GameObject::RegisterRigidBody() {
     Physics::GetDynamicsWorld()->addRigidBody(pRigidBody);
+    
 }
 
+// Utils.cpp
 glm::mat4 GameObject::btScalar2mat4(btScalar* matrix) {
     return glm::mat4(
         matrix[0], matrix[1], matrix[2], matrix[3],
@@ -55,7 +90,7 @@ glm::mat4 GameObject::btScalar2mat4(btScalar* matrix) {
 
 
 glm::mat4 GameObject::GetTransformMat4(bool applyCollisionScale) {
-
+    /*
     if (m_pMotionState) {
         btScalar transform[16];
         m_pMotionState->GetWorldTransform(transform);
@@ -72,4 +107,71 @@ glm::mat4 GameObject::GetTransformMat4(bool applyCollisionScale) {
     }
 
     return glm::mat4(1.0);
+    */
+    if (applyCollisionScale)
+       return glm::scale(transform, collisionCube->GetScale());
+    else
+        return transform;
+}
+
+void GameObject::SetName(string name) {
+    this->name = name;
+}
+
+string GameObject::GetName() {
+    return name;
+}
+
+glm::vec3 GameObject::GetPosition() {
+    /*
+    btTransform transform;
+    // transform = pRigidBody->getWorldTransform();
+    m_pMotionState->getWorldTransform(transform);
+    return glm::vec3(transform.getOrigin().getX(), transform.getOrigin().getY(), transform.getOrigin().getZ());
+    */
+    
+    return transform[3];
+    
+}
+
+void GameObject::UpdateRigidBodyTransform() {
+    btTransform transform;
+    m_pMotionState->getWorldTransform(transform);
+    pRigidBody->activate(true);
+    pRigidBody->setWorldTransform(transform);
+}
+
+void GameObject::SetPosition(glm::vec3 position) {
+    /*
+    bTransform.setOrigin(btVector3(position.x, position.y, position.z));
+    bTransform.setRotation(pRigidBody->getOrientation());
+
+    // pRigidBody->activate(true);
+    // pRigidBody->setWorldTransform(bTransform);
+
+    m_pMotionState->setWorldTransform(bTransform);
+    */
+    
+    //Utils.cpp
+    glm::vec3 curr = transform[3];
+    transform = glm::translate(transform, glm::vec3(position.x-curr.x, position.y-curr.y, position.z-curr.z));
+    initTransform = transform;
+}
+
+void GameObject::ResetPhysics() {
+    pRigidBody->activate(true);
+    // imposto la posizione e rotazione del rigidbody a partire dal transform
+
+    glm::vec3 position = initTransform[3];
+    bTransform.setOrigin(btVector3(position.x, position.y, position.z));
+    
+    // TODO: impostare la rotazione
+    // bTransform.setRotation(pRigidBody->getOrientation());
+
+    pRigidBody->setWorldTransform(bTransform);
+    
+}
+
+void GameObject::Reset() {
+    transform = initTransform;
 }

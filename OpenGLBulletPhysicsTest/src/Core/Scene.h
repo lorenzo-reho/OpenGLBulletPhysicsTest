@@ -17,4 +17,8 @@ namespace Scene {
 
 	inline Sky* _sky;
 
+	void ResetAllGameObjectRigidBody();
+	void ResetAllGameObject();
+
+
 }

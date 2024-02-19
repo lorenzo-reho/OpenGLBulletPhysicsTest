@@ -71,12 +71,14 @@ void EditingMenu::ShowSceneWidget() {
 		return;
 	}
 
-	for (int i = 0; i < 10; i++)
+	int i = 0;
+	for (GameObject *gameObject : Scene::_gameObjects)
 	{
 		char label[128];
-		sprintf_s(label, "Scene element %d", i);
+		sprintf_s(label, "%s", gameObject->GetName().c_str());
 		if (ImGui::Selectable(label, _selectedSceneObject == i))
 			_selectedSceneObject = i;
+		i++;
 	}
 
 	ImGui::End();
@@ -92,9 +94,24 @@ void EditingMenu::ShowTransformWidget() {
 	if (ImGui::TreeNode("Translate")) {
 		static float xt, yt, zt;
 
+		GameObject* selectedGameObject = NULL;
+
+		if (_selectedSceneObject != -1) {
+			selectedGameObject = Scene::_gameObjects[_selectedSceneObject];
+			xt = selectedGameObject->GetPosition().x;
+			yt = selectedGameObject->GetPosition().y;
+			zt = selectedGameObject->GetPosition().z;
+		}
+
+
+
 		ImGui::SliderFloat("X", &xt, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
 		ImGui::SliderFloat("Y", &yt, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
 		ImGui::SliderFloat("Z", &zt, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
+
+
+		if (selectedGameObject) selectedGameObject->SetPosition(glm::vec3(xt, yt, zt));
+
 
 		ImGui::TreePop();
 	}

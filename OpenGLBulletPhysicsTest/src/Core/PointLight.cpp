@@ -6,6 +6,8 @@ PointLight::PointLight(glm::vec3 position, glm::vec3 color, float radius, float 
 	this->position = position;
 	this->color = color;
 	
+
+	// default values
 	ambient = 0.2f;
 	diffuse = 1.0f;
 	specular = 1.0f;
