@@ -137,28 +137,13 @@ void Engine::Run() {
 		EditingMenu::GenerateFrame();
 		// ImGui::ShowDemoWindow();
 
-		
-		
-
 		currentTime = (float)glfwGetTime();
 		deltaTime = currentTime - lastTime;
 		lastTime = currentTime;
 
-		Input::Update();
-		camera.Update(deltaTime);
-
-		for (GameObject* gameObject : Scene::_gameObjects) {
-			gameObject->Update(GL::_editingMenu);
-		}
-
-		Renderer::Render(camera);
-
-		GL::ProcessInput();
-
 		if (GL::_editingMenu) {
-			if(physicsRun){
+			if (physicsRun)
 				Scene::ResetAllGameObject();
-			}
 
 			physicsRun = false;
 			EditingMenu::ShowModelGeneratorWidget();
@@ -166,13 +151,22 @@ void Engine::Run() {
 			EditingMenu::ShowTransformWidget();
 		}
 		else {
-			Physics::StepSimulation(deltaTime);
 			if (!physicsRun) {
 				Scene::ResetAllGameObjectRigidBody();
 				physicsRun = true;
 			}
-			
+
+			Physics::StepSimulation(deltaTime);
+			Scene::UpdateAllGameObjectPhysics();
+
 		}
+
+		Input::Update();
+		camera.Update(deltaTime);
+
+		Renderer::Render(camera);
+		GL::ProcessInput();
+
 
 		EditingMenu::Render();
 		GL::SwapBuffersAndPoll();

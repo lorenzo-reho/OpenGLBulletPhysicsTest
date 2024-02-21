@@ -19,6 +19,8 @@ namespace Scene {
 
 	void ResetAllGameObjectRigidBody();
 	void ResetAllGameObject();
+	void UpdateAllGameObjectPhysics();
+
 
 
 }
