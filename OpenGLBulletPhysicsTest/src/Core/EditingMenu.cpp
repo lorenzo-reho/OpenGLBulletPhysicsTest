@@ -104,11 +104,15 @@ void EditingMenu::ShowTransformWidget() {
 		}
 
 
-
+		/*
 		ImGui::SliderFloat("X", &xt, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
 		ImGui::SliderFloat("Y", &yt, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
 		ImGui::SliderFloat("Z", &zt, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
+		*/
 
+		ImGui::DragFloat("X", &xt, 0.01f, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
+		ImGui::DragFloat("Y", &yt, 0.01f, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
+		ImGui::DragFloat("Z", &zt, 0.01f, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
 
 		if (selectedGameObject) selectedGameObject->SetPosition(glm::vec3(xt, yt, zt));
 

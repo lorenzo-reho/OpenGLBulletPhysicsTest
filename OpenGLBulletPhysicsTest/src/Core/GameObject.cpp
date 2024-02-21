@@ -159,19 +159,33 @@ void GameObject::SetPosition(glm::vec3 position) {
 }
 
 void GameObject::ResetPhysics() {
+
+    Physics::GetDynamicsWorld()->removeRigidBody(pRigidBody);
+
     pRigidBody->activate(true);
+
     // imposto la posizione e rotazione del rigidbody a partire dal transform
+    btTransform trans;
+    trans.setIdentity();
 
     glm::vec3 position = initTransform[3];
-    bTransform.setOrigin(btVector3(position.x, position.y, position.z));
+    trans.setOrigin(btVector3(position.x, position.y, position.z));
     
     // TODO: impostare la rotazione
     // bTransform.setRotation(pRigidBody->getOrientation());
+    pRigidBody->clearForces();
+    pRigidBody->setLinearVelocity(btVector3(0, 0, 0));
+    pRigidBody->setAngularVelocity(btVector3(0, 0, 0));
 
-    pRigidBody->setWorldTransform(bTransform);
+    // pRigidBody->clearGravity();
+
+    pRigidBody->setWorldTransform(trans);
     
+    Physics::GetDynamicsWorld()->addRigidBody(pRigidBody);
+
 }
 
 void GameObject::Reset() {
     transform = initTransform;
+   
 }

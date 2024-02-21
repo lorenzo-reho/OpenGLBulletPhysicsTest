@@ -137,7 +137,7 @@ void Engine::Run() {
 		EditingMenu::GenerateFrame();
 		// ImGui::ShowDemoWindow();
 
-		Physics::StepSimulation(deltaTime);
+		
 		
 
 		currentTime = (float)glfwGetTime();
@@ -166,7 +166,7 @@ void Engine::Run() {
 			EditingMenu::ShowTransformWidget();
 		}
 		else {
-
+			Physics::StepSimulation(deltaTime);
 			if (!physicsRun) {
 				Scene::ResetAllGameObjectRigidBody();
 				physicsRun = true;
