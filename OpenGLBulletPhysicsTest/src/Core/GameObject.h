@@ -9,7 +9,6 @@
 #include "../Utils.h"
 
 
-
 class GameObject {
 
 public:
@@ -31,7 +30,12 @@ public:
 	string GetName();
 	glm::mat4 GetTransformMat4(bool applyCollisionScale);
 	glm::vec3 GetPosition();
+	glm::vec3 GetRotation();
+
+
 	void SetPosition(glm::vec3 position);
+	void SetRotation(glm::vec3 axis);
+
 	void SetName(string name);
 
 private:
@@ -40,7 +44,6 @@ private:
 	Model* model;
 	glm::vec3 position;
 	glm::mat4 transform;
-	glm::mat4 initTransform;
 
 	btBoxShape* pBoxShape;
 	btTransform bTransform;
@@ -49,6 +52,9 @@ private:
 	btRigidBody::btRigidBodyConstructionInfo* rbInfo;
 
 	string name;
+
+	Transform _transform;
+
 };
 
 #endif

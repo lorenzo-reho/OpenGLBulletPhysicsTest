@@ -8,10 +8,8 @@ GameObject::GameObject(glm::vec3 position, Model *model, string name) {
     this->transform = glm::mat4(1.0);
 
 
-    // Di base non c'è rotazione
-    initTransform = glm::mat4(1.0);
-    initTransform = glm::translate(initTransform, position);
-    this->transform = initTransform;
+    _transform.position = position;
+    this->transform = _transform.to_mat4();
 
 
     bTransform.setIdentity();
@@ -23,6 +21,7 @@ GameObject::GameObject(glm::vec3 position, Model *model, string name) {
     pBoxShape = NULL;
     pRigidBody = NULL;
     rbInfo = NULL;
+
 }
 
 void GameObject::Update(bool debug) {
@@ -36,6 +35,14 @@ void GameObject::UpdatePhysics() {
         m_pMotionState->GetWorldTransform(scalar);
 
         transform = Utils::FromBtScalarToMat4(scalar);
+
+        /*
+        glm::mat4 temp = Utils::FromBtScalarToMat4(scalar);
+        glm::quat q =  Utils::ExtractRotationFromMat4(temp);
+        
+        _transform.position = temp[3];
+        */
+       
     }
 }
 
@@ -74,7 +81,7 @@ void GameObject::RegisterRigidBody() {
 
 glm::mat4 GameObject::GetTransformMat4(bool applyCollisionScale) {
     if (applyCollisionScale)
-       return glm::scale(transform, collisionCube->GetScale());
+        return glm::scale(transform, collisionCube->GetScale());
     else
         return transform;
 }
@@ -88,14 +95,28 @@ string GameObject::GetName() {
 }
 
 glm::vec3 GameObject::GetPosition() {
-    return Utils::ExtractTranslationFromMat4(transform);
+    return _transform.position;
+}
+
+glm::vec3 GameObject::GetRotation() {
+    return _transform.rotation;
 }
 
 
 void GameObject::SetPosition(glm::vec3 position) {
-    glm::vec3 temp = Utils::ExtractTranslationFromMat4(transform);
-    transform = glm::translate(transform, glm::vec3(position.x- temp.x, position.y- temp.y, position.z- temp.z));
-    initTransform = transform;
+    glm::vec3 temp = GetPosition();
+    
+    transform = glm::translate(glm::mat4(1), position);
+
+    _transform.position = position;
+    transform = _transform.to_mat4();
+}
+
+void GameObject::SetRotation(glm::vec3 rotation) {
+
+    _transform.rotation = rotation;
+
+    transform = _transform.to_mat4();
 }
 
 void GameObject::ResetRigidBody() {
@@ -104,11 +125,13 @@ void GameObject::ResetRigidBody() {
 
     pRigidBody->activate(true);
     
-    glm::vec3 temp = Utils::ExtractTranslationFromMat4(initTransform);
+    glm::vec3 temp = Utils::ExtractTranslationFromMat4(_transform.to_mat4());
     bTransform.setOrigin(btVector3(temp.x, temp.y, temp.z));
     
     // TODO: impostare la rotazione
-    // bTransform.setRotation(pRigidBody->getOrientation());
+    glm::quat q = Utils::ExtractRotationFromMat4(_transform.to_mat4());
+    bTransform.setRotation(btQuaternion(q.x, q.y, q.z, q.w));
+
     pRigidBody->clearForces();
     pRigidBody->setLinearVelocity(btVector3(0, 0, 0));
     pRigidBody->setAngularVelocity(btVector3(0, 0, 0));
@@ -120,6 +143,6 @@ void GameObject::ResetRigidBody() {
 }
 
 void GameObject::ResetTransform() {
-    transform = initTransform;
+    transform = _transform.to_mat4();;
    
 }

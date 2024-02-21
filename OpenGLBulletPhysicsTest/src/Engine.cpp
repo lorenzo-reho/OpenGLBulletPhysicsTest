@@ -19,6 +19,11 @@ void Engine::Run() {
 	int error = GL::Init(800, 700);
 
 
+	glm::quat q(glm::vec3(glm::radians(90.0f), 0, 0));
+	glm::highp_vec3 t = Utils::ToEulerAngles(q);
+	std::cout << t.x << " " << t.y << " " << t.z << " " <<glm::radians(90.0f)<<std::endl;
+
+
 	if (error == 1) {
 		std::cerr << "Impossible to initialize GLFW" << std::endl;
 		return;
@@ -115,7 +120,7 @@ void Engine::Run() {
 	bed1.CreateRigidBody(pBoxShape4, 1.0);
 	bed1.RegisterRigidBody();
 
-	GameObject bed2(glm::vec3(-1.0f, -5.0f, -7.5f), mBed, "Bed3");
+	GameObject bed2(glm::vec3(2.0f, 10, -7.5f), mBed, "Bed3");
 	bed2.CreateRigidBody(pBoxShape4, 1.0);
 	bed2.RegisterRigidBody();
 
@@ -130,22 +135,26 @@ void Engine::Run() {
 	
 	EditingMenu::Init(GL::GetWindowPtr());
 
+	// Game Loop
+
 	while (GL::IsWindowOpen()) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(RED, GREEN, BLUE, 1.0f);
 
 		EditingMenu::GenerateFrame();
-		// ImGui::ShowDemoWindow();
 
 		currentTime = (float)glfwGetTime();
 		deltaTime = currentTime - lastTime;
 		lastTime = currentTime;
 
-		if (GL::_editingMenu) {
-			if (physicsRun)
-				Scene::ResetAllGameObject();
+		GL::ProcessInput();
 
-			physicsRun = false;
+		if (GL::_editingMenu) {
+			if (physicsRun){
+				Scene::ResetAllGameObject();
+				physicsRun = false;
+			}
+
 			EditingMenu::ShowModelGeneratorWidget();
 			EditingMenu::ShowSceneWidget();
 			EditingMenu::ShowTransformWidget();
@@ -165,9 +174,7 @@ void Engine::Run() {
 		camera.Update(deltaTime);
 
 		Renderer::Render(camera);
-		GL::ProcessInput();
-
-
+		
 		EditingMenu::Render();
 		GL::SwapBuffersAndPoll();
 

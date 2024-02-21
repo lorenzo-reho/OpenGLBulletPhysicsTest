@@ -33,7 +33,7 @@ void GL::resize_callback(GLFWwindow* window, int width, int height) {
 
 void GL::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (key == GLFW_KEY_Z && action == GLFW_PRESS)
+	if (key == GLFW_KEY_TAB && action == GLFW_PRESS)
 	{
 		_editingMenu = !_editingMenu;
 		if (_editingMenu) {

@@ -87,14 +87,13 @@ void EditingMenu::ShowSceneWidget() {
 void EditingMenu::ShowTransformWidget() {
 
 	ImGui::Begin("Transform");
-	float sliderMin = -100;
-	float sliderMax = +100;
-
+	
+	GameObject* selectedGameObject = NULL;
 
 	if (ImGui::TreeNode("Translate")) {
+		float sliderMin = -100;
+		float sliderMax = +100;
 		static float xt, yt, zt;
-
-		GameObject* selectedGameObject = NULL;
 
 		if (_selectedSceneObject != -1) {
 			selectedGameObject = Scene::_gameObjects[_selectedSceneObject];
@@ -103,12 +102,6 @@ void EditingMenu::ShowTransformWidget() {
 			zt = selectedGameObject->GetPosition().z;
 		}
 
-
-		/*
-		ImGui::SliderFloat("X", &xt, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
-		ImGui::SliderFloat("Y", &yt, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
-		ImGui::SliderFloat("Z", &zt, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
-		*/
 
 		ImGui::DragFloat("X", &xt, 0.01f, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
 		ImGui::DragFloat("Y", &yt, 0.01f, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
@@ -120,12 +113,34 @@ void EditingMenu::ShowTransformWidget() {
 		ImGui::TreePop();
 	}
 	if (ImGui::TreeNode("Rotate")) {
-	
+		
+		float sliderMin = 0;
+		float sliderMax = +360;
+
 		static float xr, yr, zr;
 
-		ImGui::SliderFloat("X", &xr, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
-		ImGui::SliderFloat("Y", &yr, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
-		ImGui::SliderFloat("Z", &zr, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
+		glm::vec3 euler(0);
+
+		if (_selectedSceneObject != -1) {
+			selectedGameObject = Scene::_gameObjects[_selectedSceneObject];
+			double M_PI = 3.14159265358979323846;
+			// glm::quat q = selectedGameObject->GetRotation();
+			// glm::highp_vec3 euler = Utils::ToEulerAngles(q);
+
+			xr = selectedGameObject->GetRotation().x * 180.0f / M_PI;
+			yr = selectedGameObject->GetRotation().y * 180.0f / M_PI;
+			zr = selectedGameObject->GetRotation().z * 180.0f / M_PI;
+		}
+
+
+		ImGui::DragFloat("X", &xr, 1.0f, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
+		ImGui::DragFloat("Y", &yr, 1.0f, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
+		ImGui::DragFloat("Z", &zr, 1.0f, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
+
+		if (selectedGameObject) {
+			selectedGameObject->SetRotation(glm::vec3(glm::radians(xr), glm::radians(yr), glm::radians(zr)));
+			
+		}
 
 		ImGui::TreePop();
 	}
