@@ -90,13 +90,15 @@ void EditingMenu::ShowTransformWidget() {
 	
 	GameObject* selectedGameObject = NULL;
 
+	if (_selectedSceneObject != -1)
+		selectedGameObject = Scene::_gameObjects[_selectedSceneObject];
+
 	if (ImGui::TreeNode("Translate")) {
 		float sliderMin = -100;
 		float sliderMax = +100;
 		static float xt, yt, zt;
 
-		if (_selectedSceneObject != -1) {
-			selectedGameObject = Scene::_gameObjects[_selectedSceneObject];
+		if (selectedGameObject) {
 			xt = selectedGameObject->GetPosition().x;
 			yt = selectedGameObject->GetPosition().y;
 			zt = selectedGameObject->GetPosition().z;
@@ -107,26 +109,24 @@ void EditingMenu::ShowTransformWidget() {
 		ImGui::DragFloat("Y", &yt, 0.01f, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
 		ImGui::DragFloat("Z", &zt, 0.01f, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
 
-		if (selectedGameObject) selectedGameObject->SetPosition(glm::vec3(xt, yt, zt));
-
+		if (selectedGameObject) {
+			selectedGameObject->SetPosition(glm::vec3(xt, yt, zt));
+			selectedGameObject->ResetTransform();
+		}
 
 		ImGui::TreePop();
 	}
 	if (ImGui::TreeNode("Rotate")) {
 		
-		float sliderMin = 0;
+		float sliderMin = -360;
 		float sliderMax = +360;
 
 		static float xr, yr, zr;
 
 		glm::vec3 euler(0);
 
-		if (_selectedSceneObject != -1) {
-			selectedGameObject = Scene::_gameObjects[_selectedSceneObject];
+		if (selectedGameObject) {
 			double M_PI = 3.14159265358979323846;
-			// glm::quat q = selectedGameObject->GetRotation();
-			// glm::highp_vec3 euler = Utils::ToEulerAngles(q);
-
 			xr = selectedGameObject->GetRotation().x * 180.0f / M_PI;
 			yr = selectedGameObject->GetRotation().y * 180.0f / M_PI;
 			zr = selectedGameObject->GetRotation().z * 180.0f / M_PI;
@@ -137,11 +137,10 @@ void EditingMenu::ShowTransformWidget() {
 		ImGui::DragFloat("Y", &yr, 1.0f, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
 		ImGui::DragFloat("Z", &zr, 1.0f, sliderMin, sliderMax, "%.3f", ImGuiSliderFlags_None);
 
-		if (selectedGameObject) {
+		if (selectedGameObject){
 			selectedGameObject->SetRotation(glm::vec3(glm::radians(xr), glm::radians(yr), glm::radians(zr)));
-			
+			selectedGameObject->ResetTransform();
 		}
-
 		ImGui::TreePop();
 	}
 

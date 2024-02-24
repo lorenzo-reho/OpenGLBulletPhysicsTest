@@ -163,6 +163,7 @@
     <ClInclude Include="src\Core\Common.h" />
     <ClInclude Include="src\Core\Cube.h" />
     <ClInclude Include="src\Core\EditingMenu.h" />
+    <ClInclude Include="src\Core\EditorCamera.h" />
     <ClInclude Include="src\Core\FileSystem.h" />
     <ClInclude Include="src\Core\GameObject.h" />
     <ClInclude Include="src\Core\GL.h" />

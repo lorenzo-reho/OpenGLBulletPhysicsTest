@@ -48,6 +48,8 @@ void Engine::Run() {
 	ShaderManager::_collisionDebug = &collisionDebugShader;
 
 	Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0, 0.0f, -1.0f), 5.0f);
+	EditorCamera editorCamera(glm::vec3(0));
+
 
 	Physics::InitializePhysics();
 	Renderer::Init();
@@ -158,6 +160,8 @@ void Engine::Run() {
 			EditingMenu::ShowModelGeneratorWidget();
 			EditingMenu::ShowSceneWidget();
 			EditingMenu::ShowTransformWidget();
+
+			editorCamera.Update(deltaTime);
 		}
 		else {
 			if (!physicsRun) {
@@ -168,12 +172,13 @@ void Engine::Run() {
 			Physics::StepSimulation(deltaTime);
 			Scene::UpdateAllGameObjectPhysics();
 
+			camera.Update(deltaTime);
+
 		}
 
 		Input::Update();
-		camera.Update(deltaTime);
 
-		Renderer::Render(camera);
+		Renderer::Render(camera, editorCamera, !GL::_editingMenu);
 		
 		EditingMenu::Render();
 		GL::SwapBuffersAndPoll();

@@ -33,16 +33,7 @@ void GameObject::UpdatePhysics() {
     if (m_pMotionState) {
         btScalar scalar[16];
         m_pMotionState->GetWorldTransform(scalar);
-
         transform = Utils::FromBtScalarToMat4(scalar);
-
-        /*
-        glm::mat4 temp = Utils::FromBtScalarToMat4(scalar);
-        glm::quat q =  Utils::ExtractRotationFromMat4(temp);
-        
-        _transform.position = temp[3];
-        */
-       
     }
 }
 
@@ -60,7 +51,6 @@ void GameObject::CreateRigidBody(btCollisionShape* pShape, float weight) {
 
     if (weight != 0.0f)
         pShape->calculateLocalInertia(weight, localInertia);
-
 
     //Casting forzato da sistemare
     btBoxShape* boxShape = (btBoxShape*) pShape;
@@ -104,19 +94,11 @@ glm::vec3 GameObject::GetRotation() {
 
 
 void GameObject::SetPosition(glm::vec3 position) {
-    glm::vec3 temp = GetPosition();
-    
-    transform = glm::translate(glm::mat4(1), position);
-
     _transform.position = position;
-    transform = _transform.to_mat4();
 }
 
 void GameObject::SetRotation(glm::vec3 rotation) {
-
     _transform.rotation = rotation;
-
-    transform = _transform.to_mat4();
 }
 
 void GameObject::ResetRigidBody() {
@@ -128,7 +110,6 @@ void GameObject::ResetRigidBody() {
     glm::vec3 temp = Utils::ExtractTranslationFromMat4(_transform.to_mat4());
     bTransform.setOrigin(btVector3(temp.x, temp.y, temp.z));
     
-    // TODO: impostare la rotazione
     glm::quat q = Utils::ExtractRotationFromMat4(_transform.to_mat4());
     bTransform.setRotation(btQuaternion(q.x, q.y, q.z, q.w));
 

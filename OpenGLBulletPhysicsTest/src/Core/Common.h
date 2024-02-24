@@ -15,7 +15,9 @@ struct Transform {
 	glm::vec3 scale = glm::vec3(1);
 	glm::mat4 to_mat4() {
 		glm::mat4 m = glm::translate(glm::mat4(1), position);
+		
 		m *= glm::mat4_cast(glm::quat(rotation));
+		
 		m = glm::scale(m, scale);
 		return m;
 	};

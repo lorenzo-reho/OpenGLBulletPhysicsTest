@@ -10,6 +10,7 @@
 #include "Core/Sky.h"
 #include "Core/GameObject.h"
 #include "Core/EditingMenu.h"
+#include "Core/EditorCamera.h"
 
 
 #include "imgui.h"

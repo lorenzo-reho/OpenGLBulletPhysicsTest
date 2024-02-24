@@ -5,12 +5,12 @@
 #include "../Scene.h"
 #include "../ShaderManager.h"
 #include "../Camera.h"
+#include "../EditorCamera.h"
 
-class Cube;
 
 namespace Renderer {
 	void Init();
-	void Render(Camera& camera);
+	void Render(Camera& camera, EditorCamera& editorCamera, bool gameMode);
 
 }
 #endif

@@ -17,7 +17,7 @@ public:
 	
 	void Update(bool debug); 
 	void UpdatePhysics();
-
+	
 	void Render(Shader *shader);
 	void RenderCollisionCube();
 
@@ -43,7 +43,7 @@ private:
 	Cube *collisionCube;
 	Model* model;
 	glm::vec3 position;
-	glm::mat4 transform;
+	glm::mat4 transform; // si aggiorna secondo la fisica
 
 	btBoxShape* pBoxShape;
 	btTransform bTransform;
@@ -53,7 +53,7 @@ private:
 
 	string name;
 
-	Transform _transform;
+	Transform _transform; // transform di base impostato tramite l'editor mode
 
 };
 

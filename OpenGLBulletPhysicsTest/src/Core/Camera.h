@@ -19,15 +19,15 @@ private:
 	glm::vec3 cameraPos;
 	glm::vec3 cameraFront;
 	glm::vec3 cameraUp;
-
+	
 	float speed = 8.0f;
 	double yaw = -90.0f;
 	double pitch = 0.0f;
 	double lastX = 0.0f;
 	double lastY = 0.0f;
+	float distance = 10.0f;
 
 	bool firstClick = true;
-	bool spectator = false;
 
 public:
 	Camera(glm::vec3 cameraPos, glm::vec3 cameraFront, float speed) {
@@ -38,6 +38,7 @@ public:
 	}
 
 	void Move(Direction direction, float deltaTime) {
+
 		if (direction == FORWARD) {
 			glm::vec3 right = glm::normalize(glm::cross(cameraFront, cameraUp));
 			cameraPos -= glm::normalize(glm::cross(right, cameraUp)) * speed * deltaTime;
@@ -58,7 +59,9 @@ public:
 		if (direction == DOWN) {
 			cameraPos -= cameraUp * speed * deltaTime;
 		}
+
 	}
+
 
 	void Rotate(float deltaTime, Utils::MousePosition mousePosition) {
 		double xOffset = mousePosition.x - lastX;
@@ -69,10 +72,10 @@ public:
 
 		// std::cout << "X: " << lastX << " " << "Y: " << lastY << std::endl;
 
-		double sensitivity = 0.1f/3;
+		double sensitivity = 0.1f / 3;
 
-		yaw += (spectator?-1:1) * xOffset * sensitivity;
-		pitch += (spectator ? -1 : 1) * yOffset * sensitivity;
+		yaw += xOffset * sensitivity;
+		pitch += yOffset * sensitivity;
 
 		if (pitch > 89.0) {
 			pitch = 89.0;
@@ -80,7 +83,6 @@ public:
 		if (pitch < -89.0) {
 			pitch = -89.0;
 		}
-
 
 		cameraFront.z = (float)sin(glm::radians(yaw)) * (float)cos(glm::radians(pitch));
 		cameraFront.x = (float)cos(glm::radians(yaw)) * (float)cos(glm::radians(pitch));
@@ -90,38 +92,20 @@ public:
 
 	}
 
-	void Update(float deltaTime) {
-		
-		spectator = GL::_editingMenu;
-
+	void Update(float deltaTime) {	
+	
 		if (Input::IsKeyPressed(GLFW_KEY_W)) Move(FORWARD, deltaTime);
 		if (Input::IsKeyPressed(GLFW_KEY_A)) Move(LEFT, deltaTime);
 		if (Input::IsKeyPressed(GLFW_KEY_S)) Move(BACK, deltaTime);
 		if (Input::IsKeyPressed(GLFW_KEY_D)) Move(RIGHT, deltaTime);
 		if (Input::IsKeyPressed(GLFW_KEY_SPACE)) Move(UP, deltaTime);
 		if (Input::IsKeyPressed(GLFW_KEY_LEFT_SHIFT)) Move(DOWN, deltaTime);
-		// Modalità spettatore
-		if (spectator) {
-			if (Input::IsMouseReleased(GLFW_MOUSE_BUTTON_3)) {
-				firstClick = true;
-			}
-
-			if (Input::IsMousePressed(GLFW_MOUSE_BUTTON_3)) {
-				if (firstClick) {
-					lastX = Input::GetCursorPos().x;
-					lastY = Input::GetCursorPos().y;
-					firstClick = false;
-				}
-				Rotate(deltaTime, Input::GetCursorPos());
-
-			}
-		}else
-			Rotate(deltaTime, Input::GetCursorPos());
-
+		
+		Rotate(deltaTime, Input::GetCursorPos());	
 	}
 
 	glm::mat4 GetView() {
-		return glm::lookAt(cameraPos, cameraPos+cameraFront, cameraUp);
+		return glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 	}
 
 	glm::vec3 GetCameraPos() {

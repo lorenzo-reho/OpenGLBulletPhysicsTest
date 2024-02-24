@@ -173,6 +173,9 @@
     <ClInclude Include="src\Core\PointLight.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\EditorCamera.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\wall.jpg">
