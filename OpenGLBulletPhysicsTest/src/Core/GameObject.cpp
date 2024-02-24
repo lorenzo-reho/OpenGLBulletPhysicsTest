@@ -29,10 +29,11 @@ void GameObject::Update(bool debug) {
 }
 
 void GameObject::UpdatePhysics() {
-
     if (m_pMotionState) {
         btScalar scalar[16];
-        m_pMotionState->GetWorldTransform(scalar);
+        // m_pMotionState->GetWorldTransform(scalar);
+        pRigidBody->getWorldTransform().getOpenGLMatrix(scalar);
+
         transform = Utils::FromBtScalarToMat4(scalar);
     }
 }
@@ -119,11 +120,11 @@ void GameObject::ResetRigidBody() {
 
     pRigidBody->setWorldTransform(bTransform);
     
-    Physics::GetDynamicsWorld()->addRigidBody(pRigidBody);
 
+    Physics::GetDynamicsWorld()->addRigidBody(pRigidBody);
 }
 
 void GameObject::ResetTransform() {
-    transform = _transform.to_mat4();;
+    transform = _transform.to_mat4();
    
 }

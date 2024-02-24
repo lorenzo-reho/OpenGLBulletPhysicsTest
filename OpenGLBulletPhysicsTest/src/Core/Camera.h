@@ -70,8 +70,6 @@ public:
 		lastX = mousePosition.x;
 		lastY = mousePosition.y;
 
-		// std::cout << "X: " << lastX << " " << "Y: " << lastY << std::endl;
-
 		double sensitivity = 0.1f / 3;
 
 		yaw += xOffset * sensitivity;

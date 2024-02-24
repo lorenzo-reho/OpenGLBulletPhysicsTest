@@ -20,7 +20,7 @@ private:
 
 public:
 	
-	EditorCamera( glm::vec3 cameraFocus) {
+	EditorCamera(glm::vec3 cameraFocus) {
 		this->cameraFocus = cameraFocus;
 		this->forward = glm::vec3(0, 0, 1);
 		
@@ -47,20 +47,19 @@ public:
 			pinch = -89.0;
 		}
 
-		glm::vec3 forward = glm::vec3(0, 0, 1);
+		glm::vec3 tempForward = glm::vec3(0, 0, 1);
 
 		glm::mat4 rot1 = glm::rotate(glm::mat4(1.0), glm::radians(yaw), cameraUp);
 		glm::mat4 rot2 = glm::rotate(glm::mat4(1.0), glm::radians(pinch), glm::vec3(1, 0, 0));
 
-		this->forward = glm::vec3(rot1 * rot2 * glm::vec4(forward, 1.0f));
-
+		forward = glm::vec3(rot1 * rot2 * glm::vec4(tempForward, 1.0f));
 
 	}
 
 	float CalculateZoomSpeed(float d) {
 		d = std::max(d, 0.0f);
 		float speed = d * d;
-		speed = std::min(speed, 100.0f); // max speed = 100
+		speed = std::min(speed, 100.0f);
 		return speed;
 	}
 
