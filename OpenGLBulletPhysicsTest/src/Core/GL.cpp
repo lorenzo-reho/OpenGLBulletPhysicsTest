@@ -4,6 +4,7 @@ namespace GL {
 	GLFWwindow* _window;
 	unsigned int _currentWidth;
 	unsigned int _currentHeight;
+	int _mouseWheelOffsetY;
 }
 
 GLFWwindow* GL::GetWindowPtr() {
@@ -51,6 +52,11 @@ void GL::key_callback(GLFWwindow* window, int key, int scancode, int action, int
 
 }
 
+void GL::wheel_callback(GLFWwindow* window, double xoffset, double yoffset) {
+	_mouseWheelOffsetY = yoffset;
+}
+
+
 void GL::SwapBuffersAndPoll() {
 	glfwSwapBuffers(_window);
 	glfwPollEvents();
@@ -63,6 +69,14 @@ unsigned int GL::GetWindowWidth() {
 
 unsigned int GL::GetWindowHeight() {
 	return _currentHeight;
+}
+
+int GL::GetMouseWheelOffsetY() {
+	return _mouseWheelOffsetY;
+}
+
+void GL::SetMouseWheelOffsetY(int v) {
+	_mouseWheelOffsetY = v;
 }
 
 int GL::Init(int width, int height) {
@@ -87,6 +101,7 @@ int GL::Init(int width, int height) {
 	glfwMakeContextCurrent(_window);
 	glfwSetFramebufferSizeCallback(_window, resize_callback);
 	glfwSetKeyCallback(_window, key_callback);
+	glfwSetScrollCallback(_window, wheel_callback);
     glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwWindowHint(GLFW_SAMPLES, 10);
 	// EditingMenu::Init(_window);

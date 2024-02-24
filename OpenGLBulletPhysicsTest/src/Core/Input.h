@@ -9,7 +9,11 @@ namespace Input {
 	bool IsKeyReleased(int key);
 	bool IsMousePressed(int code);
 	bool IsMouseReleased(int code);
+	// int GetMouseWheelOffsetY();
 
 	Utils::MousePosition GetCursorPos();
+	bool IsMouseWheelUp();
+	bool IsMouseWheelDown();
+
 
 }

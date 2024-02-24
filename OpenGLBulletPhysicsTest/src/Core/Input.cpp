@@ -6,11 +6,15 @@ namespace Input {
 	
 	bool _mouseButton[12];
 	bool _mouseButtonReleased[12];
+	bool _mouseWheelDown;
+	bool _mouseWheelUp;
 
 
 }
 
 void Input::Update() {
+	_mouseWheelDown = false;
+	_mouseWheelUp = false;
 
 	GLFWwindow* window = GL::GetWindowPtr();
 
@@ -24,6 +28,14 @@ void Input::Update() {
 		_mouseButtonReleased[i] = glfwGetMouseButton(window, i) == GLFW_RELEASE;
 	}
 
+	if (GL::GetMouseWheelOffsetY() < 0) {
+		_mouseWheelDown = true;
+	}
+	else if (GL::GetMouseWheelOffsetY() > 0) {
+		_mouseWheelUp = true;
+	}
+
+	GL::SetMouseWheelOffsetY(0);
 }
 
 Utils::MousePosition Input::GetCursorPos() {
@@ -54,4 +66,12 @@ bool Input::IsMousePressed(int code) {
 
 bool Input::IsMouseReleased(int code) {
 	return _mouseButtonReleased[code];
+}
+
+bool Input::IsMouseWheelDown() {
+	return _mouseWheelDown;
+}
+
+bool Input::IsMouseWheelUp() {
+	return _mouseWheelUp;
 }
