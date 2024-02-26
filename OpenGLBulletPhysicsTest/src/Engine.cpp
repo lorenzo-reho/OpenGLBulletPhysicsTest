@@ -11,18 +11,22 @@ const float BLUE = 20 / 255.0f;
 float deltaTime;
 float currentTime;
 float lastTime;
+MODE currentMode = EDIT;
 
+void Engine::SetEngineMode(MODE newMode) {
+	// Resetto la scena e la telecamera di gioco prima di settare la nuova modalità
+	if (currentMode != newMode) {
+		if(Scene::_camera)
+			Scene::_camera->ResetCamera();
+		Scene::ResetAllGameObjectRigidBody();
+		Scene::ResetAllGameObject();
+	}
 
-bool physicsRun = true;
+	currentMode = newMode;
+}
 
 void Engine::Run() {
 	int error = GL::Init(800, 700);
-
-
-	glm::quat q(glm::vec3(glm::radians(90.0f), 0, 0));
-	glm::highp_vec3 t = Utils::ToEulerAngles(q);
-	std::cout << t.x << " " << t.y << " " << t.z << " " <<glm::radians(90.0f)<<std::endl;
-
 
 	if (error == 1) {
 		std::cerr << "Impossible to initialize GLFW" << std::endl;
@@ -47,8 +51,12 @@ void Engine::Run() {
 	ShaderManager::_geometry = &geometryShader;
 	ShaderManager::_collisionDebug = &collisionDebugShader;
 
-	Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0, 0.0f, -1.0f), 5.0f);
-	EditorCamera editorCamera(glm::vec3(0));
+	Camera camera(glm::vec3(0.0f, 5.0f, 10.0f), glm::vec3(0.0, 0.0f, -1.0f), 5.0f);
+	camera.ResetCamera();
+
+	Scene::_camera = &camera;
+
+	EditorCamera editorCamera(glm::vec3(0, 0, 0));
 
 
 	Physics::InitializePhysics();
@@ -57,7 +65,7 @@ void Engine::Run() {
 	Cube cube(glm::vec3(0.0f, -10.0f, 0.0f), glm::vec3(30.0f, 1.0f, 30.0f), glm::vec3(138 / 255.0f, 138 / 255.0f, 138 / 255.0f));
 	Cube cube1(glm::vec3(-0.6f, 30.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 1.0, 0));
 	Cube cube2(glm::vec3(0.0f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0, 0.0, 1.0));
-	Cube lightCube(glm::vec3(0, -3.0, 0), glm::vec3(0.4f, 0.4f, 0.4f), glm::vec3(1.0, 1.0, 1.0));
+	Cube lightCube(glm::vec3(0, 5.0, 0), glm::vec3(0.4f, 0.4f, 0.4f), glm::vec3(1.0, 1.0, 1.0));
 
 
 	btBoxShape* pBoxShape = new btBoxShape(btVector3(12.1f, 0.01f, 12.1f));
@@ -81,7 +89,7 @@ void Engine::Run() {
 	// Scene::_cubes.push_back(&cube2);
 	
 	// PointLight* pointLight = new PointLight(glm::vec3(0, -3.0, 0), glm::vec3(1, 1, 1), 20.0f, 1.0f, 0.2f, 1.0f, 1.0f);
-	PointLight* pointLight = new PointLight(glm::vec3(0, -0.0, 0), glm::vec3(1, 1, 1), 20.0f, 1.0f);
+	PointLight* pointLight = new PointLight(glm::vec3(0, 10.0, 0), glm::vec3(1, 1, 1), 20.0f, 1.0f);
 	Scene::_pointLights.push_back(pointLight);
 
 	// Scene::_cubes.push_back(&lightCube);
@@ -102,23 +110,24 @@ void Engine::Run() {
 	Scene::_sky = &sky;
 
 	Model *mLocker= new Model("res/models/locker2.obj");
-	Model *mFloor= new Model("res/models/floor.obj");
+	Model *mFloor= new Model("res/models/Floor.obj");
 	Model *mBed = new Model("res/models/bed.obj");
 
 
-	GameObject floor(glm::vec3(0.0f, -10.0f, 0.0f), mFloor, "Floor1");
+	//GameObject floor(glm::vec3(0.0f, -10.0f, 0.0f), mFloor, "Floor1");
+	GameObject floor(glm::vec3(0.0f, 0.0f, 0.0f), mFloor, "Floor1");
 	floor.CreateRigidBody(pBoxShape, 0.0);
 	floor.RegisterRigidBody();
 
-	GameObject locker(glm::vec3(-5.0f, 0.0f, 0.0f), mLocker, "Locker1");
+	GameObject locker(glm::vec3(-4.0f, 10.0f, 0.0f), mLocker, "Locker1");
 	locker.CreateRigidBody(pBoxShape3, 1.0);
 	locker.RegisterRigidBody();
 
-	GameObject bed(glm::vec3(3.0f, -5.0f, -7.5f), mBed, "Bed1");
+	GameObject bed(glm::vec3(3.0f, 5.0f, -7.5f), mBed, "Bed1");
 	bed.CreateRigidBody(pBoxShape4, 1.0);
 	bed.RegisterRigidBody();
 
-	GameObject bed1(glm::vec3(7.0f, -5.0f, -7.5f), mBed, "Bed2");
+	GameObject bed1(glm::vec3(7.0f, 5.0f, -7.5f), mBed, "Bed2");
 	bed1.CreateRigidBody(pBoxShape4, 1.0);
 	bed1.RegisterRigidBody();
 
@@ -138,7 +147,6 @@ void Engine::Run() {
 	EditingMenu::Init(GL::GetWindowPtr());
 
 	// Game Loop
-
 	while (GL::IsWindowOpen()) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(RED, GREEN, BLUE, 1.0f);
@@ -151,34 +159,29 @@ void Engine::Run() {
 
 		GL::ProcessInput();
 
-		if (GL::_editingMenu) {
-			if (physicsRun){
-				Scene::ResetAllGameObject();
-				physicsRun = false;
-			}
+		SetEngineMode(GL::_editingMenu ? EDIT : GAME);
+		
+		// UPDATE
 
+		Input::Update();
+		if (currentMode == EDIT) {
 			EditingMenu::ShowModelGeneratorWidget();
 			EditingMenu::ShowSceneWidget();
 			EditingMenu::ShowTransformWidget();
 
 			editorCamera.Update(deltaTime);
 		}
-		else {
-			if (!physicsRun) {
-				Scene::ResetAllGameObjectRigidBody();
-				physicsRun = true;
-			}
+		else{
 
 			Physics::StepSimulation(deltaTime);
 			Scene::UpdateAllGameObjectPhysics();
 
 			camera.Update(deltaTime);
-
 		}
 
-		Input::Update();
-
-		Renderer::Render(camera, editorCamera, !GL::_editingMenu);
+		
+		// RENDER
+		Renderer::Render(camera, editorCamera, currentMode);
 		
 		EditingMenu::Render();
 		GL::SwapBuffersAndPoll();
@@ -187,5 +190,6 @@ void Engine::Run() {
 
 	EditingMenu::Shutdown();
 	GL::Shutdown();
+
 
 }

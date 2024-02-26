@@ -12,6 +12,7 @@ namespace Input {
 	// int GetMouseWheelOffsetY();
 
 	Utils::MousePosition GetCursorPos();
+	void SetCursorPos(double x, double y);
 	bool IsMouseWheelUp();
 	bool IsMouseWheelDown();
 

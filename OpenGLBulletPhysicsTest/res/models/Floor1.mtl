@@ -10,5 +10,6 @@ Ni 1.450000
 d 1.000000
 illum 1
 #map_Kd res/textures/FloorBoards_ALB.png
-map_Kd res/textures/Floor.jpeg
+#map_Kd res/textures/Floor.jpeg
 #map_Kd res/textures/WoodFloor007_2K-JPG_Color.jpg
+map_Kd res/textures/templategrid_albedo.png

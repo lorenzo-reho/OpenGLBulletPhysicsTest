@@ -9,7 +9,7 @@ void Renderer::Init() {
 	
 }
 
-void Renderer::Render(Camera &camera, EditorCamera &editorCamera, bool gameMode) {
+void Renderer::Render(Camera &camera, EditorCamera &editorCamera, MODE currentMode) {
 
 	projection = glm::perspective(1.0f, (float)GL::GetWindowWidth() / (float)GL::GetWindowHeight(), 0.1f, 100.0f);
 	/*
@@ -32,20 +32,19 @@ void Renderer::Render(Camera &camera, EditorCamera &editorCamera, bool gameMode)
 	// Render GameObjects
 	*/
 	
-	// per ogni fonte di luce renderizzo il cubo corrispondente
-	glm::mat4 view;
-	glm::vec3 cameraPos;
-	if (gameMode) {
+	glm::mat4 view(1.0f);
+	glm::vec3 cameraPos(0.0f);
+
+	if (currentMode == GAME) {
 		view = camera.GetView();
 		cameraPos = camera.GetCameraPos();
 	}
-	else {
+	else{
 		view = editorCamera.GetView();
 		cameraPos = editorCamera.GetCameraPos();
 	}
 
-
-
+	// per ogni fonte di luce renderizzo il cubo corrispondente
 	for(int i = 0; i < Scene::_pointLights.size(); i++){
 		ShaderManager::_base->Use();
 
@@ -57,6 +56,7 @@ void Renderer::Render(Camera &camera, EditorCamera &editorCamera, bool gameMode)
 		Scene::_pointLights[i]->Render();
 	}
 
+	// Renderizzo i gameobject della scena 
 	for (int i = 0; i < Scene::_gameObjects.size(); i++) {
 		ShaderManager::_geometry->Use();
 
@@ -65,6 +65,7 @@ void Renderer::Render(Camera &camera, EditorCamera &editorCamera, bool gameMode)
 		ShaderManager::_geometry->SetMat4("model", Scene::_gameObjects[i]->GetTransformMat4(false));
 
 
+		// TODO: Separare la gestione dell'illuminazione tramite framebuffer
 		ShaderManager::_geometry->SetVec3("cameraPos", cameraPos);
 		ShaderManager::_geometry->SetVec3("light.ambient", glm::vec3(Scene::_pointLights[0]->GetAmbient()));
 		ShaderManager::_geometry->SetVec3("light.diffuse", glm::vec3(Scene::_pointLights[0]->GetDiffuse()));
@@ -75,10 +76,9 @@ void Renderer::Render(Camera &camera, EditorCamera &editorCamera, bool gameMode)
 		ShaderManager::_geometry->SetFloat("light.intensity", Scene::_pointLights[0]->GetIntensity());
 		ShaderManager::_geometry->SetFloat("light.radius", Scene::_pointLights[0]->GetRadius());
 
-		// se l'oggetto risente di più fonti di luce... bisogna gestirle.
-
 		Scene::_gameObjects[i]->Render(ShaderManager::_geometry);
-
+		
+		// Renderizzo le collisionmesh di gameobject
 		if (GL::_isCollisionDebug) {
 			ShaderManager::_collisionDebug->Use();
 			ShaderManager::_collisionDebug->SetVec3("color", glm::vec3(0.0, 1.0, 0.0));

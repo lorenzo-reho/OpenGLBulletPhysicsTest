@@ -9,6 +9,11 @@ namespace Input {
 	bool _mouseWheelDown;
 	bool _mouseWheelUp;
 
+	bool _isRecordingCursor = false;
+
+	double _lastX = 0;
+	double _lastY = 0;
+
 
 }
 
@@ -42,12 +47,18 @@ Utils::MousePosition Input::GetCursorPos() {
 	double xpos, ypos;
 	GLFWwindow* window = GL::GetWindowPtr();
 	glfwGetCursorPos(window, &xpos, &ypos);
-
+	
 	Utils::MousePosition p;
 	p.x = xpos;
 	p.y = ypos;
 
 	return p;
+}
+
+
+void Input::SetCursorPos(double x, double y) {
+	GLFWwindow* window = GL::GetWindowPtr();
+	glfwSetCursorPos(window, x, y);
 }
 
 
@@ -75,3 +86,4 @@ bool Input::IsMouseWheelDown() {
 bool Input::IsMouseWheelUp() {
 	return _mouseWheelUp;
 }
+

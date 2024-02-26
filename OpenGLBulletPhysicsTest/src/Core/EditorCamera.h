@@ -23,9 +23,22 @@ public:
 	EditorCamera(glm::vec3 cameraFocus) {
 		this->cameraFocus = cameraFocus;
 		this->forward = glm::vec3(0, 0, 1);
-		
-		cameraPos = cameraFocus + glm::vec3(0, 0, 1) * distance;
+		pinch = -30.0f;
+
+		SetForwardRotation();
+
+		// cameraPos = cameraFocus + forward * distance;
 		cameraUp = glm::vec3(0, 1, 0);
+	}
+
+	void SetForwardRotation() {
+
+		glm::vec3 tempForward = glm::vec3(0, 0, 1);
+
+		glm::mat4 rot1 = glm::rotate(glm::mat4(1.0), glm::radians(yaw), cameraUp);
+		glm::mat4 rot2 = glm::rotate(glm::mat4(1.0), glm::radians(pinch), glm::vec3(1, 0, 0));
+
+		forward = glm::vec3(rot1 * rot2 * glm::vec4(tempForward, 1.0f));
 	}
 
 	void ArcBallRotate(float deltaTime, Utils::MousePosition mousePosition) {
@@ -47,12 +60,7 @@ public:
 			pinch = -89.0;
 		}
 
-		glm::vec3 tempForward = glm::vec3(0, 0, 1);
-
-		glm::mat4 rot1 = glm::rotate(glm::mat4(1.0), glm::radians(yaw), cameraUp);
-		glm::mat4 rot2 = glm::rotate(glm::mat4(1.0), glm::radians(pinch), glm::vec3(1, 0, 0));
-
-		forward = glm::vec3(rot1 * rot2 * glm::vec4(tempForward, 1.0f));
+		SetForwardRotation();
 
 	}
 
@@ -74,6 +82,12 @@ public:
 	}
 
 	void Update(double deltaTime) {
+
+		if (Input::IsKeyPressed(GLFW_KEY_LEFT_ALT)) {
+			if (Input::IsKeyPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+				// modificare il focus
+			}
+		}
 
 		CameraZoom(deltaTime);
 

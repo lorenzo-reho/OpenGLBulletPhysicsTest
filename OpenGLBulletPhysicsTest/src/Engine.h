@@ -21,6 +21,8 @@
 
 namespace Engine {
 
+
+	void SetEngineMode(MODE newMode);
 	void Run();
 
 }

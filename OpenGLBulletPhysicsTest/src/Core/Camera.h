@@ -19,7 +19,9 @@ private:
 	glm::vec3 cameraPos;
 	glm::vec3 cameraFront;
 	glm::vec3 cameraUp;
-	
+
+	Transform transform;
+
 	float speed = 8.0f;
 	double yaw = -90.0f;
 	double pitch = 0.0f;
@@ -34,6 +36,10 @@ public:
 		this->cameraFront = cameraFront;
 		this->cameraPos = cameraPos;
 		this->speed = speed;
+
+		transform.position = cameraPos;
+		transform.rotation = glm::vec3(pitch, yaw,0);
+
 		cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	}
 
@@ -108,6 +114,21 @@ public:
 
 	glm::vec3 GetCameraPos() {
 		return cameraPos;
+	}
+
+	void SetCameraPos(glm::vec3 cameraPos) {
+		this->cameraPos = cameraPos;
+	}
+
+	void ResetCamera() {
+		
+		Input::SetCursorPos(GL::GetWindowWidth()/2.0f, GL::GetWindowHeight() / 2.0f);
+		lastX = Input::GetCursorPos().x;
+		lastY = Input::GetCursorPos().y;
+		
+		cameraPos = transform.position;
+		pitch = transform.rotation.x;
+		yaw = transform.rotation.y;
 	}
 
 };

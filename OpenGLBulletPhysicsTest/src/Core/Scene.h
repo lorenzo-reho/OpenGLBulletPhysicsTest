@@ -6,7 +6,7 @@
 #include "Sky.h"
 #include "Cube.h"
 #include "PointLight.h"
-
+#include "Camera.h"
 #include "GameObject.h"
 
 namespace Scene {
@@ -16,6 +16,7 @@ namespace Scene {
 	inline std::vector<PointLight*> _pointLights;
 
 	inline Sky* _sky;
+	inline Camera* _camera;
 
 	void ResetAllGameObjectRigidBody();
 	void ResetAllGameObject();

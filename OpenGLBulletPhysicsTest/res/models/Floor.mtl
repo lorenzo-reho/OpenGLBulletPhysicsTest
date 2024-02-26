@@ -9,7 +9,8 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 1
-map_Kd res/textures/Floor.jpeg
+#map_Kd res/textures/Floor.jpeg
 #map_Kd res/textures/FloorBoards_ALB.png
 #map_Kd res/textures/floor-diffuse-texture.png
 #map_Kd res/textures/WoodFloor007_2K-JPG_Color.jpg
+map_Kd templategrid_albedo.png

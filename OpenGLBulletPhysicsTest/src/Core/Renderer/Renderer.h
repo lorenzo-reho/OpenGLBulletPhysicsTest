@@ -7,10 +7,8 @@
 #include "../Camera.h"
 #include "../EditorCamera.h"
 
-
 namespace Renderer {
 	void Init();
-	void Render(Camera& camera, EditorCamera& editorCamera, bool gameMode);
-
+	void Render(Camera& camera, EditorCamera& editorCamera, MODE currentMode);
 }
 #endif

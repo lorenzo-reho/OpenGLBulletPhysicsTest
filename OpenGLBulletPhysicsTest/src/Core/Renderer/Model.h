@@ -24,7 +24,7 @@ public:
 
 private:
 	vector<Mesh> meshes;
-	string directory;
+	string directory = "res\\textures\\";
 	vector<Texture> loaded_textures;
 
 	void LoadModel(string path) {
@@ -34,7 +34,7 @@ private:
 			cout << "ERROR::ASSIMP::" << importer.GetErrorString() << endl;
 			return;
 		}
-		directory = path.substr(0, path.find_last_of('/'));
+		//directory = path.substr(0, path.find_last_of('/'));
 		ProcessNode(scene->mRootNode, scene);
 	}
 
@@ -112,7 +112,7 @@ private:
 
 	unsigned int TextureFromFile(const char* path, const string& directory)
 	{
-		string filename = string(path);
+		string filename = directory + string(path);
 		// filename = filename;
 
 		unsigned int textureID;
@@ -151,7 +151,7 @@ private:
 		}
 		else
 		{
-			std::cout << "Texture failed to load at path: " << path << std::endl;
+			std::cout << "Texture failed to load at path: " << filename << std::endl;
 			stbi_image_free(data);
 		}
 

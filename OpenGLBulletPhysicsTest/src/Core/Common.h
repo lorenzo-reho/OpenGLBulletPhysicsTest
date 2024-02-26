@@ -8,6 +8,8 @@
 #include <glm/gtc/quaternion.hpp>
 #include "../Utils.h"
 
+typedef enum MODE { GAME, EDIT };
+
 struct Transform {
 	glm::vec3 position = glm::vec3(0);
 	glm::vec3 rotation = glm::vec3(0);

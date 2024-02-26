@@ -23,8 +23,7 @@ namespace GL {
 	void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	void wheel_callback(GLFWwindow* window, double xoffset, double yoffset);
 
-
-	inline bool _editingMenu = false;
+	inline bool _editingMenu = true;
 	inline bool _isCollisionDebug = false;
 }
 #endif

@@ -84,7 +84,6 @@ int GL::Init(int width, int height) {
 	if (!glfwInit())
 		return 1;
 
-
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
@@ -98,6 +97,7 @@ int GL::Init(int width, int height) {
 	_currentWidth = width;
 	_currentHeight = height;
 
+
 	glfwMakeContextCurrent(_window);
 	glfwSetFramebufferSizeCallback(_window, resize_callback);
 	glfwSetKeyCallback(_window, key_callback);
@@ -105,6 +105,12 @@ int GL::Init(int width, int height) {
     glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwWindowHint(GLFW_SAMPLES, 10);
 	// EditingMenu::Init(_window);
+
+
+	if (GL::_editingMenu) {
+		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
+
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		return 3;
