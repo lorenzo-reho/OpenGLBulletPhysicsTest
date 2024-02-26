@@ -13,6 +13,12 @@ float currentTime;
 float lastTime;
 MODE currentMode = EDIT;
 
+float lastX = 0;
+float lastY = 0;
+
+float deltaX = 0;
+float deltaY = 0;
+
 void Engine::SetEngineMode(MODE newMode) {
 	// Resetto la scena e la telecamera di gioco prima di settare la nuova modalità
 	if (currentMode != newMode) {
@@ -24,6 +30,8 @@ void Engine::SetEngineMode(MODE newMode) {
 
 	currentMode = newMode;
 }
+
+
 
 void Engine::Run() {
 	int error = GL::Init(800, 700);
@@ -68,7 +76,7 @@ void Engine::Run() {
 	Cube lightCube(glm::vec3(0, 5.0, 0), glm::vec3(0.4f, 0.4f, 0.4f), glm::vec3(1.0, 1.0, 1.0));
 
 
-	btBoxShape* pBoxShape = new btBoxShape(btVector3(12.1f, 0.01f, 12.1f));
+	btBoxShape* pBoxShape = new btBoxShape(btVector3(70.8044f/2, 0.01f, 70.8044f / 2));
 	btBoxShape* pBoxShape1 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
 	btBoxShape* pBoxShape2 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
 	btBoxShape* pBoxShape3 = new btBoxShape(btVector3(0.9f, 2.45f, 3.2f));
@@ -93,6 +101,8 @@ void Engine::Run() {
 	Scene::_pointLights.push_back(pointLight);
 
 	// Scene::_cubes.push_back(&lightCube);
+
+
 
 	vector<std::string> faces
 	{
@@ -145,6 +155,7 @@ void Engine::Run() {
 	glEnable(GL_MULTISAMPLE);
 	
 	EditingMenu::Init(GL::GetWindowPtr());
+	Input::Init();
 
 	// Game Loop
 	while (GL::IsWindowOpen()) {
@@ -163,7 +174,10 @@ void Engine::Run() {
 		
 		// UPDATE
 
+		
 		Input::Update();
+
+
 		if (currentMode == EDIT) {
 			EditingMenu::ShowModelGeneratorWidget();
 			EditingMenu::ShowSceneWidget();

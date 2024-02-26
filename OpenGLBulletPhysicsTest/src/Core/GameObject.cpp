@@ -31,7 +31,7 @@ void GameObject::Update(bool debug) {
 void GameObject::UpdatePhysics() {
     if (m_pMotionState) {
         btScalar scalar[16];
-        // m_pMotionState->GetWorldTransform(scalar);
+        //m_pMotionState->GetWorldTransform(scalar);
         pRigidBody->getWorldTransform().getOpenGLMatrix(scalar);
 
         transform = Utils::FromBtScalarToMat4(scalar);

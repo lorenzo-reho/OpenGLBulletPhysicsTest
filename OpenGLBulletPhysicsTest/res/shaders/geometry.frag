@@ -57,7 +57,7 @@ void main(){
 	float attenuation = smoothstep(light.radius, 0, dist);
 	// attenuation = clamp(attenuation, 0.0, 0.9);
 
-	ambient  *= attenuation*light.intensity; 
+	// ambient  *= attenuation*light.intensity; 
 	diffuse  *= attenuation*light.intensity;
 	specular  *= light.intensity*attenuation;
 

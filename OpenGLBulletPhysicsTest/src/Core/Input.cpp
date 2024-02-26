@@ -14,7 +14,16 @@ namespace Input {
 	double _lastX = 0;
 	double _lastY = 0;
 
+	double _deltaX= 0;
+	double _deltaY = 0;
 
+}
+
+void Input::Init() {
+	_lastX = GetCursorPos().x;
+	_lastY = GetCursorPos().y;
+	_deltaX = 0;
+	_deltaY = 0;
 }
 
 void Input::Update() {
@@ -41,6 +50,14 @@ void Input::Update() {
 	}
 
 	GL::SetMouseWheelOffsetY(0);
+
+
+	_deltaX = Input::GetCursorPos().x - _lastX;
+	_deltaY = Input::GetCursorPos().y - _lastY;
+
+	_lastX = Input::GetCursorPos().x;
+	_lastY = Input::GetCursorPos().y;
+
 }
 
 Utils::MousePosition Input::GetCursorPos() {
@@ -87,3 +104,10 @@ bool Input::IsMouseWheelUp() {
 	return _mouseWheelUp;
 }
 
+double Input::GetDeltaX() {
+	return _deltaX;
+}
+
+double Input::GetDeltaY() {
+	return _deltaY;
+}

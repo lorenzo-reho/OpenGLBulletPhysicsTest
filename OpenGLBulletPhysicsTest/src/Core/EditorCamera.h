@@ -11,18 +11,22 @@ private:
 	glm::vec3 cameraFocus;
 	glm::vec3 cameraUp;
 	glm::vec3 forward;
+	glm::vec3 up;
+	glm::vec3 right;
+
 	float yaw = 0;
 	float pinch = 0;
 	float distance = 10.0f;
 	bool firstClick = false;
-	double lastX = 0;
-	double lastY = 0;
 
 public:
 	
 	EditorCamera(glm::vec3 cameraFocus) {
 		this->cameraFocus = cameraFocus;
 		this->forward = glm::vec3(0, 0, 1);
+		this->up = glm::vec3(0, 1, 0);
+		this->right = glm::vec3(1, 0, 0);
+
 		pinch = -30.0f;
 
 		SetForwardRotation();
@@ -34,24 +38,23 @@ public:
 	void SetForwardRotation() {
 
 		glm::vec3 tempForward = glm::vec3(0, 0, 1);
+		glm::vec3 tempRight= glm::vec3(1, 0, 0);
+		glm::vec3 tempUp = glm::vec3(0, 1, 0);
 
 		glm::mat4 rot1 = glm::rotate(glm::mat4(1.0), glm::radians(yaw), cameraUp);
 		glm::mat4 rot2 = glm::rotate(glm::mat4(1.0), glm::radians(pinch), glm::vec3(1, 0, 0));
 
 		forward = glm::vec3(rot1 * rot2 * glm::vec4(tempForward, 1.0f));
+		right = glm::vec3(rot1 * rot2 * glm::vec4(tempRight, 1.0f));
+		up = glm::vec3(rot1 * rot2 * glm::vec4(tempUp, 1.0f));
+
 	}
 
-	void ArcBallRotate(float deltaTime, Utils::MousePosition mousePosition) {
-		double xOffset = mousePosition.x - lastX;
-		double yOffset = lastY - mousePosition.y;
-
-		lastX = mousePosition.x;
-		lastY = mousePosition.y;
-
+	void ArcBallRotate(float deltaTime, double deltaX, double deltaY) {
 		double sensitivity = 0.1f;
-
-		yaw += -xOffset * sensitivity;
-		pinch += yOffset * sensitivity;
+		
+		yaw += -deltaX * sensitivity;
+		pinch += -deltaY * sensitivity;
 
 		if (pinch > 89.0) {
 			pinch = 89.0;
@@ -59,9 +62,7 @@ public:
 		if (pinch < -89.0) {
 			pinch = -89.0;
 		}
-
 		SetForwardRotation();
-
 	}
 
 	float CalculateZoomSpeed(float d) {
@@ -81,30 +82,39 @@ public:
 		}
 	}
 
+	void UpdateFocus(double deltaTime, double deltaX, double deltaY) {
+
+		float speed = 5.0f;
+		cameraFocus += -right * (float)deltaX * speed * (float)deltaTime;
+		cameraFocus += up * (float)deltaY * speed * (float)deltaTime;
+
+
+		// m_FocalPoint += GetUpDirection() * delta.y * ySpeed * m_Distance;
+
+	}
+
 	void Update(double deltaTime) {
 
 		if (Input::IsKeyPressed(GLFW_KEY_LEFT_ALT)) {
-			if (Input::IsKeyPressed(GLFW_MOUSE_BUTTON_LEFT)) {
-				// modificare il focus
-			}
+			if (Input::IsMousePressed(GLFW_MOUSE_BUTTON_LEFT))
+				UpdateFocus(deltaTime, Input::GetDeltaX(), Input::GetDeltaY());
 		}
 
 		CameraZoom(deltaTime);
 
-		if (Input::IsMouseReleased(GLFW_MOUSE_BUTTON_3)) {
-			firstClick = true;
-		}
+		if (Input::IsMousePressed(GLFW_MOUSE_BUTTON_3))
+			ArcBallRotate(deltaTime, Input::GetDeltaX(), Input::GetDeltaY());
 
-		if (Input::IsMousePressed(GLFW_MOUSE_BUTTON_3)) {
-			if (firstClick) {
-				lastX = Input::GetCursorPos().x;
-				lastY = Input::GetCursorPos().y;
-				firstClick = false;
-			}
-			ArcBallRotate(deltaTime, Input::GetCursorPos());
+		if (Input::IsKeyPressed(GLFW_KEY_O)) {
+			FocusToOrigin();
 		}
 
 		cameraPos = cameraFocus + forward * distance;
+	}
+
+	void FocusToOrigin() {
+		distance = 10.0f;
+		cameraFocus = glm::vec3(0);
 	}
 
 	glm::mat4 GetView() {

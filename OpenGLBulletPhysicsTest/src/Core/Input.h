@@ -4,6 +4,7 @@
 
 
 namespace Input {
+	void Init();
 	void Update();
 	bool IsKeyPressed(int key);
 	bool IsKeyReleased(int key);
@@ -15,6 +16,8 @@ namespace Input {
 	void SetCursorPos(double x, double y);
 	bool IsMouseWheelUp();
 	bool IsMouseWheelDown();
+	double GetDeltaX();
+	double GetDeltaY();
 
 
 }

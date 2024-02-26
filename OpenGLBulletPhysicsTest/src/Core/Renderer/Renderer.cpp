@@ -12,25 +12,9 @@ void Renderer::Init() {
 void Renderer::Render(Camera &camera, EditorCamera &editorCamera, MODE currentMode) {
 
 	projection = glm::perspective(1.0f, (float)GL::GetWindowWidth() / (float)GL::GetWindowHeight(), 0.1f, 100.0f);
-	/*
-	// Render CubeMap
-	glDepthMask(GL_FALSE);
-
-	ShaderManager::_cubemap->Use();
-	ShaderManager::_cubemap->SetMat4("projection", projection);
-
-	glm::mat4 view = glm::mat4(glm::mat3(camera.GetView()));
-	ShaderManager::_cubemap->SetMat4("view", view);
-
-	glBindTexture(GL_TEXTURE_CUBE_MAP, Scene::_sky->GetTextureID());
-	glBindVertexArray(Scene::_sky->GetVAO());
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glBindVertexArray(0);
-
-	glDepthMask(GL_TRUE);
+	
 
 	// Render GameObjects
-	*/
 	
 	glm::mat4 view(1.0f);
 	glm::vec3 cameraPos(0.0f);
@@ -44,6 +28,22 @@ void Renderer::Render(Camera &camera, EditorCamera &editorCamera, MODE currentMo
 		cameraPos = editorCamera.GetCameraPos();
 	}
 
+	/*
+	glDepthMask(GL_FALSE);
+
+	ShaderManager::_cubemap->Use();
+	ShaderManager::_cubemap->SetMat4("projection", projection);
+
+	// glm::mat4 view = glm::mat4(glm::mat3(camera.GetView()));
+	ShaderManager::_cubemap->SetMat4("view", glm::mat4(glm::mat3(view)));
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, Scene::_sky->GetTextureID());
+	glBindVertexArray(Scene::_sky->GetVAO());
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glBindVertexArray(0);
+
+	glDepthMask(GL_TRUE);
+	*/
 	// per ogni fonte di luce renderizzo il cubo corrispondente
 	for(int i = 0; i < Scene::_pointLights.size(); i++){
 		ShaderManager::_base->Use();
