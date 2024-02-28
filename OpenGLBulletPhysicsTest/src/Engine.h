@@ -11,7 +11,7 @@
 #include "Core/GameObject.h"
 #include "Core/EditingMenu.h"
 #include "Core/EditorCamera.h"
-
+#include "Core/GBuffer.h"
 
 #include "imgui.h"
 #include "imgui_internal.h"

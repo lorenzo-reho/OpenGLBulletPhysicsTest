@@ -26,14 +26,17 @@ private:
 	vector<Mesh> meshes;
 	string directory = "res\\textures\\";
 	vector<Texture> loaded_textures;
-
 	void LoadModel(string path) {
 		Assimp::Importer importer;
+		
+		//stbi_set_flip_vertically_on_load(true);
+
 		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 			cout << "ERROR::ASSIMP::" << importer.GetErrorString() << endl;
 			return;
 		}
+
 		//directory = path.substr(0, path.find_last_of('/'));
 		ProcessNode(scene->mRootNode, scene);
 	}
@@ -73,10 +76,19 @@ private:
 
 		if (mesh->mMaterialIndex >= 0) {
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+			// std::cout<<"Texture Count: "<<material->GetTextureCount()<<std::endl;
+			
 			vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "diffuse");
 			textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 			vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "specular");
 			textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+			vector<Texture> roughnessMaps = loadMaterialTextures(material, aiTextureType_SHININESS, "roughness");
+			textures.insert(textures.end(), roughnessMaps.begin(), roughnessMaps.end());
+			vector<Texture> metalnessMaps = loadMaterialTextures(material, aiTextureType_METALNESS, "metalness");
+			textures.insert(textures.end(), metalnessMaps.begin(), metalnessMaps.end());
+			vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_NORMALS, "normal");
+			textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+
 		}
 		return Mesh(vertices, indices, textures);
 	}
@@ -102,7 +114,7 @@ private:
 				texture.path = str.C_Str();
 				textures.push_back(texture);
 				loaded_textures.push_back(texture);
-				std::cout << "Texture loaded: " << str.C_Str() << std::endl;
+				std::cout << "[" <<typeName<<"] " <<"Texture loaded: " << str.C_Str() << std::endl;
 
 			}
 
@@ -126,10 +138,14 @@ private:
 			GLenum format;
 			if (nrComponents == 1)
 				format = GL_RED;
+			if (nrComponents == 2)
+				format = GL_ALPHA;
+
 			else if (nrComponents == 3)
 				format = GL_RGB;
 			else if (nrComponents == 4)
 				format = GL_RGBA;
+
 
 			glBindTexture(GL_TEXTURE_2D, textureID);
 			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);

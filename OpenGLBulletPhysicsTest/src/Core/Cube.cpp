@@ -95,6 +95,7 @@ void Cube::RenderWireframe() {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 void Cube::Render() {
+    
     glBindVertexArray(_VAO);
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glBindVertexArray(0);

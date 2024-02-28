@@ -3,6 +3,7 @@
 
 #include "Common.h"
 #include <iostream>
+#include "GBuffer.h"
 //#include "Renderer/Renderer.h"
 //#include "EditingMenu.h"
 

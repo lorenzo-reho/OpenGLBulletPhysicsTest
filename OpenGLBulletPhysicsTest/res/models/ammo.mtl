@@ -1,0 +1,24 @@
+# Blender 4.0.2 MTL File: 'None'
+# www.blender.org
+
+newmtl Lid
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd Lid_albedo.jpg
+map_Ns Lid_roughness.jpg
+map_Pm Lid_metallic.jpg
+
+newmtl tIN
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd tIN_albedo.jpg
+map_Ns tIN_roughness.jpg
+map_Pm tIN_metallic.jpg

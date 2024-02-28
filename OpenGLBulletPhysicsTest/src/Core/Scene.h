@@ -8,6 +8,7 @@
 #include "PointLight.h"
 #include "Camera.h"
 #include "GameObject.h"
+#include "Quad.h"
 
 namespace Scene {
 	
@@ -17,6 +18,7 @@ namespace Scene {
 
 	inline Sky* _sky;
 	inline Camera* _camera;
+	inline Quad* _screenQuad;
 
 	void ResetAllGameObjectRigidBody();
 	void ResetAllGameObject();

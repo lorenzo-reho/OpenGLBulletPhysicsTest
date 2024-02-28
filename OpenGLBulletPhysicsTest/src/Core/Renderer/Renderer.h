@@ -6,6 +6,7 @@
 #include "../ShaderManager.h"
 #include "../Camera.h"
 #include "../EditorCamera.h"
+#include "../GBuffer.h"
 
 namespace Renderer {
 	void Init();

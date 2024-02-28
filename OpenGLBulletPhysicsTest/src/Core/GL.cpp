@@ -30,6 +30,9 @@ void GL::resize_callback(GLFWwindow* window, int width, int height) {
 	_currentWidth = width;
 	_currentHeight = height;
 	glViewport(0, 0, width, height);
+
+	GBuffer::Configure();
+
 }
 
 void GL::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)

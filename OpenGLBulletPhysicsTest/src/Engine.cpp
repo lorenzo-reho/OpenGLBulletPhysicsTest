@@ -53,11 +53,18 @@ void Engine::Run() {
 	Shader cubemapShader("res/shaders/cubemap.vert", "res/shaders/cubemap.frag");
 	Shader geometryShader("res/shaders/geometry.vert", "res/shaders/geometry.frag");
 	Shader collisionDebugShader("res/shaders/collisionDebug.vert", "res/shaders/collisionDebug.frag");
+	Shader gBufferShader("res/shaders/gBuffer.vert", "res/shaders/gBuffer.frag");
+	Shader quadShader("res/shaders/quad.vert", "res/shaders/quad.frag");
+	Shader lightingShader("res/shaders/lighting.vert", "res/shaders/lighting.frag");
+
 
 	ShaderManager::_base = &base;
 	ShaderManager::_cubemap = &cubemapShader;
 	ShaderManager::_geometry = &geometryShader;
-	ShaderManager::_collisionDebug = &collisionDebugShader;
+	ShaderManager::_gBuffer = &gBufferShader;
+	ShaderManager::_quad = &quadShader;
+	ShaderManager::_lighting = &lightingShader;
+
 
 	Camera camera(glm::vec3(0.0f, 5.0f, 10.0f), glm::vec3(0.0, 0.0f, -1.0f), 5.0f);
 	camera.ResetCamera();
@@ -81,6 +88,9 @@ void Engine::Run() {
 	btBoxShape* pBoxShape2 = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
 	btBoxShape* pBoxShape3 = new btBoxShape(btVector3(0.9f, 2.45f, 3.2f));
 	btBoxShape* pBoxShape4 = new btBoxShape(btVector3(1.2f, 2.0f, 2.5f));
+	btBoxShape* pBoxShape5 = new btBoxShape(btVector3(4.1f/2, 3.1f/2, 10.8f/2));
+	btBoxShape* pBoxShape6 = new btBoxShape(btVector3(1.9f / 2, 1.2f / 2, 1.0f / 2));
+
 
 	/*
 	cube.CreateRigidBody(pBoxShape, 0.0f);
@@ -97,12 +107,13 @@ void Engine::Run() {
 	// Scene::_cubes.push_back(&cube2);
 	
 	// PointLight* pointLight = new PointLight(glm::vec3(0, -3.0, 0), glm::vec3(1, 1, 1), 20.0f, 1.0f, 0.2f, 1.0f, 1.0f);
-	PointLight* pointLight = new PointLight(glm::vec3(0, 10.0, 0), glm::vec3(1, 1, 1), 20.0f, 1.0f);
+	PointLight* pointLight = new PointLight(glm::vec3(0, 10.0f, 0), glm::vec3(1, 1, 1), 20.0f, 1.0f);
 	Scene::_pointLights.push_back(pointLight);
 
 	// Scene::_cubes.push_back(&lightCube);
 
-
+	Quad *quad = new Quad();
+	Scene::_screenQuad = quad;
 
 	vector<std::string> faces
 	{
@@ -119,16 +130,22 @@ void Engine::Run() {
 
 	Scene::_sky = &sky;
 
-	Model *mLocker= new Model("res/models/locker2.obj");
+	// Model *mLocker= new Model("res/models/locker2.obj");
 	Model *mFloor= new Model("res/models/Floor.obj");
-	Model *mBed = new Model("res/models/bed.obj");
+	// Model *mBed = new Model("res/models/bed.obj");
+	// Model* mDelorean= new Model("res/models/delorean.obj");
+	Model* mAmmo = new Model("res/models/ammo.obj");
 
 
 	//GameObject floor(glm::vec3(0.0f, -10.0f, 0.0f), mFloor, "Floor1");
+	
+	
 	GameObject floor(glm::vec3(0.0f, 0.0f, 0.0f), mFloor, "Floor1");
 	floor.CreateRigidBody(pBoxShape, 0.0);
 	floor.RegisterRigidBody();
 
+	/*
+	* 
 	GameObject locker(glm::vec3(-4.0f, 10.0f, 0.0f), mLocker, "Locker1");
 	locker.CreateRigidBody(pBoxShape3, 1.0);
 	locker.RegisterRigidBody();
@@ -145,15 +162,34 @@ void Engine::Run() {
 	bed2.CreateRigidBody(pBoxShape4, 1.0);
 	bed2.RegisterRigidBody();
 
+
+	GameObject delorean(glm::vec3(0.0f, 1.5f, 0.0f), mDelorean, "Delorean");
+	delorean.CreateRigidBody(pBoxShape5, 1.0);
+	delorean.RegisterRigidBody();
+
+	*/
+
+	GameObject ammo(glm::vec3(0.0f, 0.0f, 0.0f), mAmmo, "Ammo1");
+	ammo.CreateRigidBody(pBoxShape6, 1.0);
+	ammo.RegisterRigidBody();
+
+
+	/*
 	Scene::_gameObjects.push_back(&floor);
 	Scene::_gameObjects.push_back(&locker);
 	Scene::_gameObjects.push_back(&bed);
 	Scene::_gameObjects.push_back(&bed1);
 	Scene::_gameObjects.push_back(&bed2);
+	*/
+
+	Scene::_gameObjects.push_back(&floor);
+	Scene::_gameObjects.push_back(&ammo);
+
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
 	
+	Renderer::Init();
 	EditingMenu::Init(GL::GetWindowPtr());
 	Input::Init();
 
@@ -174,9 +210,7 @@ void Engine::Run() {
 		
 		// UPDATE
 
-		
 		Input::Update();
-
 
 		if (currentMode == EDIT) {
 			EditingMenu::ShowModelGeneratorWidget();
@@ -193,7 +227,6 @@ void Engine::Run() {
 			camera.Update(deltaTime);
 		}
 
-		
 		// RENDER
 		Renderer::Render(camera, editorCamera, currentMode);
 		

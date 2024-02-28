@@ -31,7 +31,6 @@ public:
 
 		SetForwardRotation();
 
-		// cameraPos = cameraFocus + forward * distance;
 		cameraUp = glm::vec3(0, 1, 0);
 	}
 
@@ -84,23 +83,22 @@ public:
 
 	void UpdateFocus(double deltaTime, double deltaX, double deltaY) {
 
-		float speed = 5.0f;
+		float speed = 1.0f;
 		cameraFocus += -right * (float)deltaX * speed * (float)deltaTime;
 		cameraFocus += up * (float)deltaY * speed * (float)deltaTime;
-
-
-		// m_FocalPoint += GetUpDirection() * delta.y * ySpeed * m_Distance;
 
 	}
 
 	void Update(double deltaTime) {
+
+		CameraZoom(deltaTime);
+
 
 		if (Input::IsKeyPressed(GLFW_KEY_LEFT_ALT)) {
 			if (Input::IsMousePressed(GLFW_MOUSE_BUTTON_LEFT))
 				UpdateFocus(deltaTime, Input::GetDeltaX(), Input::GetDeltaY());
 		}
 
-		CameraZoom(deltaTime);
 
 		if (Input::IsMousePressed(GLFW_MOUSE_BUTTON_3))
 			ArcBallRotate(deltaTime, Input::GetDeltaX(), Input::GetDeltaY());
@@ -113,7 +111,7 @@ public:
 	}
 
 	void FocusToOrigin() {
-		distance = 10.0f;
+		// distance = 10.0f;
 		cameraFocus = glm::vec3(0);
 	}
 

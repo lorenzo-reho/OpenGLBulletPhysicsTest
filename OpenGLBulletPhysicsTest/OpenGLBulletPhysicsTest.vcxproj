@@ -139,10 +139,12 @@
     <ClCompile Include="src\Core\EditingMenu.cpp" />
     <ClCompile Include="src\Core\FileSystem.cpp" />
     <ClCompile Include="src\Core\GameObject.cpp" />
+    <ClCompile Include="src\Core\GBuffer.cpp" />
     <ClCompile Include="src\Core\GL.cpp" />
     <ClCompile Include="src\Core\Input.cpp" />
     <ClCompile Include="src\Core\Physics.cpp" />
     <ClCompile Include="src\Core\PointLight.cpp" />
+    <ClCompile Include="src\Core\Quad.cpp" />
     <ClCompile Include="src\Core\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Core\Scene.cpp" />
     <ClCompile Include="src\Core\Sky.cpp" />
@@ -166,6 +168,7 @@
     <ClInclude Include="src\Core\EditorCamera.h" />
     <ClInclude Include="src\Core\FileSystem.h" />
     <ClInclude Include="src\Core\GameObject.h" />
+    <ClInclude Include="src\Core\GBuffer.h" />
     <ClInclude Include="src\Core\GL.h" />
     <ClInclude Include="src\Core\Input.h" />
     <ClInclude Include="src\Core\Camera.h" />
@@ -192,8 +195,27 @@
     <ClInclude Include="vendor\imgui-docking\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\textures\0d7a5db1-51d0-4938-f35f-af0d196e554f.png" />
+    <Image Include="res\textures\247379fb-d7aa-5b3e-c2c9-a62473ed1c89.png" />
+    <Image Include="res\textures\25751ae6-21c9-56ca-7295-5a97c44210c1.png" />
+    <Image Include="res\textures\4163b8c8-586e-1e8c-d185-fa194fcb09b9.png" />
+    <Image Include="res\textures\4c90e481-3303-5471-2193-9b742648d695.png" />
+    <Image Include="res\textures\4f18eed6-73c0-2fc2-2650-cb9898d723fd.png" />
+    <Image Include="res\textures\53d7253a-e2a6-f995-3389-2b248f55f481.png" />
+    <Image Include="res\textures\5748decc-f629-461c-9a36-a35a221fe21f.png" />
+    <Image Include="res\textures\71333bd7-0e6e-02a4-31c8-54d45dcddaa1.png" />
+    <Image Include="res\textures\7552ca9f-0d82-a939-496e-492fbc595bb6.png" />
+    <Image Include="res\textures\799fa487-af4d-7626-7ebe-f824b4e7b9e2.png" />
+    <Image Include="res\textures\9351ec30-2832-ebb8-b8d8-89372ecd4db4.png" />
+    <Image Include="res\textures\98a31ed6-204f-4c91-278e-78e78b3768d4.png" />
+    <Image Include="res\textures\a69b5ddb-8bd6-86e5-e745-4cbce685b991.png" />
+    <Image Include="res\textures\b2101eff-d6a1-8b1d-7e5b-5e2e199a569f.png" />
+    <Image Include="res\textures\b946230a-85dc-8e35-4c31-0e2beefdd8c4.png" />
     <Image Include="res\textures\back.jpg" />
     <Image Include="res\textures\bottom.jpg" />
+    <Image Include="res\textures\c6799e56-14e6-13c3-eb3c-319e5b61101a.png" />
+    <Image Include="res\textures\d5a5ab5d-9f76-cc2a-f0ba-92db61c744dc.png" />
+    <Image Include="res\textures\e10936ad-8c8a-c08f-4e5f-1f0048f0037b.png" />
     <Image Include="res\textures\floor-diffuse-texture.png" />
     <Image Include="res\textures\floor_seamless_BaseColor.png" />
     <Image Include="res\textures\floor_seamless_Metallic.png" />
@@ -204,6 +226,7 @@
     <Image Include="res\textures\wall.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\models\delorean.mtl" />
     <None Include="res\models\Floor.mtl" />
     <None Include="res\models\Floor1.mtl" />
     <None Include="res\models\round lamp.mtl" />
@@ -215,8 +238,14 @@
     <None Include="res\shaders\cubemap.frag" />
     <None Include="res\shaders\cubemap.vert" />
     <None Include="assimp-vc143-mt.dll" />
+    <None Include="res\shaders\gBuffer.frag" />
+    <None Include="res\shaders\gBuffer.vert" />
     <None Include="res\shaders\geometry.frag" />
     <None Include="res\shaders\geometry.vert" />
+    <None Include="res\shaders\lighting.frag" />
+    <None Include="res\shaders\lighting.vert" />
+    <None Include="res\shaders\quad.frag" />
+    <None Include="res\shaders\quad.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
