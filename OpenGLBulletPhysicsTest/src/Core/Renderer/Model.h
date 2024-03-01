@@ -65,6 +65,9 @@ private:
 			if (mesh->mTextureCoords[0])
 				vertex.textCoord = glm::vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
 			else vertex.textCoord = glm::vec2(0, 0);
+			
+			vertex.tangent = glm::vec3(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z);
+			
 			vertices.push_back(vertex);
 		}
 
@@ -86,10 +89,13 @@ private:
 			textures.insert(textures.end(), roughnessMaps.begin(), roughnessMaps.end());
 			vector<Texture> metalnessMaps = loadMaterialTextures(material, aiTextureType_METALNESS, "metalness");
 			textures.insert(textures.end(), metalnessMaps.begin(), metalnessMaps.end());
-			vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_NORMALS, "normal");
+			vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "normal");
 			textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
 		}
+
+
+
 		return Mesh(vertices, indices, textures);
 	}
 

@@ -61,7 +61,6 @@ void Renderer::Render(Camera &camera, EditorCamera &editorCamera, MODE currentMo
 	}
 	*/
 
-	// Renderizzo i gameobject della scena 
 
 	glBindFramebuffer(GL_FRAMEBUFFER, GBuffer::_gBuffer);
 	glClearColor(20/255.0f, 20 / 255.0f, 20 / 255.0f, 1.0);
@@ -73,11 +72,7 @@ void Renderer::Render(Camera &camera, EditorCamera &editorCamera, MODE currentMo
 		ShaderManager::_gBuffer->SetMat4("projection", projection);
 		ShaderManager::_gBuffer->SetMat4("view", view);
 		ShaderManager::_gBuffer->SetMat4("model", Scene::_gameObjects[i]->GetTransformMat4(false));
-
-
-
 		Scene::_gameObjects[i]->Render(ShaderManager::_gBuffer);
-
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -97,8 +92,6 @@ void Renderer::Render(Camera &camera, EditorCamera &editorCamera, MODE currentMo
 	ShaderManager::_lighting->SetInt("gNormal", 1);
 	ShaderManager::_lighting->SetInt("gAlbedoSpec", 2);
 
-
-
 	ShaderManager::_lighting->SetVec3("cameraPos", cameraPos);
 	ShaderManager::_lighting->SetVec3("light.ambient", glm::vec3(Scene::_pointLights[0]->GetAmbient()));
 	ShaderManager::_lighting->SetVec3("light.diffuse", glm::vec3(Scene::_pointLights[0]->GetDiffuse()));
@@ -109,8 +102,10 @@ void Renderer::Render(Camera &camera, EditorCamera &editorCamera, MODE currentMo
 	ShaderManager::_lighting->SetFloat("light.intensity", Scene::_pointLights[0]->GetIntensity());
 	ShaderManager::_lighting->SetFloat("light.radius", Scene::_pointLights[0]->GetRadius());
 
-	Scene::_screenQuad->Render();
+	// ShaderManager::_quad->Use();
 
+	// Scene::_screenQuad->Render(ShaderManager::_quad, GBuffer::_gAlbedoSpec);
+	Scene::_screenQuad->Render();
 
 	// copio il depth buffer del gbuffer nel depth buffer del default framebuffer e successivamente
 	// tenendo conto delle informazioni del gbuffer depth buffer renderizzo gli altri elementi della scena
@@ -132,6 +127,19 @@ void Renderer::Render(Camera &camera, EditorCamera &editorCamera, MODE currentMo
 
 		Scene::_pointLights[i]->Render();
 	}
+
+	// renderizzo le collision mesh
+	for (int i = 0; i < Scene::_gameObjects.size(); i++) {
+		if (GL::_isCollisionDebug) {
+			ShaderManager::_collisionDebug->Use();
+			ShaderManager::_collisionDebug->SetVec3("color", glm::vec3(0.0, 1.0, 0.0));
+			ShaderManager::_collisionDebug->SetMat4("projection", projection);
+			ShaderManager::_collisionDebug->SetMat4("view", view);
+			ShaderManager::_collisionDebug->SetMat4("model", Scene::_gameObjects[i]->GetTransformMat4(true));
+			Scene::_gameObjects[i]->RenderCollisionCube();
+		}
+	}
+
 
 	/*
 	for (int i = 0; i < Scene::_gameObjects.size(); i++) {

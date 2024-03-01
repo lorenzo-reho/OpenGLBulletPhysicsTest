@@ -14,6 +14,8 @@ struct Vertex {
 	glm::vec3 position;
 	glm::vec3 normal;
 	glm::vec2 textCoord;
+	glm::vec3 tangent;
+	// glm::vec3 bitangent;
 };
 
 struct Texture {
@@ -37,16 +39,17 @@ public:
 
 	void Draw(Shader *shader) {
 		
-		// sistemare le texture (diffuse e specular)
+		// sistemare le texture (diffuse e specular e normal)
 		unordered_map<string, int> mp;
 
-		shader->SetFloat("material.shininess", 64.0);
+		// shader->SetFloat("material.shininess", 64.0);
 		for (int i = 0; i < textures.size(); i++) {
 			string name = textures[i].type;
 			mp[name]++;
 
 			glActiveTexture(GL_TEXTURE0 + i);
-			shader->SetInt(("material."+name+to_string(mp[name])).c_str(), i);
+			// std::cout << ("material." + name + to_string(mp[name])).c_str() << std::endl;
+			shader->SetInt((name+to_string(mp[name])).c_str(), i);
 			glBindTexture(GL_TEXTURE_2D, textures[i].ID);
 		}
 
@@ -76,10 +79,14 @@ private:
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textCoord));
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
+
 
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
+		glEnableVertexAttribArray(3);
+
 
 		glBindVertexArray(0);
 	}

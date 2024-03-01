@@ -64,6 +64,7 @@ void Engine::Run() {
 	ShaderManager::_gBuffer = &gBufferShader;
 	ShaderManager::_quad = &quadShader;
 	ShaderManager::_lighting = &lightingShader;
+	ShaderManager::_collisionDebug = &collisionDebugShader;
 
 
 	Camera camera(glm::vec3(0.0f, 5.0f, 10.0f), glm::vec3(0.0, 0.0f, -1.0f), 5.0f);
@@ -89,7 +90,8 @@ void Engine::Run() {
 	btBoxShape* pBoxShape3 = new btBoxShape(btVector3(0.9f, 2.45f, 3.2f));
 	btBoxShape* pBoxShape4 = new btBoxShape(btVector3(1.2f, 2.0f, 2.5f));
 	btBoxShape* pBoxShape5 = new btBoxShape(btVector3(4.1f/2, 3.1f/2, 10.8f/2));
-	btBoxShape* pBoxShape6 = new btBoxShape(btVector3(1.9f / 2, 1.2f / 2, 1.0f / 2));
+	btBoxShape* pBoxShape6 = new btBoxShape(btVector3(1.9f / 2, 1.3f / 2, 1.0f / 2));
+	btBoxShape* pBoxShape7 = new btBoxShape(btVector3(0.4f / 2, 1.3/2, 2.0f / 2));
 
 
 	/*
@@ -107,7 +109,7 @@ void Engine::Run() {
 	// Scene::_cubes.push_back(&cube2);
 	
 	// PointLight* pointLight = new PointLight(glm::vec3(0, -3.0, 0), glm::vec3(1, 1, 1), 20.0f, 1.0f, 0.2f, 1.0f, 1.0f);
-	PointLight* pointLight = new PointLight(glm::vec3(0, 10.0f, 0), glm::vec3(1, 1, 1), 20.0f, 1.0f);
+	PointLight* pointLight = new PointLight(glm::vec3(0, 10.0f, 0), glm::vec3(1, 1, 1), 20.0f, 1.5f);
 	Scene::_pointLights.push_back(pointLight);
 
 	// Scene::_cubes.push_back(&lightCube);
@@ -135,6 +137,7 @@ void Engine::Run() {
 	// Model *mBed = new Model("res/models/bed.obj");
 	// Model* mDelorean= new Model("res/models/delorean.obj");
 	Model* mAmmo = new Model("res/models/ammo.obj");
+	Model* mGun = new Model("res/models/9mm.obj");
 
 
 	//GameObject floor(glm::vec3(0.0f, -10.0f, 0.0f), mFloor, "Floor1");
@@ -174,6 +177,12 @@ void Engine::Run() {
 	ammo.RegisterRigidBody();
 
 
+	GameObject gun(glm::vec3(0.0f, 0.0f, 0.0f), mGun, "Gun1");
+	gun.CreateRigidBody(pBoxShape7, 1.0);
+	gun.RegisterRigidBody();
+
+
+
 	/*
 	Scene::_gameObjects.push_back(&floor);
 	Scene::_gameObjects.push_back(&locker);
@@ -184,6 +193,7 @@ void Engine::Run() {
 
 	Scene::_gameObjects.push_back(&floor);
 	Scene::_gameObjects.push_back(&ammo);
+	Scene::_gameObjects.push_back(&gun);
 
 
 	glEnable(GL_DEPTH_TEST);

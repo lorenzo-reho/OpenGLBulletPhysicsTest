@@ -11,6 +11,7 @@ illum 1
 map_Kd Lid_albedo.jpg
 map_Ns Lid_roughness.jpg
 map_Pm Lid_metallic.jpg
+map_Bump Lid_normal.jpg
 
 newmtl tIN
 Ka 1.000000 1.000000 1.000000
@@ -22,3 +23,4 @@ illum 1
 map_Kd tIN_albedo.jpg
 map_Ns tIN_roughness.jpg
 map_Pm tIN_metallic.jpg
+map_Bump tIN_normal.jpg

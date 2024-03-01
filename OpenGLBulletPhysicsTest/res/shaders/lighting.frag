@@ -22,6 +22,7 @@ uniform sampler2D gAlbedoSpec;
 
 uniform vec3 cameraPos;
 
+
 uniform Light light;
 
 
